@@ -1,0 +1,4 @@
+Defaults:zabbix !requiretty
+Cmnd_Alias ZABBIX_CMD = /etc/zabbix/scripts/temp-disk.py
+zabbix   ALL = (other_user)  NOPASSWD: ALL
+zabbix   ALL = (root)        NOPASSWD: ZABBIX_CMD
