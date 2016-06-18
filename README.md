@@ -3,11 +3,10 @@
 Zabbix scripts for monitoring cpu and disk temperature with aid of lmsensors, smartmontools and OpenHardwareMonitorReport. Supports Linux, BSD and Windows.
 
 ## Installation
-
-### First step
 By prerequisites you need `python34`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. `python3` meta-package would also be good as scripts answer to `python3` command.<br />
 Take a look at scripts first lines and provide paths if needed. If you have a RAID configuration, also provide that by hand. Import `Template_mini-IPMI.xml` in zabbix web interface.
 
+### First step
 #### Linux
 Place `zabbix-lmsensors-wrapper.py` and `temp-disk.py` to `/etc/zabbix/scripts/` folder. Place `sudoers.d/zabbix` to `/etc/sudoers.d/` and `userparameter_mini-ipmi.conf` to `/etc/zabbix/zabbix_agentd.d/`.
 
@@ -31,19 +30,14 @@ visudo # test sudoers configuration
 Finally, make sure your `userparameter_mini-ipmi.conf` is included in main `zabbix_agentd.conf`.
 
 ## Testing
-All scripts except `temp-disk.py` have `-v` switch. Run it check and the output. Example queries:
+All scripts except `temp-disk.py` have verbose `-v` switch for debug. Run it and check the output. Example queries:
 ```bash
 ./zabbix-lmsensors-wrapper.py -v
 zabbix_get -s 127.0.0.1 -k temp.disk[max] # maximum disk temperature among all disks
-zabbix_get -s 127.0.0.1 -k temp.disk[1] # second disk temperature
 zabbix_get -s 127.0.0.1 -k temp.cpu[max] # maximum processor temperature among all cores
-zabbix_get -s 127.0.0.1 -k temp.cpu[0] # first processor core temperature
+zabbix_get -s 127.0.0.1 -k temp.disk[0] # first disk temperature
 zabbix_get -s 127.0.0.1 -k temp.disk[2.force] # check third disk temperature even if its in standby mode
 zabbix_get -s 127.0.0.1 -k temp.disk[max.force] # ignore standby mode on any disk
-zabbix_get -s 127.0.0.1 -k vlt.brd[4] # one of the voltages
-zabbix_get -s 127.0.0.1 -k fan.brd[2] # third fan speed
-zabbix_get -s 127.0.0.1 -k temp.gpu[max] # GPU maximum temperature
-zabbix_get -s 127.0.0.1 -k temp.brd[1] # second sensor on motherboard
 ```
 
 These scripts were tested to work with following configurations:
@@ -59,8 +53,8 @@ These scripts were tested to work with following configurations:
 - low-level discovery for all scripts
 - voltage and fan monitoring for BSD
 
-##Links
-- http://openhardwaremonitor.org
+## Links
+- https://github.com/openhardwaremonitor/openhardwaremonitor
 - https://www.smartmontools.org
 - https://wiki.archlinux.org/index.php/Lm_sensors
 - http://unlicense.org
