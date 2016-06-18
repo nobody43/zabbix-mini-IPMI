@@ -3,9 +3,9 @@
 Zabbix scripts for monitoring cpu and disk temperature with aid of lmsensors, smartmontools and OpenHardwareMonitorReport. Supports Linux, BSD and Windows.
 
 ## Installation
-By prerequisites you need `python34`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. `python3` meta-package would also be good as scripts answer to `python3` command.
 
 ### First step
+By prerequisites you need `python34`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. `python3` meta-package would also be good as scripts answer to `python3` command.<br />
 Take a look at scripts first lines and provide paths if needed. If you have a RAID configuration, also provide that by hand. Import `Template_mini-IPMI.xml` in zabbix web interface.
 
 #### Linux
