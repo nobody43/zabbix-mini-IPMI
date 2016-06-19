@@ -8,13 +8,22 @@ Take a look at scripts first lines and provide paths if needed. If you have a RA
 
 ### First step
 #### Linux
-Place `zabbix-lmsensors-wrapper.py` and `temp-disk.py` to `/etc/zabbix/scripts/` folder. Place `sudoers.d/zabbix` to `/etc/sudoers.d/` and `userparameter_mini-ipmi.conf` to `/etc/zabbix/zabbix_agentd.d/`.
+```bash
+mv zabbix-lmsensors-wrapper.py temp-disk.py /etc/zabbix/scripts/
+mv sudoers.d/zabbix /etc/sudoers.d/
+mv userparameter_mini-ipmi.conf /etc/zabbix/zabbix_agentd.d/
+```
 
 #### FreeBSD
-Place `temp-cpu-bsd.py` and `temp-disk.py` to `/usr/local/etc/zabbix/scripts/` folder. Place `sudoers.d/zabbix` to `/usr/local/etc/sudoers.d/` and `userparameter_mini-ipmi.conf` to `/usr/local/etc/zabbix/zabbix_agentd.d/`. For Intel processor add `coretemp_load="YES"` to `/boot/loader.conf`. For AMD add `amdtemp_load="YES"`.
+```bash
+mv temp-cpu-bsd.py temp-disk.py /usr/local/etc/zabbix/scripts/
+mv sudoers.d/zabbix /usr/local/etc/sudoers.d/
+mv userparameter_mini-ipmi.conf /usr/local/etc/zabbix/zabbix_agentd.d/
+```
+Then, for Intel processor you need to add `coretemp_load="YES"` to `/boot/loader.conf`. For AMD it will be `amdtemp_load="YES"`. Reboot or manual `kldload` is required to take effect.
 
 #### Windows
-There are two versions of `OpenHardwareMonitorReport` currently: [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845) and [0.5.1.7](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issuecomment-133940467). Later gives you wider number of supported sensors, but have disk drives monitoring, which will spin the drives in standby. Select version according to your needs.
+There are two versions of `OpenHardwareMonitorReport` currently: [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845) and [0.5.1.7](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issuecomment-133940467). Later gives you wider number of supported sensors, but have disk drives monitoring, which will spin the drives in standby. Select version according to your needs.<br />
 Install `python3` for all users, adding it to `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for OHMR. Make sure your .conf file is included in main `zabbix_agentd.conf`. Windows does not require the second step.
 
 ### Second step
@@ -46,7 +55,7 @@ These scripts were tested to work with following configurations:
 - FreeBSD 10.1 / Zabbix 2.4 / Python 3.4
 - Windows XP / Zabbix 2.4 / Python 3.4
 - Windows 7 / Zabbix 2.4 / Python 3.4
-- Windows 2012 / Zabbix 2.4 / Python 3.4
+- Windows Server 2012 / Zabbix 2.4 / Python 3.4
 
 ## Planned features
 - zabbix sender for `temp-disk.py`, more optimized script
