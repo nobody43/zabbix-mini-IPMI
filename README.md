@@ -2,8 +2,16 @@
 ## Features
 Zabbix scripts for monitoring cpu and disk temperature with aid of lmsensors, smartmontools and OpenHardwareMonitorReport. Supports Linux, BSD and Windows.
 
+### temp-disk.py
+
+### zabbix-lmsensors-wrapper.py
+
+### temp-cpu-bsd.py
+
+### zabbix-ohmr-wrapper.py
+
 ## Installation
-By prerequisites you need `python34`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. `python3` meta-package would also be good as scripts answer to `python3` command.<br />
+As prerequisites you need `python34`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. `python3` meta-package would also be good as scripts answer to `python3` command.<br />
 Take a look at scripts first lines and provide paths if needed. If you have a RAID configuration, also provide that by hand. Import `Template_mini-IPMI.xml` in zabbix web interface.
 
 ### First step
@@ -23,8 +31,14 @@ mv userparameter_mini-ipmi.conf /usr/local/etc/zabbix/zabbix_agentd.d/
 Then, for Intel processor you need to add `coretemp_load="YES"` to `/boot/loader.conf`. For AMD it will be `amdtemp_load="YES"`. Reboot or manual `kldload` is required to take effect.
 
 #### Windows
+```cmd
+move temp-disk.py C:\zabbix-agent\scripts\
+move zabbix-ohmr-wrapper.py C:\zabbix-agent\scripts\
+move userparameter_mini-ipmi.conf C:\zabbix-agent\conf\
+```
+
 There are two versions of `OpenHardwareMonitorReport` currently: [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845) and [0.5.1.7](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issuecomment-133940467). Later gives you wider number of supported sensors, but have disk drives monitoring, which will spin the drives in standby. Select version according to your needs.<br />
-Install `python3` for all users, adding it to `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for OHMR. Make sure your .conf file is included in main `zabbix_agentd.conf`. Windows does not require the second step.
+Install `python3` for all users, adding it to `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for `OHMR`. Make sure your .conf file is included in main `zabbix_agentd.conf`. Windows does not require the second step.
 
 ### Second step
 ```bash
