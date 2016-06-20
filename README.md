@@ -1,12 +1,18 @@
 # mini-IPMI
 ## Features
-Zabbix scripts for monitoring cpu and disk temperature with aid of lmsensors, smartmontools and OpenHardwareMonitorReport. Supports Linux, BSD and Windows.
+Zabbix scripts for monitoring cpu and disk temperature with aid of lm-sensors, smartmontools and OpenHardwareMonitorReport. Supports Linux, BSD and Windows.
 
 ### temp-disk.py
+Cross-platform disk temperature monitoring script. By default used to display maximum temperature among all disks with `temp.disk[max]`. Can be used to query specific disk with, for example, `temp.disk[0]` - first disk.<br />
+It first checks whether disk is in standby mode and only then queries the temperature, thus not spinning drives unnecessary. You can override this behavior by using `temp.disk[max.force]`. It is encouraged, in fact, if your drives are never idle, because this operation not spawns additional process and thus is slightly faster.
 
 ### zabbix-lmsensors-wrapper.py
+Linux-specific temperature monitoring for CPU, GPU and motherboard sensors. Also supports fan speed and voltage. Expects default lm-sensors output.<br />
+The script is always answers to just `temp.cpu[max]`, returning all other keys data with zabbix-sender.
 
 ### temp-cpu-bsd.py
+CPU temperature monitoring for FreeBSD. Uses `sysctl dev.cpu` with `coretemp` or `amdtemp`.<br />
+Only answers to `temp.cpu[max]`, core temperatures are sent with zabbix-sender.
 
 ### zabbix-ohmr-wrapper.py
 
@@ -18,8 +24,8 @@ Take a look at scripts first lines and provide paths if needed. If you have a RA
 #### Linux
 ```bash
 mv zabbix-lmsensors-wrapper.py temp-disk.py /etc/zabbix/scripts/
-mv sudoers.d/zabbix /etc/sudoers.d/
-mv userparameter_mini-ipmi.conf /etc/zabbix/zabbix_agentd.d/
+mv sudoers.d/zabbix /etc/sudoers.d/ # place sudoers include here for temp-disk.py sudo access
+mv userparameter_mini-ipmi.conf /etc/zabbix/zabbix_agentd.d/ # move zabbix keys include here
 ```
 
 #### FreeBSD
@@ -37,10 +43,15 @@ move zabbix-ohmr-wrapper.py C:\zabbix-agent\scripts\
 move userparameter_mini-ipmi.conf C:\zabbix-agent\conf\
 ```
 
-There are two versions of `OpenHardwareMonitorReport` currently: [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845) and [0.5.1.7](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issuecomment-133940467). Later gives you wider number of supported sensors, but have disk drives monitoring, which will spin the drives in standby. Select version according to your needs.<br />
-Install `python3` for all users, adding it to `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for `OHMR`. Make sure your .conf file is included in main `zabbix_agentd.conf`. Windows does not require the second step.
+Currently there are two versions of `OpenHardwareMonitorReport`: [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845) and [0.5.1.7](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issuecomment-133940467). Later gives you wider number of supported sensors, but have disk drives monitoring, which will spin the drives in standby. If you can live with that, choose the latest version.<br />
+Install `python3` for all users, adding it to `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for `OpenHardwareMonitorReport`. 
 
 ### Second step
+Then you need to include your zabbix conf folder in `zabbix_agentd.conf`, like this:
+```bash
+Include=/usr/local/etc/zabbix/zabbix_agentd.conf.d/
+```
+Thats all for Windows. For others run the following to finish configuration:
 ```bash
 chmod 750 scripts/* # apply necessary permissions
 chown root:zabbix scripts/*
@@ -50,7 +61,6 @@ chmod 400 sudoers.d/zabbix
 chown root sudoers.d/zabbix
 visudo # test sudoers configuration
 ```
-Finally, make sure your `userparameter_mini-ipmi.conf` is included in main `zabbix_agentd.conf`.
 
 ## Testing
 All scripts except `temp-disk.py` have verbose `-v` switch for debug. Run it and check the output. Example queries:
@@ -77,7 +87,7 @@ These scripts were tested to work with following configurations:
 - voltage and fan monitoring for BSD
 
 ## Links
-- https://github.com/openhardwaremonitor/openhardwaremonitor
 - https://www.smartmontools.org
 - https://wiki.archlinux.org/index.php/Lm_sensors
+- https://github.com/openhardwaremonitor/openhardwaremonitor
 - http://unlicense.org
