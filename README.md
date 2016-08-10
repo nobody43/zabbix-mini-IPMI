@@ -1,9 +1,10 @@
 # mini-IPMI
 ## Features
-Zabbix scripts for monitoring cpu and disk temperature with aid of lm-sensors, smartmontools and OpenHardwareMonitorReport. Supports Linux, BSD and Windows.
+CPU and disk temperature monitoring scripts for zabbix. Also support voltage and fan speed monitoring on certain configurations. Uses lm-sensors, smartmontools and OpenHardwareMonitorReport. For Linux, BSD and Windows.<br />
+Although the scripts considers all disks and cores, LLD is not used, and for items not listed in template you have to add it yourself.
 
 ### temp-disk.py
-Cross-platform disk temperature monitoring script. By default used to display maximum temperature among all disks with `temp.disk[max]`. Can be used to query specific disk with, for example, `temp.disk[0]` - first disk.<br />
+Cross-platform disk temperature monitoring script for zabbix. By default used to display maximum temperature among all disks with `temp.disk[max]`. Can be used to query specific disk with, for example, `temp.disk[0]` - first disk.<br />
 It first checks whether disk is in standby mode and only then queries the temperature, thus not spinning drives unnecessary. You can override this behavior by using `temp.disk[max.force]`. It is encouraged, in fact, if your drives are never idle, because this operation not spawns additional process and thus is slightly faster.
 
 ### zabbix-lmsensors-wrapper.py
@@ -15,6 +16,8 @@ CPU temperature monitoring for FreeBSD. Uses `sysctl dev.cpu` with `coretemp` or
 Only answers to `temp.cpu[max]`, core temperatures are sent with zabbix-sender.
 
 ### zabbix-ohmr-wrapper.py
+CPU, GPU and motherboard temperature, fan speed and voltage monitoring for Windows.<br />
+Always answers to `temp.cpu[max]`, others are sent with zabbix-sender.
 
 ## Installation
 As prerequisites you need `python34`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. `python3` meta-package would also be good as scripts answer to `python3` command.<br />
