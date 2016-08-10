@@ -1,8 +1,8 @@
 # mini-IPMI
 ## Features
-CPU and disk temperature monitoring scripts for zabbix. Also support voltage and fan speed monitoring on certain configurations. Uses lm-sensors, smartmontools and OpenHardwareMonitorReport. For Linux, BSD and Windows.
-![Bytes/Sec](https://github.com/nobodysu/mini-IPMI/blob/master/screenshots/mini-ipmi_graph-temperature.png?raw=true)<br />
-Although the scripts considers all disks and cores, LLD is not used, and for items not listed in template you have to add it yourself.
+CPU and disk temperature monitoring scripts for zabbix. Also support voltage and fan speed monitoring on certain configurations. Uses lm-sensors, smartmontools and OpenHardwareMonitorReport. For Linux, BSD and Windows.<br />
+Although the scripts considers all disks and cores, LLD is not used, and for items not listed in template you have to add it yourself.<br />
+![Temperature graph](https://github.com/nobodysu/mini-IPMI/blob/master/screenshots/mini-ipmi_graph-temperature.png?raw=true)
 
 ### temp-disk.py
 Cross-platform disk temperature monitoring script for zabbix. By default used to display maximum temperature among all disks with `temp.disk[max]`. Can be used to query specific disk with, for example, `temp.disk[0]` - first disk.<br />
@@ -52,9 +52,11 @@ Install `python3` for all users, adding it to `PATH` during installation. Instal
 
 ### Second step
 Then you need to include your zabbix conf folder in `zabbix_agentd.conf`, like this:
-```bash
+```conf
 Include=/usr/local/etc/zabbix/zabbix_agentd.conf.d/
 ```
+Also its recomended to add at least `Timeout=5` to config file to allow drives spin up and OHMR execution.
+
 Thats all for Windows. For others run the following to finish configuration:
 ```bash
 chmod 750 scripts/* # apply necessary permissions
