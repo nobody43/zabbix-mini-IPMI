@@ -1,7 +1,17 @@
 # mini-IPMI
 ## Features
 CPU and disk temperature monitoring scripts for zabbix. Also support voltage and fan speed monitoring on certain configurations. Uses lm-sensors, smartmontools and OpenHardwareMonitorReport. For Linux, BSD and Windows.<br />
-Although the scripts considers all disks and cores, LLD is not used, and for items not listed in template you have to add it yourself.<br />
+Although the scripts considers all disks and cores, LLD is not used, and for items not listed in template you have to add it yourself.
+
+#### Advantages
+- no unnecessary processes is spawned
+- does not spin idle drives
+- works with any number of devices
+
+#### Disadvantages
+- requires configuration
+- no Low-Level Discovery
+
 ![Temperature graph](https://github.com/nobodysu/mini-IPMI/blob/master/screenshots/mini-ipmi_graph-temperature.png?raw=true)
 
 ### temp-disk.py
@@ -88,8 +98,9 @@ These scripts were tested to work with following configurations:
 - Windows Server 2012 / Zabbix 2.4 / Python 3.4
 
 ## Planned features
+- remote `-v` debug
 - zabbix sender for `temp-disk.py`, more optimized script
-- low-level discovery for all scripts
+- Low-Level Discovery for all scripts
 - voltage and fan monitoring for BSD
 
 ## Links
