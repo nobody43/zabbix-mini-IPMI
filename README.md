@@ -6,11 +6,12 @@ Although the scripts considers all disks and cores, LLD is not used, and for ite
 #### Advantages
 - no unnecessary processes is spawned
 - does not spin idle drives
-- works with any number of devices
+- no hardcoded devices
 
 #### Disadvantages
 - requires configuration
 - no Low-Level Discovery
+- manual RAID passthrough
 
 ![Temperature graph](https://github.com/nobodysu/mini-IPMI/blob/master/screenshots/mini-ipmi_graph-temperature.png?raw=true)
 
