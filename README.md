@@ -4,6 +4,7 @@ CPU and disk temperature monitoring scripts for zabbix. Also support voltage and
 Although the scripts considers all disks and cores, LLD is not used, and for items not listed in template you have to add it yourself.
 
 #### Advantages
+- bulk items upload with zabbix-sender
 - no unnecessary processes is spawned
 - does not spin idle drives
 - no hardcoded devices
@@ -82,7 +83,7 @@ visudo # test sudoers configuration
 ## Testing
 All scripts except `temp-disk.py` have verbose `-v` switch for debug. Run it and check the output. Example queries:
 ```bash
-./zabbix-lmsensors-wrapper.py -v # show debug information
+./zabbix-lmsensors-wrapper.py -v # execute check and show debug information
 zabbix_get -s 127.0.0.1 -k temp.disk[max] # maximum disk temperature among all disks
 zabbix_get -s 127.0.0.1 -k temp.cpu[max] # maximum processor temperature among all cores
 zabbix_get -s 127.0.0.1 -k temp.disk[0] # first disk temperature
@@ -100,7 +101,7 @@ These scripts were tested to work with following configurations:
 
 ## Planned features
 - remote `-v` debug
-- zabbix sender for `temp-disk.py`, more optimized script
+- zabbix-sender for `temp-disk.py`, more optimized script
 - Low-Level Discovery for all scripts
 - voltage and fan monitoring for BSD
 
