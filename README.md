@@ -5,7 +5,7 @@ Although the scripts considers all disks and cores, LLD is not used, and for ite
 
 #### Advantages
 - bulk items upload with zabbix-sender
-- no unnecessary processes is spawned
+- no unnecessary processes are spawned
 - does not spin idle drives
 - no hardcoded devices
 
@@ -67,7 +67,7 @@ Then you need to include your zabbix conf folder in `zabbix_agentd.conf`, like t
 ```conf
 Include=/usr/local/etc/zabbix/zabbix_agentd.conf.d/
 ```
-Also its recomended to add at least `Timeout=5` to config file to allow drives spin up and OHMR execution.
+Also its recomended to add at least `Timeout=5` to config file to allow drives spun up and OHMR execution.
 
 Thats all for Windows. For others run the following to finish configuration:
 ```bash
