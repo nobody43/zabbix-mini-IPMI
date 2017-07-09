@@ -99,6 +99,8 @@ These scripts were tested to work with following configurations:
 - Windows 7 / Zabbix 2.4 / Python 3.4
 - Windows Server 2012 / Zabbix 2.4 / Python 3.4
 
+Have [issues](https://github.com/nobodysu/zabbix-mini-IPMI/issues/3) with agent 3+.
+
 ## Planned features
 - remote `-v` debug
 - zabbix-sender for `temp-disk.py`, more optimized script
