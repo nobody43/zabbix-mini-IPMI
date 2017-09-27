@@ -113,7 +113,7 @@ if len(sys.argv) > 1:                                                           
 
 trapperStdoutNStr = '\n'.join(trapperStdout)                                               # join all list values into one string separated by newlines
 
-senderProc = subprocess.Popen([senderPath, isDebug, '-c', agentConf, '-i', '-'], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, universal_newlines=True) # execute command with data from stdin, dump stdout and provide string instead of bytes
+senderProc = subprocess.Popen([senderPath, '-c', agentConf, '-i', '-'], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, universal_newlines=True) # execute command with data from stdin, dump stdout and provide string instead of bytes
 senderProc.communicate(input=trapperStdoutNStr)                                            # provide stdin and send data from 'trapperStdoutNStr' to zabbix server
 
 if cpuTempRe:

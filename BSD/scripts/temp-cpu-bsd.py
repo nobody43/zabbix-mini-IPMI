@@ -68,7 +68,7 @@ if len(sys.argv) > 1:                                                           
 
 trapperStdoutNStr = '\n'.join(trapperStdout)
 
-senderProc = subprocess.Popen([senderPath, isDebug, '-c', agentConf, '-i', '-'], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, universal_newlines=True)
+senderProc = subprocess.Popen([senderPath, '-c', agentConf, '-i', '-'], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, universal_newlines=True)
 senderProc.communicate(input=trapperStdoutNStr)
 
 if cpuTempRe:
