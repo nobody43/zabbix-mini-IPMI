@@ -1,114 +1,99 @@
-# mini-IPMI
+# zabbix-mini-IPMI
+CPU and disk temperature monitoring scripts for zabbix. Also support voltage and fan speed monitoring on certain configurations. Uses `lm-sensors`, `smartmontools` and `OpenHardwareMonitorReport`. For Linux, BSD and Windows.
+
 ## Features
-CPU and disk temperature monitoring scripts for zabbix. Also support voltage and fan speed monitoring on certain configurations. Uses lm-sensors, smartmontools and OpenHardwareMonitorReport. For Linux, BSD and Windows.<br />
-Although the scripts considers all disks and cores, LLD is not used, and for items not listed in template you have to add it yourself.
 
-#### Advantages
-- bulk items upload with zabbix-sender
-- no unnecessary processes are spawned
-- does not spin idle drives
-- no hardcoded devices
+- Low-Level Discovery
+- Bulk item upload with zabbix-sender
+- No unnecessary processes are spawned
+- Does not spin idle drives
+- RAID passthrough (manual)
 
-#### Disadvantages
-- requires configuration
-- no Low-Level Discovery
-- manual RAID passthrough
+### STANDBY drives
+Update intervals on discovery scripts are set in a way to never induce drive spun up or prevent the disk from entering standby mode. With latest OHMR, however, drives will always be checked and spinned. Thus, update interval for cpu discovery must be less than disk idle mode on OS (20 minutes on Windows by default). This way the drive will not be spinned for every check.
+If you have more than one disk - please keep close attention to update interval setting and choose apropriate OHMR version.
 
-![Temperature graph](https://github.com/nobodysu/mini-IPMI/blob/master/screenshots/mini-ipmi_graph-temperature.png?raw=true)
-
-### temp-disk.py
-Cross-platform disk temperature monitoring script for zabbix. By default used to display maximum temperature among all disks with `temp.disk[max]`. Can be used to query specific disk with, for example, `temp.disk[0]` - first disk.<br />
-It first checks whether disk is in standby mode and only then queries the temperature, thus not spinning drives unnecessary. You can override this behavior by using `temp.disk[max.force]`. It is encouraged, in fact, if your drives are never idle, because this operation not spawns additional process and thus is slightly faster.
-
-### zabbix-lmsensors-wrapper.py
-Linux-specific temperature monitoring for CPU, GPU and motherboard sensors. Also supports fan speed and voltage. Expects default lm-sensors output.<br />
-The script is always answers to just `temp.cpu[max]`, returning all other keys data with zabbix-sender.
-
-### temp-cpu-bsd.py
-CPU temperature monitoring for FreeBSD. Uses `sysctl dev.cpu` with `coretemp` or `amdtemp`.<br />
-Only answers to `temp.cpu[max]`, core temperatures are sent with zabbix-sender.
-
-### zabbix-ohmr-wrapper.py
-CPU, GPU and motherboard temperature, fan speed and voltage monitoring for Windows.<br />
-Always answers to `temp.cpu[max]`, others are sent with zabbix-sender.
+### Choosing OHMR version
+#### [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845)
+That's the only available version without drive monitoring, but its hardware information is outdated. Any other version than this will work very slowly on Windows XP.
+#### [0.5.1.7](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issuecomment-133940467)
+Introduces drive monitoring, thus making idle drives spun on CPU every check. Wider hardware info.
+#### [0.8.0.2](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/776#issuecomment-313606249)
+2017 version with drive monitoring.
 
 ## Installation
-As prerequisites you need `python3`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages.<br />
-Take a look at scripts first lines and provide paths if needed. If you have a RAID configuration, also provide that by hand. Import `Template_mini-IPMI.xml` in zabbix web interface.
+As prerequisites you need `python3`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. For testing `zabbix-get` is also required.<br />
+Take a look at scripts first lines and provide paths if needed. If you have a RAID configuration, also provide that by hand. Import `Template_mini-IPMI_v2.xml` in zabbix web interface.
 
 ### First step
 #### Linux
 ```bash
-mv zabbix-lmsensors-wrapper.py temp-disk.py /etc/zabbix/scripts/
-mv sudoers.d/zabbix /etc/sudoers.d/ # place sudoers include here for temp-disk.py sudo access
-mv userparameter_mini-ipmi.conf /etc/zabbix/zabbix_agentd.d/ # move zabbix keys include here
+mv mini_ipmi_smartctl.py mini_ipmi_lmsensors.py sender_wrapper.py /etc/zabbix/scripts/
+mv sudoers.d/zabbix /etc/sudoers.d/   # place sudoers include here for mini_ipmi_smartctl.py sudo access
+mv userparameter_mini-ipmi2.conf /etc/zabbix/zabbix_agentd.d/
 ```
 
 #### FreeBSD
 ```bash
-mv temp-cpu-bsd.py temp-disk.py /usr/local/etc/zabbix/scripts/
+mv mini_ipmi_smartctl.py mini_ipmi_bsdcpu.py sender_wrapper.py /etc/zabbix/scripts/
 mv sudoers.d/zabbix /usr/local/etc/sudoers.d/
-mv userparameter_mini-ipmi.conf /usr/local/etc/zabbix/zabbix_agentd.d/
+mv userparameter_mini-ipmi2.conf /usr/local/etc/zabbix/zabbix_agentd.d/
 ```
 Then, for Intel processor you need to add `coretemp_load="YES"` to `/boot/loader.conf`. For AMD it will be `amdtemp_load="YES"`. Reboot or manual `kldload` is required to take effect.
 
 #### Windows
 ```cmd
-move temp-disk.py C:\zabbix-agent\scripts\
-move zabbix-ohmr-wrapper.py C:\zabbix-agent\scripts\
-move userparameter_mini-ipmi.conf C:\zabbix-agent\conf\
+move mini_ipmi_smartctl.py C:\zabbix-agent\scripts\
+move mini_ipmi_ohmr.py C:\zabbix-agent\scripts\
+move sender_wrapper.py C:\zabbix-agent\scripts\
+move userparameter_mini-ipmi2.conf C:\zabbix-agent\zabbix_agentd.conf.d\
 ```
-
-Currently there are two versions of `OpenHardwareMonitorReport`: [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845) and [0.5.1.7](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issuecomment-133940467). Later gives you wider number of supported sensors, but have disk drives monitoring, which will spin the drives in standby. If you can live with that, choose the latest version.<br />
-Install `python3` for all users, adding it to `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for `OpenHardwareMonitorReport`. 
+Install `python3` for all users, adding it to `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `v3.5 .NET Framework` is also required for `OpenHardwareMonitorReport`. 
 
 ### Second step
 Then you need to include your zabbix conf folder in `zabbix_agentd.conf`, like this:
 ```conf
 Include=/usr/local/etc/zabbix/zabbix_agentd.conf.d/
 ```
-Also its recomended to add at least `Timeout=5` to config file to allow drives spun up and OHMR execution.
+Also its recomended to add at least `Timeout=10` to config file to allow drives spun up and OHMR execution.
 
 Thats all for Windows. For others run the following to finish configuration:
 ```bash
-chmod 750 scripts/* # apply necessary permissions
-chown root:zabbix scripts/*
-chmod 640 userparameter_mini-ipmi.conf
-chown root:zabbix userparameter_mini-ipmi.conf
+chmod 750 scripts/mini_ipmi*.py scripts/sender_wrapper.py   # apply necessary permissions
+chown root:zabbix scripts/mini_ipmi*.py scripts/sender_wrapper.py 
+chmod 640 userparameter_mini-ipmi2.conf
+chown root:zabbix userparameter_mini-ipmi2.conf
 chmod 400 sudoers.d/zabbix
 chown root sudoers.d/zabbix
-visudo # test sudoers configuration
+visudo   # test sudoers configuration, type :q! to exit
 ```
 
 ## Testing
-All scripts except `temp-disk.py` have verbose `-v` switch for debug. Run it and check the output. Example queries:
 ```bash
-./zabbix-lmsensors-wrapper.py -v # execute check and show debug information
-zabbix_get -s 127.0.0.1 -k temp.disk[max] # maximum disk temperature among all disks
-zabbix_get -s 127.0.0.1 -k temp.cpu[max] # maximum processor temperature among all cores
-zabbix_get -s 127.0.0.1 -k temp.disk[0] # first disk temperature
-zabbix_get -s 127.0.0.1 -k temp.disk[2.force] # check third disk temperature even if its in standby mode
-zabbix_get -s 127.0.0.1 -k temp.disk[max.force] # ignore standby mode on any disk
+zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[get,"Example host"]
+zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[get,"Example host"]
 ```
+Default operation mode. Displays json that server should get, detaches, then waits and sends data with zabbix-sender. `Example host` is your `Host name` field in zabbix.
+<br /><br />
+
+```bash
+zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[getverb,"Example host"]
+zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[getverb,"Example host"]
+```
+Verbose mode. Does not detaches or prints LLD. Lists all items sent to zabbix-sender, also it is possible to see sender output in this mode.
+<br /><br />
 
 These scripts were tested to work with following configurations:
-- Centos 6 / Zabbix 2.4 / Python 3.4
 - Centos 7 / Zabbix 2.4 / Python 3.4
-- FreeBSD 10.1 / Zabbix 2.4 / Python 3.4
+- Debian 8 / ZS (2.4, 3.4) / ZA (2.4, 3.4) / Python 3.4
+- FreeBSD 10.3 / Zabbix 2.4 / Python 3.6
 - Windows XP / Zabbix 2.4 / Python 3.4
-- Windows 7 / Zabbix 2.4 / Python 3.4
+- Windows 7 / ZS (2.4, 3.4) / ZA (2.4, 3.4) / Python 3.4
 - Windows Server 2012 / Zabbix 2.4 / Python 3.4
-
-Have [issues](https://github.com/nobodysu/zabbix-mini-IPMI/issues/3) with agent 3+.
-
-## Planned features
-- remote `-v` debug
-- zabbix-sender for `temp-disk.py`, more optimized script
-- Low-Level Discovery for all scripts
-- voltage and fan monitoring for BSD
 
 ## Links
 - https://www.smartmontools.org
 - https://wiki.archlinux.org/index.php/Lm_sensors
 - https://github.com/openhardwaremonitor/openhardwaremonitor
-- http://unlicense.org
+- https://unlicense.org
+- [Disk SMART monitoring solution](https://github.com/nobodysu/zabbix-smartmontools)
