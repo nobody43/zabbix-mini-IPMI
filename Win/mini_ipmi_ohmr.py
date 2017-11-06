@@ -17,7 +17,7 @@ senderPath = r'C:\zabbix-agent\bin\win32\zabbix_sender.exe'
 timeout = '80'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
                        # this setting MUST be lower than 'Update interval' in discovery rule
 
-fallbackTjMax = '70'   # this value will be set to 'mini.cpu.info[cpu{#CPU},TjMax]' when it's not found on processor
+fallbackTjMax = '85'   # this value will be set to 'mini.cpu.info[cpu{#CPU},TjMax]' when it's not found on processor
 vcoreMax = '1.35'      # maximum allowed voltage for system processor, not considering multiple CPUs
 vttMax = '1.1'         # processor-specific VTT, not considering multiple CPUs
 

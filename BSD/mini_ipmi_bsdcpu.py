@@ -15,7 +15,7 @@ senderPath = r'zabbix_sender'
 
 timeout = '80'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
                        # this setting MUST be lower than 'Update interval' in discovery rule
-fallbackTjMax = '70'
+fallbackTjMax = '85'
 fallbackVcore = '1.35'
 fallbackVtt = '1.1'
 
