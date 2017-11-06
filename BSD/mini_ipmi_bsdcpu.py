@@ -15,9 +15,7 @@ senderPath = r'zabbix_sender'
 
 timeout = '80'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
                        # this setting MUST be lower than 'Update interval' in discovery rule
-fallbackTjMax = '85'
-fallbackVcore = '1.35'
-fallbackVtt = '1.1'
+tjMax = '85'
 
 ## End of configuration ##
 
@@ -70,6 +68,7 @@ def getCpuData():
             sender.append('%s mini.cpu.temp[cpu0,core%s] "%s"' % (host, i[0], i[1]))
             json.append({'{#CPUC}':'0', '{#CORE}':i[0]})
 
+        sender.append('%s mini.cpu.info[cpu0,TjMax] "%s"' % (host, tjMax))
         sender.append('%s mini.cpu.temp[cpu0,MAX] "%s"' % (host, max(allTemps)))
         sender.append('%s mini.cpu.temp[MAX] "%s"' % (host, max(allTemps)))
 
