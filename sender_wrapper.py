@@ -36,6 +36,25 @@ if __name__ == '__main__':
 
 
 # external
+def pythonVer():
+    '''Terminate if not using python3.'''
+    if sys.version_info.major != 3:
+        sys.stdout.write(sys.argv[0] + ': Python3 is required.')
+        sys.exit(1)
+
+
+def displayVersions(config, senderP):
+    '''Display python and sender versions.'''
+    print('  Python version:\n', sys.version)
+
+    try:
+        print('\n  Sender version:\n', subprocess.check_output([senderP, '-V']).decode())
+    except:
+        print('Could not run zabbix_sender.')
+
+    print()
+
+
 def readConfig(config):
     '''Read and display important config values for debug.'''
     try:
@@ -73,15 +92,21 @@ def readConfig(config):
 
 def processData(sender, json, conf, pyP, senderP, tout, hn):
     '''Compose data and try to send it.'''
+    try:
+        from subprocess import DEVNULL   # for python versions greater than 3.3
+    except:
+        import os
+        DEVNULL = open(os.devnull, 'w')  # for 3.0-3.2
+
     senderDataNStr = '\n'.join(sender)   # items for zabbix sender separated by newlines
- 
+
     # pass senderDataNStr to mini-ipmi-send.py:
     if sys.argv[1] == 'get':
         print(dumps({"data": json}, indent=4))   # print data gathered for LLD
 
         # spawn new process and regain shell control immediately (on Win 'mini-ipmi-send.py' will not wait)
         try:
-            subprocess.Popen([sys.executable, pyP, 'get', conf, senderP, tout, senderDataNStr], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.Popen([sys.executable, pyP, 'get', conf, senderP, tout, senderDataNStr], stdin=subprocess.PIPE, stdout=DEVNULL, stderr=DEVNULL)
 
         except OSError as e:
             if e.args[0] == 7:
@@ -93,25 +118,28 @@ def processData(sender, json, conf, pyP, senderP, tout, hn):
             subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[ConfigStatus]', '-o', 'UNKNOWN_SEND_ERROR'])
 
     elif sys.argv[1] == 'getverb':
+        displayVersions(conf, senderP)
         readConfig(conf)
-        #for i in range(135000): senderDataNStr = senderDataNStr + '0'
+
+        #for i in range(135000): senderDataNStr = senderDataNStr + '0'   # HUGEDATA testing
         try:
             # do not detach if in verbose mode, also skips timeout in 'mini-ipmi-send.py'
             subprocess.Popen([sys.executable, pyP, 'getverb', conf, senderP, tout, senderDataNStr], stdin=subprocess.PIPE)
 
         except OSError as e:
-            if e.args[0] == 7:   # almost unreachable in case of this script # BROKEN (different error code)
-                print(sys.argv[0] + ': Could not send anything - argument list too long. Probably too much disks. (HUGEDATA)')
+            if e.args[0] == 7:   # almost unreachable in case of this script
+                print(sys.argv[0] + ': Could not send anything. Argument list or filepath too long. (HUGEDATA)')   # FileNotFoundError: [WinError 206]
             else:
                 print(sys.argv[0] + ': Something went wrong. (SEND_OS_ERROR)')
-                raise
+
+            raise
 
         except:
             print(sys.argv[0] + ': Something went wrong. (UNKNOWN_SEND_ERROR)')
             raise
 
         finally:
-            print('  Please report any issues to:\nhttps://github.com/nobodysu/zabbix-mini-IPMI/issues')
+            print('  Please report any issues to:\nhttps://github.com/nobodysu/zabbix-mini-IPMI/issues\n')
 
     else:
         print(sys.argv[0] + ": Not supported. Use 'get' or 'getverb'.")

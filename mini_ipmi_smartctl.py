@@ -6,7 +6,7 @@ checkStandby = 'no'   # whether to check disks in STANDBY mode or not, 'yes' or 
                       # if 'Update interval' is less than OS setting for STANDBY disks - it will never enter this state
 
 ctlPath = r'smartctl'
-#ctlPath = r'C:\Program Files\smartmontools\bin\smartctl.exe'   # if smartctl isn't in PATH
+#ctlPath = r'C:\Program Files\smartmontools\bin\smartctl.exe'       # if smartctl isn't in PATH
 #ctlPath = r'/usr/local/sbin/smartctl'
 
 # path to second send script
@@ -37,7 +37,7 @@ import sys
 import subprocess
 import re
 from shlex import split
-from sender_wrapper import (readConfig, processData, replaceStr)
+from sender_wrapper import (readConfig, processData, replaceStr, pythonVer)
 
 
 def listDisks():
@@ -143,11 +143,14 @@ def getDisksTempSCT():
 
             break   # configuration error
         except subprocess.CalledProcessError as e:   # handle process-specific errors
-            if e.args[0] == 1 or e.args[0] == 2:   # non-fatal disk error codes are not a concern for temperature monitoring script
+            if not e.args:   # unnecessary for python3?
+                sender.append('%s mini.disk.info[%s,DriveStatus] "UNKNOWN_RESPONSE"' % (host, dR))
+                continue
+            elif e.args[0] == 1 or e.args[0] == 2:   # non-fatal disk error codes are not a concern for temperature monitoring script
                 sender.append(host + ' mini.disk.info[' + dR + ',DriveStatus] "ERR_CODE_' + str(e.args[0]) + '"')
                 continue   # continue to the next disk on fatal error
 
-            p = e.output   # substitude output even on error, so it can be processed further
+            p = e.output   # substitute output even on error, so it can be processed further
         except Exception as e:
             localError = 'UNKNOWN_EXC_ERROR'
 
@@ -191,7 +194,8 @@ def getDisksTempSCT():
 
 
 if __name__ == '__main__':
-    #diskListManual = ['/dev/sda', '/dev/nonexistent']   # DEBUG
+    pythonVer()
+
     host = '"' + sys.argv[2] + '"'
     jsonData = []
 
