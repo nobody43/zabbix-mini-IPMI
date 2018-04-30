@@ -9,6 +9,8 @@ CPU and disk temperature monitoring scripts for zabbix. Also support voltage and
 - Does not spin idle drives
 - RAID passthrough (manual)
 
+![Temperature graph](https://github.com/nobodysu/mini-IPMI/blob/master/screenshots/mini-IPMI-graph.png?raw=true)
+
 ### STANDBY drives
 Update intervals on discovery scripts are set in a way to never induce drive spun up or prevent the disk from entering standby mode. With latest OHMR, however, drives will always be checked and spinned. Thus, update interval for cpu discovery must be less than disk idle mode on OS (20 minutes on Windows by default). This way the drive will not be spinned for every check.
 If you have more than one disk - please keep close attention to update interval setting and choose apropriate OHMR version.
@@ -85,10 +87,10 @@ Verbose mode. Does not detaches or prints LLD. Lists all items sent to zabbix-se
 
 These scripts were tested to work with following configurations:
 - Centos 7 / Zabbix 2.4 / Python 3.4
-- Debian 8 / ZS (2.4, 3.4) / ZA (2.4, 3.4) / Python 3.4
+- Debian 8 / Zabbix 2.4, 3.4 / Python 3.4
 - FreeBSD 10.3 / Zabbix 2.4 / Python 3.6
 - Windows XP / Zabbix 2.4 / Python 3.4
-- Windows 7 / ZS (2.4, 3.4) / ZA (2.4, 3.4) / Python 3.4
+- Windows 7 / Zabbix 2.4, 3.4 / Python 3.2, 3.4
 - Windows Server 2012 / Zabbix 2.4 / Python 3.4
 
 ## Links
