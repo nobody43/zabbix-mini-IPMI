@@ -88,6 +88,7 @@ Verbose mode. Does not detaches or prints LLD. Lists all items sent to zabbix-se
 These scripts were tested to work with following configurations:
 - Centos 7 / Zabbix 2.4 / Python 3.4
 - Debian 8 / Zabbix 2.4, 3.4 / Python 3.4
+- Ubuntu 17.10 / Zabbix 3.0 / Python 3.6
 - FreeBSD 10.3 / Zabbix 2.4 / Python 3.6
 - Windows XP / Zabbix 2.4 / Python 3.4
 - Windows 7 / Zabbix 2.4, 3.4 / Python 3.2, 3.4
