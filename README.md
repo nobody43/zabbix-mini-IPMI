@@ -11,6 +11,8 @@ CPU and disk temperature monitoring scripts for zabbix. Also support voltage and
 
 ![Temperature graph](https://github.com/nobodysu/mini-IPMI/blob/master/screenshots/mini-IPMI-graph.png?raw=true)
 
+[More screenshots.](https://github.com/nobodysu/zabbix-mini-IPMI/tree/master/screenshots)
+
 ### STANDBY drives
 Update intervals on discovery scripts are set in a way to never induce drive spun up or prevent the disk from entering standby mode. With latest OHMR, however, drives will always be checked and spinned. Thus, update interval for cpu discovery must be less than disk idle mode on OS (20 minutes on Windows by default). This way the drive will not be spinned for every check.
 If you have more than one disk - please keep close attention to update interval setting and choose apropriate OHMR version.
@@ -50,7 +52,7 @@ move mini_ipmi_ohmr.py C:\zabbix-agent\scripts\
 move sender_wrapper.py C:\zabbix-agent\scripts\
 move userparameter_mini-ipmi2.conf C:\zabbix-agent\zabbix_agentd.conf.d\
 ```
-Install `python3` for all users, adding it to `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `v3.5 .NET Framework` is also required for `OpenHardwareMonitorReport`. 
+Install `python3` for [all users](https://github.com/nobodysu/zabbix-mini-IPMI/blob/master/screenshots/mini-IPMI-python-installation1.png), [adding it to](https://github.com/nobodysu/zabbix-mini-IPMI/blob/master/screenshots/mini-IPMI-python-installation2.png) `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for `OpenHardwareMonitorReport`.
 
 ### Second step
 Then you need to include your zabbix conf folder in `zabbix_agentd.conf`, like this:
@@ -61,9 +63,9 @@ Also its recomended to add at least `Timeout=10` to config file to allow drives 
 
 Thats all for Windows. For others run the following to finish configuration:
 ```bash
-chmod 750 scripts/mini_ipmi*.py scripts/sender_wrapper.py   # apply necessary permissions
+chmod 755 scripts/mini_ipmi*.py scripts/sender_wrapper.py   # apply necessary permissions
 chown root:zabbix scripts/mini_ipmi*.py scripts/sender_wrapper.py 
-chmod 640 userparameter_mini-ipmi2.conf
+chmod 644 userparameter_mini-ipmi2.conf
 chown root:zabbix userparameter_mini-ipmi2.conf
 chmod 400 sudoers.d/zabbix
 chown root sudoers.d/zabbix
