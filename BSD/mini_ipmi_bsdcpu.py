@@ -22,7 +22,7 @@ tjMax = '85'
 import sys
 import subprocess
 import re
-from sender_wrapper import (readConfig, processData)
+from sender_wrapper import (readConfig, processData, fail_ifNot_Py3)
 
 
 def getOutput():
@@ -79,6 +79,8 @@ def getCpuData():
 
 
 if __name__ == '__main__':
+    fail_ifNot_Py3()
+
     host = '"' + sys.argv[2] + '"'   # hostname
     senderData = []
     jsonData = []
@@ -99,5 +101,6 @@ if __name__ == '__main__':
     if not statusC:
         senderData.append('%s mini.cpu.info[ConfigStatus] "%s"' % (host, getOutput_Out[0]))   # OS_NOCMD, OS_ERROR, UNKNOWN_EXC_ERROR, CONFIGURED
 
-    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host)
+    link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
+    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host, link)
 

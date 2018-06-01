@@ -37,7 +37,7 @@ import sys
 import subprocess
 import re
 from shlex import split
-from sender_wrapper import (readConfig, processData, replaceStr, pythonVer)
+from sender_wrapper import (readConfig, processData, replaceStr, fail_ifNot_Py3)
 
 
 def listDisks():
@@ -194,7 +194,7 @@ def getDisksTempSCT():
 
 
 if __name__ == '__main__':
-    pythonVer()
+    fail_ifNot_Py3()
 
     host = '"' + sys.argv[2] + '"'
     jsonData = []
@@ -228,5 +228,6 @@ if __name__ == '__main__':
         dR = replaceStr(d)
         jsonData.append({'{#DISK}':dR})   # available disks must always be populated to LLD
 
-    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host)
+    link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
+    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host, link)
 

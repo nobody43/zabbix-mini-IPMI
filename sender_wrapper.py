@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
 
 # external
-def pythonVer():
+def fail_ifNot_Py3():
     '''Terminate if not using python3.'''
     if sys.version_info.major != 3:
         sys.stdout.write(sys.argv[0] + ': Python3 is required.')
@@ -90,21 +90,21 @@ def readConfig(config):
         print()
 
 
-def processData(sender, json, conf, pyP, senderP, tout, hn):
+def processData(sender, json, conf, pyP, senderP, tout, hn, issuesLink):
     '''Compose data and try to send it.'''
     try:
-        from subprocess import DEVNULL   # for python versions greater than 3.3
+        from subprocess import DEVNULL   # for python versions greater than 3.3, inclusive
     except:
         import os
-        DEVNULL = open(os.devnull, 'w')  # for 3.0-3.2
+        DEVNULL = open(os.devnull, 'w')  # for 3.0-3.2, inclusive
 
     senderDataNStr = '\n'.join(sender)   # items for zabbix sender separated by newlines
 
-    # pass senderDataNStr to mini-ipmi-send.py:
+    # pass senderDataNStr to sender_wrapper.py:
     if sys.argv[1] == 'get':
         print(dumps({"data": json}, indent=4))   # print data gathered for LLD
 
-        # spawn new process and regain shell control immediately (on Win 'mini-ipmi-send.py' will not wait)
+        # spawn new process and regain shell control immediately (on Win 'sender_wrapper.py' will not wait)
         try:
             subprocess.Popen([sys.executable, pyP, 'get', conf, senderP, tout, senderDataNStr], stdin=subprocess.PIPE, stdout=DEVNULL, stderr=DEVNULL)
 
@@ -123,7 +123,7 @@ def processData(sender, json, conf, pyP, senderP, tout, hn):
 
         #for i in range(135000): senderDataNStr = senderDataNStr + '0'   # HUGEDATA testing
         try:
-            # do not detach if in verbose mode, also skips timeout in 'mini-ipmi-send.py'
+            # do not detach if in verbose mode, also skips timeout in 'sender_wrapper.py'
             subprocess.Popen([sys.executable, pyP, 'getverb', conf, senderP, tout, senderDataNStr], stdin=subprocess.PIPE)
 
         except OSError as e:
@@ -139,7 +139,7 @@ def processData(sender, json, conf, pyP, senderP, tout, hn):
             raise
 
         finally:
-            print('  Please report any issues to:\nhttps://github.com/nobodysu/zabbix-mini-IPMI/issues\n')
+            print('  Please report any issues or missing features to:\n%s\n' % issuesLink)
 
     else:
         print(sys.argv[0] + ": Not supported. Use 'get' or 'getverb'.")
@@ -147,8 +147,9 @@ def processData(sender, json, conf, pyP, senderP, tout, hn):
 
 def replaceStr(s):
     '''Sanitizes provided string in correct order.'''
-    stopChars = (('/dev/', ''), (' -d', ''), ('!', '_'), (',', '_'), ('[', '_'),
-                 (']', '_'), ('+', '_'), ('  ', ' '), ('/', '_'), ('~', '_'),
+    stopChars = (('/dev/', ''), (' -d atacam', ''), (' -d scsi', ''), (' -d ata', ''), (' -d sat', ''), (' -d sas', ''), (' -d auto', ''),
+                 (' -d', ''), ('!', '_'), (',', '_'), ('[', '_'), ('~', '_'),
+                 (']', '_'), ('+', '_'), ('  ', ' '), ('/', '_'), ('\\', '_'),
                  ('`', '_'), ('@', '_'), ('#', '_'), ('$', '_'), ('%', '_'),
                  ('^', '_'), ('&', '_'), ('*', '_'), ('(', '_'), (')', '_'),
                  ('{', '_'), ('}', '_'), ('=', '_'), (':', '_'), (';', '_'),
