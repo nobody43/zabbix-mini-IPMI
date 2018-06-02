@@ -10,6 +10,7 @@ senderPyPath = r'C:\zabbix-agent\scripts\sender_wrapper.py'
 
 # path to zabbix agent configuration file
 agentConf = r'C:\zabbix_agentd.conf'
+#agentConf = r'C:\zabbix\conf\zabbix_agentd.win.conf'
 
 #senderPath = r'zabbix_sender'
 senderPath = r'C:\zabbix-agent\bin\win32\zabbix_sender.exe'
@@ -17,7 +18,7 @@ senderPath = r'C:\zabbix-agent\bin\win32\zabbix_sender.exe'
 timeout = '80'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
                        # this setting MUST be lower than 'Update interval' in discovery rule
 
-fallbackTjMax = '85'   # this value will be set to 'mini.cpu.info[cpu{#CPU},TjMax]' when it's not found on processor
+fallbackTjMax = '70'   # this value will be set to 'mini.cpu.info[cpu{#CPU},TjMax]' when it's not found on processor
 vcoreMax = '1.35'      # maximum allowed voltage for system processor, not considering multiple CPUs
 vttMax = '1.1'         # processor-specific VTT, not considering multiple CPUs
 
@@ -34,7 +35,7 @@ gatherGpuData = 'yes'
 import sys
 import subprocess
 import re
-from sender_wrapper import (readConfig, processData)
+from sender_wrapper import (readConfig, processData, fail_ifNot_Py3)
 
 
 def getOutput():
@@ -283,6 +284,8 @@ def getCpuData():
 
 
 if __name__ == '__main__':
+    fail_ifNot_Py3()
+
     host = '"' + sys.argv[2] + '"'
     senderData = []
     jsonData = []
@@ -332,4 +335,6 @@ if __name__ == '__main__':
     if not statusC:
         senderData.append(host + ' mini.cpu.info[ConfigStatus] "' + getOutput_Out[0] + '"')   # OS_NOCMD, OS_ERROR, UNKNOWN_EXC_ERROR, CONFIGURED
 
-    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host)
+    link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
+    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host, link)
+
