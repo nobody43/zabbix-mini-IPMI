@@ -36,9 +36,15 @@ from sender_wrapper import (readConfig, processData, fail_ifNot_Py3)
 
 
 def getOutput():
+    try:
+        from subprocess import DEVNULL   # for python versions greater than 3.3, inclusive
+    except:
+        import os
+        DEVNULL = open(os.devnull, 'w') # for 3.0-3.2, inclusive
+
     p = None
     try:
-        p = subprocess.check_output([binPath, '-u'], universal_newlines=True)
+        p = subprocess.check_output([binPath, '-u'], universal_newlines=True, stderr=DEVNULL)
     except OSError as e:
         if e.args[0] == 2:
             error = 'OS_NOCMD'
@@ -71,6 +77,9 @@ def getVoltages():
     json = []
 
     for v in pOut:
+        if 'Adapter: PCI adapter' in v:   # we dont need GPU voltages
+            continue
+
         voltage = re.findall(r'(.+):\n(?:\s+)?in(\d+)_input:\s+(\d+\.\d+)', v, re.I)
         if voltage:
             for i in voltage:
