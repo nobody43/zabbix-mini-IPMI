@@ -10,7 +10,6 @@ senderPyPath = r'C:\zabbix-agent\scripts\sender_wrapper.py'
 
 # path to zabbix agent configuration file
 agentConf = r'C:\zabbix_agentd.conf'
-#agentConf = r'C:\zabbix\conf\zabbix_agentd.win.conf'
 
 #senderPath = r'zabbix_sender'
 senderPath = r'C:\zabbix-agent\bin\win32\zabbix_sender.exe'
@@ -61,6 +60,16 @@ def getOutput():
             pass
     else:
         error = 'CONFIGURED'
+
+    # Prevent empty results
+    m0 = 'Status: Extracting driver failed'
+    m1 = 'First Exception: OpenSCManager returned zero.'
+    m2 = 'Second Exception: OpenSCManager returned zero.'
+    if m0 in p or \
+       m1 in p or \
+       m2 in p:
+        print('OHMR failed. Try again.')
+        sys.exit(1)
 
     return error, p
 
