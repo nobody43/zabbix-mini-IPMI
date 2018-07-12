@@ -14,20 +14,35 @@ agentConf = r'C:\zabbix_agentd.conf'
 #senderPath = r'zabbix_sender'
 senderPath = r'C:\zabbix-agent\bin\win32\zabbix_sender.exe'
 
-timeout = '80'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
-                       # this setting MUST be lower than 'Update interval' in discovery rule
+timeout = '80'              # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
+                            # this setting MUST be lower than 'Update interval' in discovery rule
 
-fallbackTjMax = '70'   # this value will be set to 'mini.cpu.info[cpu{#CPU},TjMax]' when it's not found on processor
-vcoreMax = '1.35'      # maximum allowed voltage for system processor, not considering multiple CPUs
-vttMax = '1.1'         # processor-specific VTT, not considering multiple CPUs
+fallbackTjmax = '70'        # this value will be set to 'mini.cpu.info[cpu{#CPU},TjMax]' when it's not found on processor or in manualThresholds
+fallbackVcoremax = '1.35'   # maximum allowed voltage for system processor, board-wide
+vttMax = '1.1'              # processor-specific maximum VTT, board-wide
+
+# Predefined sets of Vcore maximum voltages and TjMax. Corresponds to 'mini.brd.info[vcoreMax]' and 'mini.cpu.info[cpu{#CPU},TjMax]' items.
+# All numeric values must be quoted. '%ANY%' will work only in board name field. 'None' will try to aquire values from output and 'fallbackTjmax'. 
+# TjMax comparison will try to match cpu only. Vcore comparison will try to match board and cpu. Especially useful in case of incorrect multipliers.
+
+manualThresholds = ( # Exact 'MainboardName' #    # Exact 'cpu{#CPU},TjMax' #                    # Vcore max voltage #    # TjMax #
+                    ('M3N78-VM',                  'AMD Athlon 64 X2 Dual Core Processor 5200+',  '1.42',                  '72'),   # on board 'M3N78-VM' with cpu 'AMD Athlon 64 X2 Dual Core Processor 5200+' key 'mini.brd.info[vcoreMax]' will be set to '1.42'. 'mini.cpu.info[cpu{#CPU},TjMax]' will be set to '72' regardless of board name
+                    ('P5KPL-AM IN/ROEM/SI',       'Intel Core 2 Duo E7500',                      '1.9',                   None),   # on board 'P5KPL-AM IN/ROEM/SI' with cpu 'Intel Core 2 Duo E7500' key 'mini.brd.info[vcoreMax]' will be set to '1.9'. 'mini.cpu.info[cpu{#CPU},TjMax]' will be queried from output and fallbackTjmax as last resort
+                    ('%ANY%',                     'Intel Pentium 4 3.00GHz',                     '1.37',                  None),   # on any board with cpu 'Intel Pentium 4 3.00GHz' key 'mini.brd.info[vcoreMax]' will be set to '1.36' and 'mini.cpu.info[cpu{#CPU},TjMax]' will be set to fallbackTjmax (as there's no sensor on this cpu)
+                   )
+
+ignoreBoardTemp =  (
+                    ('H110M-R',           'Temperature #6'),          # ignore 'Temperature #6' on board 'H110M-R' (readings from mars)
+                  # ('EXAMPLE_BOARDNAME', 'EXAMPLE_TEMPERATURENAME'),
+                  # ('Pull requests',     'are welcome'),
+                   )
 
 # Following settings brings (almost) no overhead. Use 'no' to disable unneeded data.
-gatherBoardInfo = 'yes'
 gatherBoardFans = 'yes'
 gatherBoardTemp = 'yes'
-gatherVoltages = 'yes'
-gatherCpuData = 'yes'
-gatherGpuData = 'yes'
+gatherVoltages =  'yes'
+gatherCpuData =   'yes'
+gatherGpuData =   'yes'
 
 ## End of configuration ##
 
@@ -97,15 +112,15 @@ def getBoardInfo():
     if boardManuf:
         sender.append(host + ' mini.brd.info[MainboardManufacturer] "' + boardManuf.group(1).strip() + '"')
 
-    boardName = re.search(r'^Mainboard\s+Name:\s+(.+)$', pOut, re.I | re.M)
-    if boardName:
-        sender.append(host + ' mini.brd.info[MainboardName] "' + boardName.group(1).strip() + '"')
+    boardNameRe = re.search(r'^Mainboard\s+Name:\s+(.+)$', pOut, re.I | re.M)
+    if boardNameRe:
+        sender.append(host + ' mini.brd.info[MainboardName] "' + boardNameRe.group(1).strip() + '"')
 
     boardVersion = re.search(r'^Mainboard\s+Version:\s+(.+)$', pOut, re.I | re.M)
     if boardVersion:
         sender.append(host + ' mini.brd.info[MainboardVersion] "' + boardVersion.group(1).strip() + '"')
 
-    return sender
+    return sender, boardNameRe.group(1).strip()
 
 
 def getVoltages():
@@ -120,8 +135,6 @@ def getVoltages():
         if re.search('VCore', i[0], re.I):
             sender.append(host + ' mini.brd.vlt[cpuVcore] "' + i[1] + '"')
             json.append({'{#VCORE}':'cpuVcore'})   # hardcoded because of zabbix stubbornness
-
-            sender.append(host + ' mini.brd.info[vcoreMax] "' + vcoreMax + '"')
 
         elif re.match('VBAT', i[0], re.I):
             sender.append(host + ' mini.brd.vlt[VBat] "' + i[1] + '"')
@@ -158,7 +171,7 @@ def getBoardFans():
     for i in fans:
         k = i[0].strip()
 
-        # only create LLD when speed is not zero, BUT always send zero values
+        # only create LLD when speed is not zero, BUT always send zero values (hides phantom fans)
         sender.append(host + ' mini.brd.fan[' + i[2] + ',rpm] "' + i[1] + '"')
         if i[1] != '0':
             json.append({'{#BRDFANNAME}':k, '{#BRDFANNUM}':i[2]})
@@ -166,7 +179,7 @@ def getBoardFans():
     return sender, json
 
 
-def getBoardTemp():
+def getBoardTemp(currentBoard):
     sender = []
     json = []
 
@@ -174,11 +187,21 @@ def getBoardTemp():
 
     allTemps = []
     for i in temps:
-        k = i[0].strip()
+        temperatureName = i[0].strip()
+
+        ignoredSensor = False
+        if currentBoard:
+            for boardReference, ignoredTemp in ignoreBoardTemp:
+                if boardReference == currentBoard and ignoredTemp == temperatureName:
+                    ignoredSensor = True
+
+        if ignoredSensor:
+            continue   # ignore iterated sensor if its found in configuration
+
         allTemps.append(int(i[1]))
 
         sender.append(host + ' mini.brd.temp[' + i[2] + '] "' + i[1] + '"')
-        json.append({'{#BRDTEMPNAME}':k, '{#BRDTEMPNUM}':i[2]})
+        json.append({'{#BRDTEMPNAME}':temperatureName, '{#BRDTEMPNUM}':i[2]})
 
     if allTemps:
         sender.append(host + ' mini.brd.temp[MAX] "' + str(max(allTemps)) + '"')
@@ -245,42 +268,74 @@ def getGpuData():
     return sender, json, error
 
 
-def getCpuData():
+def getTjmaxAndVcoremax(currentBoard, currentCpuID, currentCpuName):
+    gotTjmax = False
+    gotVcoremax = False
+    for board, cpu, vcoremax, tjmax in manualThresholds:
+        if board and cpu:                   # if values are not empty
+            if board == currentBoard or \
+               board == '%ANY%':            # board was found in threshholds
+
+                # Board and CPU comparison
+                if cpu == currentCpuName:    # cpu was found in threshholds
+                    if vcoremax:
+                        resultVcoremax = vcoremax
+                        gotVcoremax = True
+
+        # CPU-only comparison
+        if cpu:
+            if cpu == currentCpuName:
+                if tjmax:
+                    resultTjmax = tjmax
+                    gotTjmax = True
+
+    if not gotTjmax:
+        tjMaxRe = re.search(r'\(\/[\w-]+cpu\/' + currentCpuID + '\/temperature\/\d+\)\s+\|\s+\|\s+\+\-\s+TjMax\s+\[\S+\]\s+:\s+(\d+)', pOut, re.I | re.M)
+        if tjMaxRe:
+            resultTjmax = tjMaxRe.group(1)
+        else:
+            resultTjmax = fallbackTjmax
+
+    if not gotVcoremax:
+        resultVcoremax = fallbackVcoremax
+
+    return resultTjmax, resultVcoremax
+
+
+def getCpuData(currentBoard):
     sender = []
     json = []
 
     # determine available CPUs
-    cpus = re.findall(r'\+\-\s+(.+)\s+\(\/[\w-]+cpu\/(\d+)\)', pOut, re.I)
-    cpus = set(cpus)   # remove duplicates
+    CPUs = re.findall(r'\+\-\s+(.+)\s+\(\/[\w-]+cpu\/(\d+)\)', pOut, re.I)
+    CPUs = set(CPUs)   # remove duplicates
 
     allTemps = []
-    for i in cpus:
-        # processor model and TjMax
-        sender.append(host + ' mini.cpu.info[cpu' + i[1] + ',ID] "' + i[0].strip() + '"')
-        json.append({'{#CPU}':i[1]})
+    for cpu in CPUs:
+        # Processor model
+        sender.append(host + ' mini.cpu.info[cpu' + cpu[1] + ',ID] "' + cpu[0].strip() + '"')
+        json.append({'{#CPU}':cpu[1]})
 
-        tjMax = re.search(r'\(\/[\w-]+cpu\/' + i[1] + '\/temperature\/\d+\)\s+\|\s+\|\s+\+\-\s+TjMax\s+\[\S+\]\s+:\s+(\d+)', pOut, re.I | re.M)
-        if tjMax:
-            sender.append(host + ' mini.cpu.info[cpu' + i[1] + ',TjMax] "' + tjMax.group(1) + '"')
-        else:
-            sender.append(host + ' mini.cpu.info[cpu' + i[1] + ',TjMax] "' + fallbackTjMax + '"')
+        getTjmaxAndVcoremax_Out = getTjmaxAndVcoremax(currentBoard, cpu[1], cpu[0])
+        sender.append('%s mini.cpu.info[cpu%s,TjMax] "%s"' % (host, cpu[1], getTjmaxAndVcoremax_Out[0]))
+        sender.append('%s mini.brd.info[vcoreMax] "%s"' % (host, getTjmaxAndVcoremax_Out[1]))   # same results for multiple cpus
 
-        # all core temperatures for given CPU
-        coreTempsRe = re.findall(r'Core.+:\s+(\d+).+\(\/[\w-]+cpu\/' + i[1] + '\/temperature\/(\d+)\)', pOut, re.I)
+        # All core temperatures for given CPU
+        coreTempsRe = re.findall(r'Core.+:\s+(\d+).+\(\/[\w-]+cpu\/' + cpu[1] + '\/temperature\/(\d+)\)', pOut, re.I)
         if coreTempsRe:
-            sender.append(host + ' mini.cpu.info[cpu' + i[1] + ',CPUstatus] "PROCESSED"')
+            sender.append(host + ' mini.cpu.info[cpu' + cpu[1] + ',CPUstatus] "PROCESSED"')
             cpuTemps = []
-            for c in coreTempsRe:
-                cpuTemps.append(int(c[0]))
-                allTemps.append(int(c[0]))
-                sender.append(host + ' mini.cpu.temp[cpu' + i[1] + ',core' + c[1] + '] "' + c[0] + '"')
-                json.append({'{#CPUC}':i[1], '{#CORE}':c[1]})
+            for core in coreTempsRe:
+                cpuTemps.append(int(core[0]))
+                allTemps.append(int(core[0]))
+                sender.append(host + ' mini.cpu.temp[cpu' + cpu[1] + ',core' + core[1] + '] "' + core[0] + '"')
+                json.append({'{#CPUC}':cpu[1], '{#CORE}':core[1]})
 
-            sender.append(host + ' mini.cpu.temp[cpu' + i[1] + ',MAX] "' + str(max(cpuTemps)) + '"')
+            sender.append(host + ' mini.cpu.temp[cpu' + cpu[1] + ',MAX] "' + str(max(cpuTemps)) + '"')
         else:
-            sender.append(host + ' mini.cpu.info[cpu' + i[1] + ',CPUstatus] "NO_TEMP"')
+            sender.append(host + ' mini.cpu.info[cpu' + cpu[1] + ',CPUstatus] "NO_TEMP"')
 
-    if cpus:
+    if CPUs:
         if allTemps:
             error = None
             sender.append(host + ' mini.cpu.temp[MAX] "' + str(max(allTemps)) + '"')
@@ -305,9 +360,14 @@ if __name__ == '__main__':
     if getOutput_Out[1]:   # process output
         pOut = getOutput_Out[1]
 
-        if gatherBoardInfo == 'yes':
-            getBoardInfo_Out = getBoardInfo()
-            senderData.extend(getBoardInfo_Out)
+        getBoardInfo_Out = getBoardInfo()
+        senderData.extend(getBoardInfo_Out[0])
+        currentBoard = getBoardInfo_Out[1]
+
+        if gatherBoardTemp == 'yes':
+            getBoardTemp_Out = getBoardTemp(currentBoard)
+            senderData.extend(getBoardTemp_Out[0])
+            jsonData.extend(getBoardTemp_Out[1])
 
         if gatherVoltages == 'yes':
             getVoltages_Out = getVoltages()
@@ -319,11 +379,6 @@ if __name__ == '__main__':
             senderData.extend(getBoardFans_Out[0])
             jsonData.extend(getBoardFans_Out[1])
 
-        if gatherBoardTemp == 'yes':
-            getBoardTemp_Out = getBoardTemp()
-            senderData.extend(getBoardTemp_Out[0])
-            jsonData.extend(getBoardTemp_Out[1])
-
         if gatherGpuData == 'yes':
             getGpuData_Out = getGpuData()
             senderData.extend(getGpuData_Out[0])
@@ -334,7 +389,7 @@ if __name__ == '__main__':
                 senderData.append(host + ' mini.cpu.info[ConfigStatus] "' + getGpuData_Out[2] + '"')   # NOGPUS, NOGPUTEMPS
 
         if gatherCpuData == 'yes':
-            getCpuData_Out = getCpuData()
+            getCpuData_Out = getCpuData(currentBoard)
             senderData.extend(getCpuData_Out[0])
             jsonData.extend(getCpuData_Out[1])
             if getCpuData_Out[2]:
