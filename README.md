@@ -3,6 +3,7 @@ CPU and disk temperature monitoring scripts for zabbix. Also support voltage and
 
 ## Features
 
+- Multi-CPU, disk and GPU solution
 - Low-Level Discovery
 - Bulk item upload with zabbix-sender
 - No unnecessary processes are spawned
