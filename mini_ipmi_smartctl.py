@@ -97,18 +97,20 @@ def getDiskTempA(dA):
         except:
             pA = ''
 
-    tempA = re.search('Temperature_Celsius\s+\w+\s+\d+\s+\d+\s+\d+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)\s', pA, re.I)
-    tempSAS = re.search('Current\s+Drive\s+Temperature:\s+(\d+)\s+', pA, re.I)
+    # First match returned right away
+    patterns = (
+                '^(?:\s+)?\d+\s+Temperature_Celsius\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)', \
+                '^Current\s+Drive\s+Temperature:\s+(\d+)\s+', \
+                '^Temperature:\s+(\d+)\s+C', \
+                '^(?:\s+)?\d+\s+Airflow_Temperature_Cel\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)', \
+               )
 
-    if tempA:
-        if sys.argv[1] == 'getverb': print('getDiskTempA called:', tempA.group(1))   # DEBUG
-        resultA = tempA.group(1)
-    elif tempSAS:
-        if sys.argv[1] == 'getverb': print('getDiskTempSAS called:', tempSAS.group(1))   # DEBUG
-        resultA = tempSAS.group(1)
-    else:
-        if sys.argv[1] == 'getverb': print('getDiskTempA called: None')   # DEBUG
-        resultA = None
+    resultA = None
+    for i in patterns:
+        temperatureRe = re.search(i, pA, re.I | re.M)
+        if temperatureRe:
+            resultA = temperatureRe.group(1)
+            break
 
     return resultA
 
@@ -143,6 +145,13 @@ def getDisksTempSCT():
 
             break   # configuration error
         except subprocess.CalledProcessError as e:   # handle process-specific errors
+            p = e.output   # substitute output even on error, so it can be processed further
+
+            m2 = "Unknown USB bridge"
+            if m2 in p:
+                sender.append('%s mini.disk.info[%s,DriveStatus] "UNK_USB_BRIDGE"' % (host, dR))
+                continue
+
             if not e.args:   # unnecessary for python3?
                 sender.append('%s mini.disk.info[%s,DriveStatus] "UNKNOWN_RESPONSE"' % (host, dR))
                 continue
@@ -150,7 +159,6 @@ def getDisksTempSCT():
                 sender.append(host + ' mini.disk.info[' + dR + ',DriveStatus] "ERR_CODE_' + str(e.args[0]) + '"')
                 continue   # continue to the next disk on fatal error
 
-            p = e.output   # substitute output even on error, so it can be processed further
         except Exception as e:
             localError = 'UNKNOWN_EXC_ERROR'
 
@@ -163,7 +171,6 @@ def getDisksTempSCT():
                 p = ''
 
         temp = re.search(r'Current\s+Temperature:\s+(\d+)\s+Celsius', p, re.I)
-
         if temp:
             tempResult = temp.group(1)
         else:   # if nothing was found - try regular SMART command
