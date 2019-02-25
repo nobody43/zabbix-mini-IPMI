@@ -35,14 +35,14 @@ Take a look at scripts first lines and provide paths if needed. If you have a RA
 ```bash
 mv mini_ipmi_smartctl.py Linux/mini_ipmi_lmsensors.py sender_wrapper.py /etc/zabbix/scripts/
 mv Linux/sudoers.d/zabbix /etc/sudoers.d/   # place sudoers include here for mini_ipmi_smartctl.py sudo access
-mv userparameter_mini-ipmi2.conf /etc/zabbix/zabbix_agentd.d/
+mv Linux/zabbix_agentd.d/userparameter_mini-ipmi2.conf /etc/zabbix/zabbix_agentd.d/
 ```
 
 #### FreeBSD
 ```bash
-mv mini_ipmi_smartctl.py mini_ipmi_bsdcpu.py sender_wrapper.py /etc/zabbix/scripts/
-mv sudoers.d/zabbix /usr/local/etc/sudoers.d/
-mv userparameter_mini-ipmi2.conf /usr/local/etc/zabbix/zabbix_agentd.d/
+mv mini_ipmi_smartctl.py BSD/mini_ipmi_bsdcpu.py sender_wrapper.py /etc/zabbix/scripts/
+mv BSD/sudoers.d/zabbix /usr/local/etc/sudoers.d/
+mv BSD/zabbix_agentd.conf.d/userparameter_mini-ipmi2.conf /usr/local/etc/zabbix/zabbix_agentd.d/
 ```
 Then, for Intel processor you need to add `coretemp_load="YES"` to `/boot/loader.conf`. For AMD it will be `amdtemp_load="YES"`. Reboot or manual `kldload` is required to take effect.
 
