@@ -43,9 +43,17 @@ def fail_ifNot_Py3():
         sys.exit(1)
 
 
+def oldPythonMsg():
+    if sys.version_info.major == 3 and \
+       sys.version_info.minor <= 2:
+        print("python32 or less is detected. It's advisable to use python33 or more for timeout guards support.")
+
+
 def displayVersions(config, senderP):
     '''Display python and sender versions.'''
     print('  Python version:\n', sys.version)
+    
+    oldPythonMsg()
 
     try:
         print('\n  Sender version:\n', subprocess.check_output([senderP, '-V']).decode())
@@ -110,12 +118,12 @@ def processData(sender, json, conf, pyP, senderP, tout, hn, issuesLink):
 
         except OSError as e:
             if e.args[0] == 7:
-                subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[ConfigStatus]', '-o', 'HUGEDATA'])
+                subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[SendStatus]', '-o', 'HUGEDATA'])
             else:
-                subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[ConfigStatus]', '-o', 'SEND_OS_ERROR'])
+                subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[SendStatus]', '-o', 'SEND_OS_ERROR'])
 
         except:
-            subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[ConfigStatus]', '-o', 'UNKNOWN_SEND_ERROR'])
+            subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[SendStatus]', '-o', 'UNKNOWN_SEND_ERROR'])
 
     elif sys.argv[1] == 'getverb':
         displayVersions(conf, senderP)
@@ -145,16 +153,44 @@ def processData(sender, json, conf, pyP, senderP, tout, hn, issuesLink):
         print(sys.argv[0] + ": Not supported. Use 'get' or 'getverb'.")
 
 
-def replaceStr(s):
-    '''Sanitizes provided string in correct order.'''
-    stopChars = (('/dev/', ''), (' -d atacam', ''), (' -d scsi', ''), (' -d ata', ''), (' -d sat', ''), (' -d sas', ''), (' -d auto', ''),
-                 (' -d', ''), ('!', '_'), (',', '_'), ('[', '_'), ('~', '_'),
-                 (']', '_'), ('+', '_'), ('  ', ' '), ('/', '_'), ('\\', '_'),
-                 ('`', '_'), ('@', '_'), ('#', '_'), ('$', '_'), ('%', '_'),
-                 ('^', '_'), ('&', '_'), ('*', '_'), ('(', '_'), (')', '_'),
-                 ('{', '_'), ('}', '_'), ('=', '_'), (':', '_'), (';', '_'),
-                 ('"', '_'), ('?', '_'), ('<', '_'), ('>', '_'), (' ', '_'))
+def clearDiskTypeStr(s):
+    stopWords = (
+        (' -d atacam'), (' -d scsi'), (' -d ata'), (' -d sat'), (' -d nvme'), 
+        (' -d sas'),    (' -d csmi'), (' -d usb'), (' -d pd'),  (' -d auto'),
+    )
+
+    for i in stopWords:
+        s = s.replace(i, '')
+
+    s = s.strip()
+
+    return s
+
+
+def removeQuotes(s):
+    quotes = ('\'', '"')
+
+    for i in quotes:
+        s = s.replace(i, '')
+
+    return s
+
+
+def sanitizeStr(s):
+    '''Sanitizes provided string in sequential order.'''
+    stopChars = (
+        ('/dev/', ''), (' -d', ''),
+        ('!', '_'), (',', '_'), ('[', '_'), ('~', '_'), ('  ', '_'),
+        (']', '_'), ('+', '_'), ('/', '_'), ('\\', '_'), ('\'', '_'),
+        ('`', '_'), ('@', '_'), ('#', '_'), ('$', '_'), ('%', '_'),
+        ('^', '_'), ('&', '_'), ('*', '_'), ('(', '_'), (')', '_'),
+        ('{', '_'), ('}', '_'), ('=', '_'), (':', '_'), (';', '_'),
+        ('"', '_'), ('?', '_'), ('<', '_'), ('>', '_'), (' ', '_'),
+    )
 
     for i, j in stopChars:
         s = s.replace(i, j)
+
+    s = s.strip()
+
     return s

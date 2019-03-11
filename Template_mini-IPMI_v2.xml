@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2017-11-06T14:12:02Z</date>
+    <date>2019-03-11T16:54:27Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -326,6 +326,92 @@
                     <description>In some cases it could also mean GPU temperature, system voltage and fan speed.&#13;
 &#13;
 Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>DISK heavy debug</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.disk.HeavyDebug</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>DISK last failed send status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.disk.info[SendStatus]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
@@ -2846,63 +2932,8 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_1,#3)}=1</expression>
-                            <name>{#DISK}: command line did not parse</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>1</priority>
-                            <description/>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_2,#3)}=1</expression>
-                            <name>{#DISK}: device open failed</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>1</priority>
-                            <description>Probably no administrative permissions for smartctl or incorrect device name.</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(500)}&gt;60</expression>
-                            <name>{#DISK}: disk temperature is critical</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>(depending on values from last 500 seconds)</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(500)}&gt;46</expression>
-                            <name>{#DISK}: disk temperature is too high</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description>(depending on values from last 500 seconds)</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(#1)}&lt;25 and&#13;
-{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(#2)}&lt;25</expression>
-                            <name>{#DISK}: disk temperature is too low</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description>Last and previous value is below 25.</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].max(24h)}&gt;60</expression>
-                            <name>{#DISK}: disk temperature was critical in past 24 hours</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description/>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(STANDBY,#3)}=1</expression>
-                            <name>{#DISK}: is in STANDBY mode</name>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(DUMMY_NVME)}=1</expression>
+                            <name>{#DISK}: Assumed to be a placeholder NVMe</name>
                             <url/>
                             <status>1</status>
                             <priority>1</priority>
@@ -2910,8 +2941,8 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(NO_TEMP,#3)}=1</expression>
-                            <name>{#DISK}: no temperature info was found on disk</name>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_1)}=1</expression>
+                            <name>{#DISK}: Command line did not parse (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
                             <priority>1</priority>
@@ -2919,10 +2950,111 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERROR,#3)}=1</expression>
-                            <name>{#DISK}: something went wrong</name>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_2)}=1</expression>
+                            <name>{#DISK}: Device open failed (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
+                            <priority>1</priority>
+                            <description>Probably no administrative permissions for smartctl or incorrect device name.</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(500)}&gt;=60</expression>
+                            <name>{#DISK}: Disk temperature is critical</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description>(depending on values from last 500 seconds)</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(500)}&gt;=46</expression>
+                            <name>{#DISK}: Disk temperature is too high</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>3</priority>
+                            <description>(depending on values from last 500 seconds)</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(#1)}&lt;=25 and&#13;
+{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(#2)}&lt;=25 and&#13;
+{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(#3)}&lt;=25</expression>
+                            <name>{#DISK}: Disk temperature is too low</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>3</priority>
+                            <description>Last and previous value were below 25.</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].max(24h)}&gt;=60</expression>
+                            <name>{#DISK}: Disk temperature was critical in past 24 hours</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(NOSENSOR)}=1</expression>
+                            <name>{#DISK}: Have no temperature sensor</name>
+                            <url/>
+                            <status>1</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(SLEEP)}=1</expression>
+                            <name>{#DISK}: Is in SLEEP mode</name>
+                            <url/>
+                            <status>1</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(STANDBY)}=1</expression>
+                            <name>{#DISK}: Is in STANDBY mode</name>
+                            <url/>
+                            <status>1</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(NOTEMP)}=1</expression>
+                            <name>{#DISK}: No temperature info was found on disk</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERROR)}=1</expression>
+                            <name>{#DISK}: Something went wrong (mini-IPMI)</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].count(#3,&quot;TIMEOUT&quot;,&quot;eq&quot;)}&gt;=3</expression>
+                            <name>{#DISK}: Timeout exceeded while calling the disk (mini-IPMI)</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description>Could indicate disk failure. Investigation is advised.</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(UNK_USB_BRIDGE)}=1</expression>
+                            <name>{#DISK}: Unknown USB bridge</name>
+                            <url/>
+                            <status>1</status>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
@@ -2981,7 +3113,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NODISKS,#3)}=1</expression>
+            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NODISKS)}=1</expression>
             <name>mini-IPMI: no DISKs were found for temperature test</name>
             <url/>
             <status>0</status>
@@ -3001,7 +3133,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS,#3)}=1</expression>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS,4d)}=1</expression>
             <name>mini-IPMI: no temperatures was found among CPUs</name>
             <url/>
             <status>0</status>
@@ -3011,7 +3143,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NOTEMPS,#3)}=1</expression>
+            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NODISKTEMPS)}=1</expression>
             <name>mini-IPMI: no temperatures was found among DISKs</name>
             <url/>
             <status>0</status>
@@ -3031,7 +3163,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NOCMD,#3)}=1</expression>
+            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NOCMD)}=1</expression>
             <name>mini-IPMI: smartctl was not found in PATH or manually</name>
             <url/>
             <status>0</status>
@@ -3051,11 +3183,21 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(ERROR,#3)}=1</expression>
+            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(ERROR)}=1</expression>
             <name>mini-IPMI: something went wrong with DISK configuration</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template mini-IPMI v2:mini.disk.info[SendStatus].str(ERROR,12h)}=1</expression>
+            <name>mini-IPMI: something went wrong with DISK sending</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3091,7 +3233,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(HUGEDATA,#3)}=1</expression>
+            <expression>{Template mini-IPMI v2:mini.disk.info[SendStatus].str(HUGEDATA,12h)}=1</expression>
             <name>mini-IPMI: too much data for DISK sending</name>
             <url/>
             <status>0</status>
