@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2019-03-01T14:36:19Z</date>
+    <date>2019-03-11T16:54:27Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -1442,7 +1442,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>1</lifetime>
+                    <lifetime>7</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -2840,7 +2840,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>1</lifetime>
+                    <lifetime>7</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -2892,7 +2892,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>mini.disk.info[{#DISK}]</key>
+                            <key>mini.disk.info[{#DISK},DriveStatus]</key>
                             <delay>0</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -2932,7 +2932,16 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK}].str(ERR_CODE_1)}=1</expression>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(DUMMY_NVME)}=1</expression>
+                            <name>{#DISK}: Assumed to be a placeholder NVMe</name>
+                            <url/>
+                            <status>1</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_1)}=1</expression>
                             <name>{#DISK}: Command line did not parse (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
@@ -2941,7 +2950,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK}].str(ERR_CODE_2)}=1</expression>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_2)}=1</expression>
                             <name>{#DISK}: Device open failed (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
@@ -2988,7 +2997,25 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK}].str(STANDBY)}=1</expression>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(NOSENSOR)}=1</expression>
+                            <name>{#DISK}: Have no temperature sensor</name>
+                            <url/>
+                            <status>1</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(SLEEP)}=1</expression>
+                            <name>{#DISK}: Is in SLEEP mode</name>
+                            <url/>
+                            <status>1</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(STANDBY)}=1</expression>
                             <name>{#DISK}: Is in STANDBY mode</name>
                             <url/>
                             <status>1</status>
@@ -2997,7 +3024,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK}].str(NOTEMP)}=1</expression>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(NOTEMP)}=1</expression>
                             <name>{#DISK}: No temperature info was found on disk</name>
                             <url/>
                             <status>0</status>
@@ -3006,10 +3033,28 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK}].str(ERROR)}=1</expression>
-                            <name>{#DISK}: Something went wrong</name>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERROR)}=1</expression>
+                            <name>{#DISK}: Something went wrong (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].count(#3,&quot;TIMEOUT&quot;,&quot;eq&quot;)}&gt;=3</expression>
+                            <name>{#DISK}: Timeout exceeded while calling the disk (mini-IPMI)</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description>Could indicate disk failure. Investigation is advised.</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(UNK_USB_BRIDGE)}=1</expression>
+                            <name>{#DISK}: Unknown USB bridge</name>
+                            <url/>
+                            <status>1</status>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
@@ -3054,16 +3099,6 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <status>0</status>
             <priority>1</priority>
             <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(OLD_PYTHON)}=1</expression>
-            <name>mini-IPMI: important features are missing due to old python version in DISK configuration</name>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
-            <description>Using python33+ is strongly advised.</description>
             <type>0</type>
             <dependencies/>
         </trigger>

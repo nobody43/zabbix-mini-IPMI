@@ -18,37 +18,32 @@ senderPath_OTHER   = r'/usr/local/bin/zabbix_sender'
 
 # path to second send script
 senderPyPath_LINUX = r'/etc/zabbix/scripts/sender_wrapper.py'
-senderPyPath_WIN   = r'C:\zabbix-agent\scripts\sender_wrapper_TEMP.py'
+senderPyPath_WIN   = r'C:\zabbix-agent\scripts\sender_wrapper.py'
 senderPyPath_OTHER = r'/usr/local/etc/zabbix/scripts/sender_wrapper.py'
 
 
 ## Advanced configuration ##
+isCheckNVMe = True       # Additional overhead. Should be disabled if smartmontools is >= 7 or no NVMe is present.
 
-isCheckStandby = False   # whether to check disks in STANDBY mode or not, True or False
-                         # if 'Update interval' is less than OS setting for STANDBY disks - it will never enter this state
-isCheckNVMe = True
+isSkipDuplicates = True
 
-isSkipDuplicates = False
-
-isHeavyDebug = True
+isHeavyDebug = False
 
 perDiskTimeout = 2   # Single disk query can not exceed this value. Python33 or above required.
 
-timeout = '80'   # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
-                 # this setting MUST be lower than 'Update interval' in discovery rule
+timeout = '80'   # How long the script must wait between LLD and sending, increase if data received late (does not affect windows).
+                 # This setting MUST be lower than 'Update interval' in discovery rule.
 
-# Manually provide disk list or RAID configuration if needed
+# Manually provide disk list or RAID configuration if needed.
 diskListManual = []
 # like this:
 #diskListManual = ['/dev/sda -d sat+megaraid,4', '/dev/sda -d sat+megaraid,5']
 # more info: https://www.smartmontools.org/wiki/Supported_RAID-Controllers
 
-# First match returned right away; re.IGNORECASE | re.MULTILINE
-temperaturePatterns = (
-    '^(?:\s+)?\d+\s+Temperature_Celsius\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
-    '^(?:\s+)?Current\s+Drive\s+Temperature:\s+(\d+)\s+',
-    '^(?:\s+)?Temperature:\s+(\d+)\s+C',
-    '^(?:\s+)?\d+\s+Airflow_Temperature_Cel\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
+# These models will not produce 'NOTEMP' warning. Pull requests are welcome.
+noTemperatureSensorModels = (
+    'INTEL SSDSC2CW060A3',
+    'AXXROMBSASMR',
 )
 
 # re.IGNORECASE | re.MULTILINE
@@ -59,10 +54,12 @@ modelPatterns = (
     '^Model Number:\s+(.+)$',
 )
 
-# Pull requests are welcome
-noTemperatureSensorModels = (
-    'INTEL SSDSC2CW060A3',
-    'AXXROMBSASMR',
+# First match returned right away; re.IGNORECASE | re.MULTILINE
+temperaturePatterns = (
+    '^(?:\s+)?\d+\s+Temperature_Celsius\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
+    '^(?:\s+)?Current\s+Drive\s+Temperature:\s+(\d+)\s+',
+    '^(?:\s+)?Temperature:\s+(\d+)\s+C',
+    '^(?:\s+)?\d+\s+Airflow_Temperature_Cel\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
 )
 
 ## End of configuration ##
@@ -72,7 +69,7 @@ import sys
 import subprocess
 import re
 import shlex
-from sender_wrapper_TEMP import (fail_ifNot_Py3, sanitizeStr, clearDiskTypeStr, clearQuotes, processData)
+from sender_wrapper import (fail_ifNot_Py3, sanitizeStr, clearDiskTypeStr, processData)
 
 
 def scanDisks(mode):
@@ -106,9 +103,8 @@ def scanDisks(mode):
         if sys.argv[1] == 'getverb':
             raise
 
-    # TODELETE
-    #if mode == 'NVME':
-        #p = '''/dev/nvme0 -d nvme # /dev/nvme0, NVMe device\n/dev/bus/0 -d megaraid,4 # /dev/bus/0 [megaraid_disk_04], SCSI device'''
+    # TESTING
+    #if mode == 'NVME': p = '''/dev/nvme0 -d nvme # /dev/nvme0, NVMe device\n/dev/bus/0 -d megaraid,4 # /dev/bus/0 [megaraid_disk_04], SCSI device'''
             
     # Determine full device names and types
     disks = re.findall(r'^(/dev/[^#]+)', p, re.M)
@@ -130,10 +126,21 @@ def listDisks():
             errors.append(scanDisksNVMe_Out[0])
 
             disks.extend(scanDisksNVMe_Out[1])
+        else:
+            errors.append('')
+
     else:
         disks = diskListManual
-        
-    return errors, disks
+
+    # Remove duplicates preserving order
+    diskResult = []
+    for i in disks:
+        if i not in diskResult:
+            diskResult.append(i)
+
+    diskResult = moveCsmiToBegining(diskResult)
+
+    return errors, diskResult
 
 
 def findErrorsAndOuts(cD):
@@ -143,8 +150,9 @@ def findErrorsAndOuts(cD):
     try:
         cmd = [binPath, '-A', '-i', '-n', 'standby'] + shlex.split(cD)
 
-        if sys.version_info.major == 3 and \
-           sys.version_info.minor <= 2:
+        if      (sys.version_info.major == 3 and
+                 sys.version_info.minor <= 2):
+                 
             p = subprocess.check_output(cmd, universal_newlines=True)
             
             err = 'OLD_PYTHON32_OR_LESS'
@@ -161,25 +169,27 @@ def findErrorsAndOuts(cD):
     except subprocess.CalledProcessError as e:
         p = e.output
 
-        if 'Unknown USB bridge' in p:
+        if   'Device is in STANDBY (OS)' in p:
+            err = 'STANDBY_OS'
+        elif 'Device is in STANDBY' in p:
+            err = 'STANDBY'
+        elif 'Device is in SLEEP' in p:
+            err = 'SLEEP'
+        elif 'Unknown USB bridge' in p:
             err = 'UNK_USB_BRIDGE'
         elif r"Packet Interface Devices [this device: CD/DVD] don't support ATA SMART" in p:
             err = 'CD_DVD_DRIVE'
-        elif not e.args:
-            if sys.version_info.major == 3 and \
-               sys.version_info.minor <= 1:
-                err = 'UNK_OLD_PYTHON31_OR_LESS'
-            else:
-                err = 'UNKNOWN_RESPONSE'
-        elif e.args[0] == 1 or \
-             e.args[0] == 2:   # non-fatal disk error codes are not a concern for temperature monitoring script
-            if   'Device is in STANDBY (OS)' in p:
-                err = 'STANDBY_OS'
-            elif 'Device is in STANDBY' in p:
-                err = 'STANDBY'
-            else:
-                err = 'ERR_CODE_%s' % str(e.args[0])
-                
+            
+        elif    (sys.version_info.major == 3 and
+                 sys.version_info.minor <= 1):
+
+            err = 'UNK_OLD_PYTHON31_OR_LESS'
+
+        elif e.args:
+            err = 'ERR_CODE_%s' % str(e.args[0])
+        else:
+            err = 'UNKNOWN_RESPONSE'
+
     except subprocess.TimeoutExpired:
         err = 'TIMEOUT'
 
@@ -191,7 +201,7 @@ def findErrorsAndOuts(cD):
             p = e.output
         except:
             p = ''
-
+            
     return (err, p)
 
 
@@ -255,6 +265,33 @@ def isModelWithoutSensor(p):
     return result
     
     
+def isDummyNVMe(p):
+    subsystemRe = re.search(r'Subsystem ID:\s+0x0000', p, re.I)
+    ouiRe =       re.search(r'IEEE OUI Identifier:\s+0x000000', p, re.I)
+    
+    if     (subsystemRe and
+            ouiRe):
+
+        return True
+    else:
+        return False
+    
+    
+def moveCsmiToBegining(disks):
+    csmis = []
+    others = []
+    
+    for i in disks:
+        if re.search(r'\/csmi\d+\,\d+', i, re.I):
+            csmis.append(i)
+        else:
+            others.append(i)
+
+    result = csmis + others
+
+    return result
+    
+    
 if __name__ == '__main__':
     fail_ifNot_Py3()
     
@@ -264,13 +301,14 @@ if __name__ == '__main__':
     senderPath = paths_Out[2]
     senderPyPath = paths_Out[3]
 
-    host = '"%s"' % sys.argv[2]
+    host = sys.argv[2]
     senderData = []
     jsonData = []
 
     listDisks_Out = listDisks()
     scanErrors = listDisks_Out[0]
     diskList = listDisks_Out[1]
+
     scanErrorNotype = scanErrors[0]
     scanErrorNvme = scanErrors[1]
 
@@ -290,36 +328,47 @@ if __name__ == '__main__':
                 diskError_NOCMD = diskError
                 break   # other disks json are discarded
 
+        isDuplicate = False
         if isSkipDuplicates:
             serial = findSerial(diskPout)
             if serial in sessionSerials:
-                continue
+                isDuplicate = True
             elif serial:
                 sessionSerials.append(serial)
 
         temp = findDiskTemp(diskPout)
-        if temp:
-            senderData.append('%s mini.disk.temp[%s] "%s"' % (host, sanitizedD, temp))
-            allTemps.append(temp)
-            
-        if diskError:
-            infoMsg = diskError
+        if isDuplicate:
+            driveStatus = 'DUPLICATE'
+        elif diskError:
+            driveStatus = diskError
         elif isModelWithoutSensor(diskPout):
-            infoMsg = 'NOSENSOR'
+            driveStatus = 'NOSENSOR'
+        elif isDummyNVMe(diskPout):
+            driveStatus = 'DUMMY_NVME'
         elif not temp:
-            infoMsg = 'NOTEMP'
+            driveStatus = 'NOTEMP'
         else:
-            infoMsg = 'PROCESSED'
-        senderData.append('%s mini.disk.info[%s] "%s"' % (host, sanitizedD, infoMsg))
+            driveStatus = 'PROCESSED'
+        senderData.append('"%s" mini.disk.info[%s,DriveStatus] "%s"' % (host, sanitizedD, driveStatus))
+
+        if     (temp and
+                not isDuplicate):
+
+            senderData.append('"%s" mini.disk.temp[%s] "%s"' % (host, sanitizedD, temp))
+            allTemps.append(temp)
         
         if isHeavyDebug:
-            heavyOut = repr(diskPout).replace('"', r'\"')
+            heavyOut = repr(diskPout.strip())
+            heavyOut = heavyOut.strip().strip('"').strip("'").strip()
+            heavyOut = heavyOut.replace("'", r"\'").replace('"', r'\"')
+            
+            debugData = '"%s" mini.disk.HeavyDebug "%s"' % (host, heavyOut)
             if diskError:
-               if 'ERR_CODE_' in diskError:
-                   senderData.append('%s mini.disk.HeavyDebug "%s"' % (host, heavyOut))
-                   
+                if 'ERR_CODE_' in diskError:
+                    senderData.append(debugData)
             elif not temp:
-                senderData.append('%s mini.disk.HeavyDebug "%s"' % (host, heavyOut))
+                if not isModelWithoutSensor(diskPout):
+                    senderData.append(debugData)
 
     if scanErrorNotype:
         configStatus = scanErrorNotype
@@ -331,10 +380,10 @@ if __name__ == '__main__':
         configStatus = 'NODISKTEMPS'
     else:
         configStatus = 'CONFIGURED'
-    senderData.append('%s mini.disk.info[ConfigStatus] "%s"' % (host, configStatus))
+    senderData.append('"%s" mini.disk.info[ConfigStatus] "%s"' % (host, configStatus))
 
     if allTemps:
-        senderData.append('%s mini.disk.temp[MAX] "%s"' % (host, str(max(allTemps))))
+        senderData.append('"%s" mini.disk.temp[MAX] "%s"' % (host, str(max(allTemps))))
 
     link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
     processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host, link)
