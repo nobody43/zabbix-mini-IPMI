@@ -7,23 +7,28 @@ from time import sleep
 from json import dumps
 
 
+def isWindows():
+    if sys.platform == 'win32':
+        return True
+    else:
+        return False
+
+        
 def send():
-    agentConf = sys.argv[2]
-    senderPath = sys.argv[3]
-    timeout = int(sys.argv[4])
-    senderDataNStr = sys.argv[5]
 
-    if sys.platform == 'win32':   # if windows
-        timeout = 0   # probably permanent workaround
-
-    if sys.argv[1] == 'get':
+    if fetchMode == 'get':
         sleep(timeout)   # wait for LLD to be processed by server
-        senderProc = subprocess.Popen([senderPath, '-c', agentConf, '-i', '-'], stdin=subprocess.PIPE, universal_newlines=True)   # send data gathered from second argument to zabbix server
-    elif sys.argv[1] == 'getverb':
+        senderProc = subprocess.Popen([senderPath, '-c', agentConf, '-i', '-'],
+                                      stdin=subprocess.PIPE, universal_newlines=True, close_fds=(not isWindows()))
+
+    elif fetchMode == 'getverb':
         print('\n  Note: the sender will fail if server did not gather LLD previously.')
-        print('\n  Data sent to zabbix sender:\n')
+        print('\n  Data sent to zabbix sender:')
+        print('\n')
         print(senderDataNStr)
-        senderProc = subprocess.Popen([senderPath, '-vv', '-c', agentConf, '-i', '-'], stdin=subprocess.PIPE, universal_newlines=True)   # verbose sender output
+        senderProc = subprocess.Popen([senderPath, '-vv', '-c', agentConf, '-i', '-'],
+                                      stdin=subprocess.PIPE, universal_newlines=True, close_fds=(not isWindows()))
+
     else:
         print(sys.argv[0] + " : Not supported. Use 'get' or 'getverb'.")
         sys.exit(1)
@@ -32,10 +37,20 @@ def send():
 
 
 if __name__ == '__main__':
+    fetchMode = sys.argv[1]
+
+    agentConf = sys.argv[2]
+    senderPath = sys.argv[3]
+    timeout = int(sys.argv[4])
+    senderDataNStr = sys.argv[5]
+
+    if isWindows():
+        timeout = 0
+
     send()
 
 
-# external
+# External
 def fail_ifNot_Py3():
     '''Terminate if not using python3.'''
     if sys.version_info.major != 3:
@@ -44,19 +59,20 @@ def fail_ifNot_Py3():
 
 
 def oldPythonMsg():
-    if sys.version_info.major == 3 and \
-       sys.version_info.minor <= 2:
-        print("python32 or less is detected. It's advisable to use python33 or more for timeout guards support.")
+    if     (sys.version_info.major == 3 and
+            sys.version_info.minor <= 2):
+            
+        print("python32 or less is detected. It's advisable to use python33 or above for timeout guards support.")
 
 
-def displayVersions(config, senderP):
+def displayVersions(config, senderPath_):
     '''Display python and sender versions.'''
     print('  Python version:\n', sys.version)
     
     oldPythonMsg()
 
     try:
-        print('\n  Sender version:\n', subprocess.check_output([senderP, '-V']).decode())
+        print('\n  Sender version:\n', subprocess.check_output([senderPath_, '-V']).decode())
     except:
         print('Could not run zabbix_sender.')
 
@@ -98,41 +114,53 @@ def readConfig(config):
         print()
 
 
-def processData(sender, json, conf, pyP, senderP, tout, hn, issuesLink):
-    '''Compose data and try to send it.'''
+def chooseDevnull():
     try:
         from subprocess import DEVNULL   # for python versions greater than 3.3, inclusive
     except:
         import os
         DEVNULL = open(os.devnull, 'w')  # for 3.0-3.2, inclusive
+        
+    return DEVNULL
 
-    senderDataNStr = '\n'.join(sender)   # items for zabbix sender separated by newlines
+
+def processData(senderData_, jsonData_, agentConf_, senderPyPath_, senderPath_,
+                timeout_, host_, issuesLink_, sendStatusKey_='UNKNOWN'):
+    '''Compose data and try to send it.'''
+    DEVNULL = chooseDevnull()
+
+    fetchMode_ = sys.argv[1]
+    senderDataNStr = '\n'.join(senderData_)   # items for zabbix sender separated by newlines
 
     # pass senderDataNStr to sender_wrapper.py:
-    if sys.argv[1] == 'get':
-        print(dumps({"data": json}, indent=4))   # print data gathered for LLD
+    if fetchMode_ == 'get':
+        print(dumps({"data": jsonData_}, indent=4))   # print data gathered for LLD
 
         # spawn new process and regain shell control immediately (on Win 'sender_wrapper.py' will not wait)
         try:
-            subprocess.Popen([sys.executable, pyP, 'get', conf, senderP, tout, senderDataNStr], stdin=subprocess.PIPE, stdout=DEVNULL, stderr=DEVNULL)
+            cmd = [sys.executable, senderPyPath_, fetchMode_, agentConf_, senderPath_, timeout_, senderDataNStr]
+        
+            subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=DEVNULL, stderr=DEVNULL, close_fds=(not isWindows()))
 
         except OSError as e:
             if e.args[0] == 7:
-                subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[SendStatus]', '-o', 'HUGEDATA'])
+                subprocess.call([senderPath_, '-c', agentConf_, '-s', host_, '-k', sendStatusKey_, '-o', 'HUGEDATA'])
             else:
-                subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[SendStatus]', '-o', 'SEND_OS_ERROR'])
+                subprocess.call([senderPath_, '-c', agentConf_, '-s', host_, '-k', sendStatusKey_, '-o', 'SEND_OS_ERROR'])
 
         except:
-            subprocess.call([senderP, '-c', conf, '-s', hn, '-k', 'mini.disk.info[SendStatus]', '-o', 'UNKNOWN_SEND_ERROR'])
+            subprocess.call(    [senderPath_, '-c', agentConf_, '-s', host_, '-k', sendStatusKey_, '-o', 'UNKNOWN_SEND_ERROR'])
 
-    elif sys.argv[1] == 'getverb':
-        displayVersions(conf, senderP)
-        readConfig(conf)
+    elif fetchMode_ == 'getverb':
+        displayVersions(agentConf_, senderPath_)
+        readConfig(agentConf_)
 
         #for i in range(135000): senderDataNStr = senderDataNStr + '0'   # HUGEDATA testing
         try:
             # do not detach if in verbose mode, also skips timeout in 'sender_wrapper.py'
-            subprocess.Popen([sys.executable, pyP, 'getverb', conf, senderP, tout, senderDataNStr], stdin=subprocess.PIPE)
+            cmd = [sys.executable, senderPyPath_, 'getverb', agentConf_, senderPath_, timeout_, senderDataNStr]
+            
+            subprocess.Popen(cmd, stdin=subprocess.PIPE, close_fds=(not isWindows()))
 
         except OSError as e:
             if e.args[0] == 7:   # almost unreachable in case of this script
@@ -147,7 +175,7 @@ def processData(sender, json, conf, pyP, senderP, tout, hn, issuesLink):
             raise
 
         finally:
-            print('  Please report any issues or missing features to:\n%s\n' % issuesLink)
+            print('  Please report any issues or missing features to:\n%s\n' % issuesLink_)
 
     else:
         print(sys.argv[0] + ": Not supported. Use 'get' or 'getverb'.")
