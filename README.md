@@ -99,7 +99,6 @@ These scripts were tested to work with following configurations:
 
 ## Known issues
 - Zabbix web panel displays an error on json discovery, but everything works fine ([#18](https://github.com/nobodysu/zabbix-mini-IPMI/issues/18))
-- Data on some systems may be absent right after boot due to ACHI warmup
 - Windows version does not detaches, and data will only be gathered on second pass (probably permanent workaround)
 
 ## Links
