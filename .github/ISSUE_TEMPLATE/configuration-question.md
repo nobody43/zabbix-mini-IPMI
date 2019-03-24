@@ -1,6 +1,6 @@
 ---
 name: Configuration question
-about: Ask a question about configuration problems
+about: Ask a question about configuration problem
 title: ''
 labels: question
 assignees: ''
