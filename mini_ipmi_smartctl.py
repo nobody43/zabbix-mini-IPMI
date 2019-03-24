@@ -23,7 +23,8 @@ senderPyPath_OTHER = r'/usr/local/etc/zabbix/scripts/sender_wrapper.py'
 
 
 ## Advanced configuration ##
-isCheckNVMe = True       # Additional overhead. Should be disabled if smartmontools is >= 7 or no NVMe is present.
+# 'True' or 'False'
+isCheckNVMe = False       # Additional overhead. Should be disabled if smartmontools is >= 7 or NVMe is absent.
 
 isSkipDuplicates = True
 
@@ -386,5 +387,6 @@ if __name__ == '__main__':
         senderData.append('"%s" mini.disk.temp[MAX] "%s"' % (host, str(max(allTemps))))
 
     link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
-    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host, link)
+    sendStatusKey = 'mini.disk.info[SendStatus]'
+    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host, link, sendStatusKey)
 
