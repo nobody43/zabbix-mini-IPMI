@@ -30,7 +30,7 @@ isSkipDuplicates = True
 
 isHeavyDebug = False
 
-perDiskTimeout = 2   # Single disk query can not exceed this value. Python33 or above required.
+perDiskTimeout = 3   # Single disk query can not exceed this value. Python33 or above required.
 
 timeout = '80'   # How long the script must wait between LLD and sending, increase if data received late (does not affect windows).
                  # This setting MUST be lower than 'Update interval' in discovery rule.
