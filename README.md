@@ -94,7 +94,7 @@ These scripts were tested to work with following configurations:
 - Ubuntu 17.10 / Zabbix 3.0 / Python 3.6
 - FreeBSD 10.3 / Zabbix 2.4 / Python 3.6
 - Windows XP / Zabbix 2.4 / Python 3.4
-- Windows 7 / Zabbix 2.4, 3.4 / Python 3.2, 3.4
+- Windows 7 / ZS (2.4, 3.4, 4.2) / ZA (2.4, 3.0, 3.2, 3.4, 4.2) / Python (3.1, 3.2, 3.4, 3.7)
 - Windows Server 2012 / Zabbix 2.4 / Python 3.4
 
 ## Known issues
