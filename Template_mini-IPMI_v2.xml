@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2019-03-11T16:54:27Z</date>
+    <date>2019-06-30T12:01:16Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -28,7 +28,13 @@
                     <name>mini-IPMI: Temperature</name>
                 </application>
                 <application>
+                    <name>mini-IPMI: Temperature thresholds</name>
+                </application>
+                <application>
                     <name>mini-IPMI: Voltage</name>
+                </application>
+                <application>
+                    <name>mini-IPMI: Voltage thresholds</name>
                 </application>
             </applications>
             <items>
@@ -630,7 +636,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>mini-IPMI: Info</name>
+                            <name>mini-IPMI: Voltage thresholds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -673,7 +679,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>mini-IPMI: Info</name>
+                            <name>mini-IPMI: Voltage thresholds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1442,7 +1448,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>7</lifetime>
+                    <lifetime>1</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -2441,16 +2447,16 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>cpu{#CPU}: CPU model or ID was changed</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].last(500)} &gt; {Template mini-IPMI v2:mini.cpu.info[cpu{#CPU},TjMax].last()}</expression>
-                            <name>cpu{#CPU}: is throttling right now</name>
+                            <name>cpu{#CPU}: is throttling right now: {ITEM.LASTVALUE}</name>
                             <url/>
                             <status>0</status>
-                            <priority>4</priority>
+                            <priority>5</priority>
                             <description>(depending on values from last 500 seconds)</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -2460,25 +2466,25 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>cpu{#CPU}: no temperature info was found on CPU</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description>Prevent multiple reporting.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].last(500)}&gt;60</expression>
-                            <name>cpu{#CPU}: temperature is above 60C</name>
+                            <name>cpu{#CPU}: temperature is too high: {ITEM.LASTVALUE}</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description>(depending on values from last 500 seconds)</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].max(24h)}&gt;60</expression>
-                            <name>cpu{#CPU}: temperature was above 60C within past 24 hours</name>
+                            <name>cpu{#CPU}: temperature was too high within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2487,7 +2493,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>cpu{#CPU}: was throttled within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2496,7 +2502,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>gpu{#GPUFAN}: fan speed is too low</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description>Known false positives (zero speed).</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -2505,16 +2511,16 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>gpu{#GPUMEM}: free video memory is less than 32Mb</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.gpu.temp[gpu{#GPUTEMP}].last(500)}&gt;70</expression>
-                            <name>gpu{#GPUTEMP}: temperature is above 70C</name>
+                            <name>gpu{#GPUTEMP}: temperature is too high: {ITEM.LASTVALUE}</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description>(depending on values from last 500 seconds)</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -2523,7 +2529,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>gpu{#GPUTEMP}: temperature was above 70C within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2532,7 +2538,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>gpu{#GPU}: GPU model or ID was changed</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2541,7 +2547,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>gpu{#GPU}: no fan info was found on GPU</name>
                             <url/>
                             <status>1</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2550,7 +2556,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>gpu{#GPU}: no temperature info was found on GPU</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2559,16 +2565,16 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#BRDFANNAME}: motherboard fan speed is too low</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description>Known false positives (zero speed).</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.temp[{#BRDTEMPNUM}].last(500)}&gt;60</expression>
-                            <name>{#BRDTEMPNAME}: motherboard temperature is above 60C</name>
+                            <name>{#BRDTEMPNAME}: motherboard temperature is too high: {ITEM.LASTVALUE}</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description>(depending on values from last 500 seconds)</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -2577,7 +2583,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#BRDTEMPNAME}: motherboard temperature was above 60C within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2586,7 +2592,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P5V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2595,7 +2601,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P5V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2604,7 +2610,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P5V}: voltage was too high within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2613,7 +2619,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P5V}: voltage was too low within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2622,7 +2628,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P12V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2631,7 +2637,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P12V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2640,7 +2646,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P12V}: voltage was too high within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2649,7 +2655,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P12V}: voltage was too low within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2658,7 +2664,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P33V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2667,7 +2673,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P33V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2676,7 +2682,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P33V}: voltage was too high within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2685,7 +2691,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#P33V}: voltage was too low within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2694,7 +2700,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VBAT}: CMOS battery voltage is too low</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2703,7 +2709,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VCC3V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2712,7 +2718,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VCC3V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2721,7 +2727,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VCC3V}: voltage was too high within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2730,7 +2736,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VCC3V}: voltage was too low within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2739,7 +2745,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VCORE}: CPU voltage is too high</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description>Each processor have individual threshold. OHMR usage must be tweaked (mini_ipmi_ohmr.py). Known incorrect measurements.</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -2748,7 +2754,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VCORE}: CPU voltage was too high within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description>Each processor have individual threshold. OHMR usage must be tweaked (mini_ipmi_ohmr.py). Known incorrect measurements.</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -2757,7 +2763,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VSB3V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2766,7 +2772,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VSB3V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2775,7 +2781,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VSB3V}: voltage was too high within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2784,7 +2790,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VSB3V}: voltage was too low within past 24 hours</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2793,7 +2799,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VTT}: voltage is too high</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>4</priority>
                             <description>Each processor have individual threshold. Tweak in mini_ipmi_ohmr.py before use.</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -2802,7 +2808,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#VTT}: voltage was too high within past 24h</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description>Each processor have individual threshold. Tweak in mini_ipmi_ohmr.py before use.</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -2840,9 +2846,52 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>7</lifetime>
+                    <lifetime>1</lifetime>
                     <description/>
                     <item_prototypes>
+                        <item_prototype>
+                            <name>{#DISK}: Critical disk temperature threshold</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.disk.tempCrit[{#DISK}]</key>
+                            <delay>0</delay>
+                            <history>14</history>
+                            <trends>30</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature thresholds</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
                         <item_prototype>
                             <name>{#DISK}: Disk temperature</name>
                             <type>2</type>
@@ -2881,6 +2930,92 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <applications>
                                 <application>
                                     <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DISK}: Maximum disk temperature threshold</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.disk.tempMax[{#DISK}]</key>
+                            <delay>0</delay>
+                            <history>14</history>
+                            <trends>30</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature thresholds</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DISK}: Minimum disk temperature threshold</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.disk.tempMin[{#DISK}]</key>
+                            <delay>0</delay>
+                            <history>14</history>
+                            <trends>30</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature thresholds</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -2936,7 +3071,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Assumed to be a placeholder NVMe</name>
                             <url/>
                             <status>1</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2945,7 +3080,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Command line did not parse (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -2954,46 +3089,58 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Device open failed (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description>Probably no administrative permissions for smartctl or incorrect device name.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(500)}&gt;=60</expression>
-                            <name>{#DISK}: Disk temperature is critical</name>
+                            <expression>({Template mini-IPMI v2:mini.disk.temp[{#DISK}].last()} &gt; {Template mini-IPMI v2:mini.disk.tempCrit[{#DISK}].last()}) and&#13;
+{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
+                            <name>{#DISK}: Disk temperature is critical: {ITEM.LASTVALUE}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>5</priority>
+                            <description>If last value is more than critical temperature setting and&#13;
+drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({Template mini-IPMI v2:mini.disk.temp[{#DISK}].last()}  &gt; {Template mini-IPMI v2:mini.disk.tempMax[{#DISK}].last()}) and&#13;
+({Template mini-IPMI v2:mini.disk.temp[{#DISK}].prev()} &gt; {Template mini-IPMI v2:mini.disk.tempMax[{#DISK}].last()}) and&#13;
+{Template mini-IPMI v2:mini.disk.temp[{#DISK}].count(2h)}&gt;=2 and&#13;
+{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
+                            <name>{#DISK}: Disk temperature is too high: {ITEM.LASTVALUE}</name>
                             <url/>
                             <status>0</status>
                             <priority>4</priority>
-                            <description>(depending on values from last 500 seconds)</description>
+                            <description>If last value is more than maximum temperature setting and&#13;
+previous value is more than maximum temperature setting and&#13;
+drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(500)}&gt;=46</expression>
-                            <name>{#DISK}: Disk temperature is too high</name>
+                            <expression>({Template mini-IPMI v2:mini.disk.temp[{#DISK}].last()}  &lt; {Template mini-IPMI v2:mini.disk.tempMin[{#DISK}].last()}) and&#13;
+({Template mini-IPMI v2:mini.disk.temp[{#DISK}].prev()} &lt; {Template mini-IPMI v2:mini.disk.tempMin[{#DISK}].last()}) and&#13;
+{Template mini-IPMI v2:mini.disk.temp[{#DISK}].count(2h)}&gt;=2 and&#13;
+{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
+                            <name>{#DISK}: Disk temperature is too low: {ITEM.LASTVALUE}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description>If last value is less than minimum temperature setting and&#13;
+previous value is less than minimum temperature setting and&#13;
+drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({Template mini-IPMI v2:mini.disk.temp[{#DISK}].max(24h)} &gt; {Template mini-IPMI v2:mini.disk.tempCrit[{#DISK}].last()}) and&#13;
+{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
+                            <name>{#DISK}: Disk temperature was critical in the past 24 hours</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description>(depending on values from last 500 seconds)</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(#1)}&lt;=25 and&#13;
-{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(#2)}&lt;=25 and&#13;
-{Template mini-IPMI v2:mini.disk.temp[{#DISK}].last(#3)}&lt;=25</expression>
-                            <name>{#DISK}: Disk temperature is too low</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description>Last and previous value were below 25.</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.disk.temp[{#DISK}].max(24h)}&gt;=60</expression>
-                            <name>{#DISK}: Disk temperature was critical in past 24 hours</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description/>
+                            <description>If any value within last 24 hours exceeded critical temperature setting and&#13;
+last drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
@@ -3001,7 +3148,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Have no temperature sensor</name>
                             <url/>
                             <status>1</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -3010,7 +3157,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Is in SLEEP mode</name>
                             <url/>
                             <status>1</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -3019,7 +3166,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Is in STANDBY mode</name>
                             <url/>
                             <status>1</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -3028,7 +3175,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: No temperature info was found on disk</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -3037,7 +3184,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Something went wrong (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -3046,7 +3193,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Timeout exceeded while calling the disk (mini-IPMI)</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description>Could indicate disk failure. Investigation is advised.</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -3055,7 +3202,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <name>{#DISK}: Unknown USB bridge</name>
                             <url/>
                             <status>1</status>
-                            <priority>1</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -3075,7 +3222,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
             <name>Disk temperature is too high</name>
             <url/>
             <status>1</status>
-            <priority>3</priority>
+            <priority>4</priority>
             <description>(depending on values from last 500 seconds)&#13;
 This one is disabled - individual disk trigger takes precedence.</description>
             <type>0</type>
@@ -3086,7 +3233,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>Disk temperature was too high in past 24 hours</name>
             <url/>
             <status>1</status>
-            <priority>2</priority>
+            <priority>3</priority>
             <description>(depending on values from last day)&#13;
 This one is disabled - individual disk trigger takes precedence.</description>
             <type>0</type>
@@ -3097,7 +3244,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: CPU binary was not found in PATH or manually</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3107,7 +3254,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: no CPUs were found for temperature test</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3117,7 +3264,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: no DISKs were found for temperature test</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3127,37 +3274,37 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: no GPUs were found for temperature test</name>
             <url/>
             <status>1</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS,4d)}=1</expression>
-            <name>mini-IPMI: no temperatures was found among CPUs</name>
+            <name>mini-IPMI: no temperatures were found among CPUs</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NODISKTEMPS)}=1</expression>
-            <name>mini-IPMI: no temperatures was found among DISKs</name>
+            <name>mini-IPMI: no temperatures were found among DISKs</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOGPUTEMPS,#3)}=1</expression>
-            <name>mini-IPMI: no temperatures was found among GPUs</name>
+            <name>mini-IPMI: no temperatures were found among GPUs</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3167,7 +3314,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: smartctl was not found in PATH or manually</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3177,7 +3324,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: something went wrong with CPU configuration</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3187,7 +3334,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: something went wrong with DISK configuration</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3197,7 +3344,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: something went wrong with DISK sending</name>
             <url/>
             <status>0</status>
-            <priority>2</priority>
+            <priority>3</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3207,7 +3354,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: template is assigned, but no CPU data is recieved</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3217,7 +3364,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: template is assigned, but no DISK data is recieved</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3227,7 +3374,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: too much data for CPU sending</name>
             <url/>
             <status>0</status>
-            <priority>2</priority>
+            <priority>3</priority>
             <description/>
             <type>0</type>
             <dependencies/>
@@ -3237,8 +3384,18 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <name>mini-IPMI: too much data for DISK sending</name>
             <url/>
             <status>0</status>
-            <priority>2</priority>
+            <priority>3</priority>
             <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template mini-IPMI v2:mini.brd.info[BIOSversion].regexp(^4001$|^0508$|^P1.90$|^0601$|^1801$|^V2.7$)}=0</expression>
+            <name>Unexpected BIOS firmware version: {ITEM.LASTVALUE}</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description>List of newest BIOS firmware versions on the clients.</description>
             <type>0</type>
             <dependencies/>
         </trigger>
