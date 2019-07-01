@@ -26,7 +26,12 @@ senderPyPath_OTHER = r'/usr/local/etc/zabbix/scripts/sender_wrapper.py'
 # 'True' or 'False'
 isCheckNVMe = False       # Additional overhead. Should be disabled if smartmontools is >= 7 or NVMe is absent.
 
-isSkipDuplicates = True
+isIgnoreDuplicates = True
+
+# type, min, max, critical
+thresholds = (
+    ('hdd', 25, 45, 60),
+)
 
 isHeavyDebug = False
 
@@ -111,6 +116,21 @@ def scanDisks(mode):
     disks = re.findall(r'^(/dev/[^#]+)', p, re.M)
 
     return error, disks
+
+
+def moveCsmiToBegining(disks):
+    csmis = []
+    others = []
+    
+    for i in disks:
+        if re.search(r'\/csmi\d+\,\d+', i, re.I):
+            csmis.append(i)
+        else:
+            others.append(i)
+
+    result = csmis + others
+
+    return result
 
 
 def listDisks():
@@ -229,22 +249,22 @@ def findSerial(p):
 
 def chooseSystemSpecificPaths():
     if sys.platform.startswith('linux'):
-        binPath_ = binPath_LINUX
-        agentConf_ = agentConf_LINUX
-        senderPath_ = senderPath_LINUX
-        senderPyPath_ = senderPyPath_LINUX
+        binPath_        = binPath_LINUX
+        agentConf_      = agentConf_LINUX
+        senderPath_     = senderPath_LINUX
+        senderPyPath_   = senderPyPath_LINUX
 
     elif sys.platform == 'win32':
-        binPath_ = binPath_WIN
-        agentConf_ = agentConf_WIN
-        senderPath_ = senderPath_WIN
-        senderPyPath_ = senderPyPath_WIN
+        binPath_        = binPath_WIN
+        agentConf_      = agentConf_WIN
+        senderPath_     = senderPath_WIN
+        senderPyPath_   = senderPyPath_WIN
 
     else:
-        binPath_ = binPath_OTHER
-        agentConf_ = agentConf_OTHER
-        senderPath_ = senderPath_OTHER
-        senderPyPath_ = senderPyPath_OTHER
+        binPath_        = binPath_OTHER
+        agentConf_      = agentConf_OTHER
+        senderPath_     = senderPath_OTHER
+        senderPyPath_   = senderPyPath_OTHER
 
     if sys.argv[1] == 'getverb': 
         print('  Path guess: %s\n' % sys.platform)
@@ -276,23 +296,8 @@ def isDummyNVMe(p):
         return True
     else:
         return False
-    
-    
-def moveCsmiToBegining(disks):
-    csmis = []
-    others = []
-    
-    for i in disks:
-        if re.search(r'\/csmi\d+\,\d+', i, re.I):
-            csmis.append(i)
-        else:
-            others.append(i)
 
-    result = csmis + others
 
-    return result
-    
-    
 if __name__ == '__main__':
     fail_ifNot_Py3()
     
@@ -330,16 +335,18 @@ if __name__ == '__main__':
                 break   # other disks json are discarded
 
         isDuplicate = False
-        if isSkipDuplicates:
-            serial = findSerial(diskPout)
-            if serial in sessionSerials:
-                isDuplicate = True
-            elif serial:
-                sessionSerials.append(serial)
+        serial = findSerial(diskPout)
+        if serial in sessionSerials:
+            isDuplicate = True
+        elif serial:
+            sessionSerials.append(serial)
 
         temp = findDiskTemp(diskPout)
         if isDuplicate:
-            driveStatus = 'DUPLICATE'
+            if isIgnoreDuplicates:
+                driveStatus = 'DUPLICATE_IGNORE'
+            else:
+                driveStatus = 'DUPLICATE_MENTION'
         elif diskError:
             driveStatus = diskError
         elif isModelWithoutSensor(diskPout):
@@ -352,17 +359,19 @@ if __name__ == '__main__':
             driveStatus = 'PROCESSED'
         senderData.append('"%s" mini.disk.info[%s,DriveStatus] "%s"' % (host, sanitizedD, driveStatus))
 
-        if     (temp and
-                not isDuplicate):
-
+        if temp:
             senderData.append('"%s" mini.disk.temp[%s] "%s"' % (host, sanitizedD, temp))
             allTemps.append(temp)
-        
+
+        senderData.append('"%s" mini.disk.tempMin[%s] "%s"'  % (host, sanitizedD, thresholds[0][1]))
+        senderData.append('"%s" mini.disk.tempMax[%s] "%s"'  % (host, sanitizedD, thresholds[0][2]))
+        senderData.append('"%s" mini.disk.tempCrit[%s] "%s"' % (host, sanitizedD, thresholds[0][3]))
+
         if isHeavyDebug:
             heavyOut = repr(diskPout.strip())
             heavyOut = heavyOut.strip().strip('"').strip("'").strip()
             heavyOut = heavyOut.replace("'", r"\'").replace('"', r'\"')
-            
+
             debugData = '"%s" mini.disk.HeavyDebug "%s"' % (host, heavyOut)
             if diskError:
                 if 'ERR_CODE_' in diskError:
