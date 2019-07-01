@@ -3281,7 +3281,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS,4d)}=1</expression>
-            <name>mini-IPMI: no temperatures was found among CPUs</name>
+            <name>mini-IPMI: no temperatures were found among CPUs</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -3291,7 +3291,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NODISKTEMPS)}=1</expression>
-            <name>mini-IPMI: no temperatures was found among DISKs</name>
+            <name>mini-IPMI: no temperatures were found among DISKs</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -3301,7 +3301,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOGPUTEMPS,#3)}=1</expression>
-            <name>mini-IPMI: no temperatures was found among GPUs</name>
+            <name>mini-IPMI: no temperatures were found among GPUs</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
