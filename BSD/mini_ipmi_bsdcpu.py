@@ -22,7 +22,7 @@ TJMAX = '70'
 import sys
 import subprocess
 import re
-from sender_wrapper import (readConfig, processData, fail_ifNot_Py3, removeQuotes)
+from sender_wrapper import (readConfig, processData, fail_ifNot_Py3)
 
 HOST = sys.argv[2]
 
