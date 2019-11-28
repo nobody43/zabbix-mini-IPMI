@@ -16,12 +16,12 @@ SENDER_PATH = r'zabbix_sender'
 
 FALLBACK_TJMAX = '70'
 
-# Following settings brings (almost) no overhead. Use 'no' to disable unneeded data.
-GATHER_VOLTAGES     = 'yes'
-GATHER_BOARD_FANS   = 'yes'
-GATHER_BOARD_TEMPS  = 'yes'
-GATHER_GPU_DATA     = 'yes'
-GATHER_CPU_DATA     = 'yes'
+# Following settings brings (almost) no overhead. True or False
+GATHER_VOLTAGES     = True
+GATHER_BOARD_FANS   = True
+GATHER_BOARD_TEMPS  = True
+GATHER_GPU_DATA     = True
+GATHER_CPU_DATA     = True
 
 VOLTAGE_REGEXPS_KEYS_AND_JSONS = (
     ('Vcore',                               'cpuVcore', '{#VCORE}'),
@@ -269,22 +269,22 @@ if __name__ == '__main__':
     pOut = p_Output[1]
 
     if pOut:
-        if GATHER_VOLTAGES == 'yes':
+        if GATHER_VOLTAGES:
             getVoltages_Out = getVoltages(pOut)
             senderData.extend(getVoltages_Out[0])
             jsonData.extend(getVoltages_Out[1])
 
-        if GATHER_BOARD_FANS == 'yes':
+        if GATHER_BOARD_FANS:
             getBoardFans_Out = getBoardFans(pOut)
             senderData.extend(getBoardFans_Out[0])
             jsonData.extend(getBoardFans_Out[1])
 
-        if GATHER_BOARD_TEMPS == 'yes':
+        if GATHER_BOARD_TEMPS:
             getBoardTemps_Out = getBoardTemps(pOut)
             senderData.extend(getBoardTemps_Out[0])
             jsonData.extend(getBoardTemps_Out[1])
 
-        if GATHER_GPU_DATA == 'yes':
+        if GATHER_GPU_DATA:
             getGpuData_Out = getGpuData(pOut)
             gpuErrors = getGpuData_Out[2]
             senderData.extend(getGpuData_Out[0])
@@ -292,7 +292,7 @@ if __name__ == '__main__':
             if gpuErrors:
                 statusErrors.append(gpuErrors)   # NOGPUS, NOGPUTEMPS
 
-        if GATHER_CPU_DATA == 'yes':
+        if GATHER_CPU_DATA:
             getCpuData_Out = getCpuData(pOut)
             cpuErrors = getCpuData_Out[2]
             senderData.extend(getCpuData_Out[0])
