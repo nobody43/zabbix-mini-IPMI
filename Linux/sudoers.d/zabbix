@@ -1,4 +1,4 @@
-#Defaults:zabbix !requiretty   # Uncomment in case of errors
+#Defaults:zabbix !requiretty   # Uncomment in case of sudo errors
 
 zabbix	ALL=NOPASSWD:	/etc/zabbix/scripts/mini_ipmi_smartctl.py
 
