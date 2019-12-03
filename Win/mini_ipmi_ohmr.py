@@ -307,8 +307,9 @@ def getBoardTemps(pOut_):
     for name, val, id in tempsRe:
         name = name.strip()
         
-        if (isCpuSensorPresent(pOut_) and
-            name == 'CPU Core'):
+        if  (isCpuSensorPresent(pOut_) and
+             re.match('^CPU Core$|^CPU$', name)):
+            
             continue
 
         ignoredSensor = False
