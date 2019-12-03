@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>2.0</version>
-    <date>2019-07-01T13:03:30Z</date>
+    <version>3.0</version>
+    <date>2019-12-03T15:10:42Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -28,73 +28,27 @@
                     <name>mini-IPMI: Temperature</name>
                 </application>
                 <application>
-                    <name>mini-IPMI: Temperature thresholds</name>
+                    <name>mini-IPMI: Thresholds</name>
                 </application>
                 <application>
                     <name>mini-IPMI: Voltage</name>
                 </application>
-                <application>
-                    <name>mini-IPMI: Voltage thresholds</name>
-                </application>
             </applications>
             <items>
                 <item>
-                    <name>All CPUs maximum temperature</name>
+                    <name>BIOS Vendor</name>
                     <type>2</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>mini.cpu.temp[MAX]</key>
+                    <key>mini.brd.info[BIOSvendor]</key>
                     <delay>0</delay>
                     <history>90</history>
-                    <trends>365</trends>
+                    <trends>0</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>2</value_type>
                     <allowed_hosts/>
-                    <units>C</units>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Among all processors and its cores.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Temperature</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>All DISKs maximum temperature</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.disk.temp[MAX]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units>C</units>
+                    <units/>
                     <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -118,26 +72,26 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>mini-IPMI: Temperature</name>
+                            <name>mini-IPMI: Info</name>
                         </application>
                     </applications>
                     <valuemap/>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>All GPUs maximum temperature</name>
+                    <name>BIOS Version</name>
                     <type>2</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>mini.gpu.temp[MAX]</key>
+                    <key>mini.brd.info[BIOSversion]</key>
                     <delay>0</delay>
                     <history>90</history>
-                    <trends>365</trends>
+                    <trends>0</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>2</value_type>
                     <allowed_hosts/>
-                    <units>C</units>
+                    <units/>
                     <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -157,11 +111,183 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description>Among all cards and its cores.</description>
+                    <description/>
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>mini-IPMI: Temperature</name>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Mainboard Manufacturer</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.brd.info[MainboardManufacturer]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Mainboard Name</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.brd.info[MainboardName]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Mainboard Version</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.brd.info[MainboardVersion]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>SMBIOS Version</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.brd.info[SMBIOSversion]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -205,567 +331,6 @@
                     <applications>
                         <application>
                             <name>mini-IPMI: Temperature</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>BIOS Vendor</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.brd.info[BIOSvendor]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>BIOS Version</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.brd.info[BIOSversion]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>CPU temperature configuration status</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.cpu.info[ConfigStatus]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>In some cases it could also mean GPU temperature, system voltage and fan speed.&#13;
-&#13;
-Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>DISK heavy debug</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.disk.HeavyDebug</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>DISK last failed send status</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.disk.info[SendStatus]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>DISK temperature configuration status</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.disk.info[ConfigStatus]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Refers to mini_ipmi_smartctl.py.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Mainboard Manufacturer</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.brd.info[MainboardManufacturer]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Mainboard Name</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.brd.info[MainboardName]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Mainboard Version</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.brd.info[MainboardVersion]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Maximum VCore voltage</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.brd.info[vcoreMax]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>0</value_type>
-                    <allowed_hosts/>
-                    <units>V</units>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Voltage thresholds</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Maximum VTT voltage</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.brd.info[vttMax]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>0</value_type>
-                    <allowed_hosts/>
-                    <units>V</units>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Voltage thresholds</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>OpenHardwareMonitorReport version</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.info[OHMRver]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>SMBIOS Version</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>mini.brd.info[SMBIOSversion]</key>
-                    <delay>0</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>2</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>mini-IPMI: Info</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1416,10 +981,399 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                     <valuemap/>
                     <logtimefmt/>
                 </item>
+                <item>
+                    <name>CPU temperature configuration status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.cpu.info[ConfigStatus]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>In some cases it could also mean GPU temperature, system voltage and fan speed.&#13;
+&#13;
+Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>CPU last failed send status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.cpu.info[SendStatus]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>All CPUs maximum temperature</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.cpu.temp[MAX]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units>C</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Among all processors and its cores.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Temperature</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>DISK heavy debug</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.disk.HeavyDebug</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>DISK temperature configuration status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.disk.info[ConfigStatus]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Refers to mini_ipmi_smartctl.py.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>DISK last failed send status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.disk.info[SendStatus]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>All DISKs maximum temperature</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.disk.temp[MAX]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units>C</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Temperature</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>All GPUs maximum temperature</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.gpu.temp[MAX]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units>C</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Among all cards and its cores.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Temperature</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>OpenHardwareMonitorReport version</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>mini.info[OHMRversion]</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>0</trends>
+                    <status>0</status>
+                    <value_type>2</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
             </items>
             <discovery_rules>
                 <discovery_rule>
-                    <name>CPU temperature discovery</name>
+                    <name>CPU discovery</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
@@ -1451,522 +1405,6 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                     <lifetime>1</lifetime>
                     <description/>
                     <item_prototypes>
-                        <item_prototype>
-                            <name>cpu{#CPUC},core{#CORE}: Temperature</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.cpu.temp[cpu{#CPUC},core{#CORE}]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>C</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Temperature</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>cpu{#CPU}: ID</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.cpu.info[cpu{#CPU},ID]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>2</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>CPU model or ID.</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>cpu{#CPU}: Maximum temperature</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.cpu.temp[cpu{#CPU},MAX]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>C</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Temperature</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>cpu{#CPU}: Status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.cpu.info[cpu{#CPU},CPUstatus]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>2</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>cpu{#CPU}: TjMax</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.cpu.info[cpu{#CPU},TjMax]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>C</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>gpu{#GPUFAN}: Fan speed</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.gpu.fan[gpu{#GPUFAN},rpm]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>RPM</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Fan speed</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>gpu{#GPUMEM}: GPU Memory Free</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.gpu.memory[gpu{#GPUMEM},free]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>Mb</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>gpu{#GPUMEM}: GPU Memory Total</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.gpu.memory[gpu{#GPUMEM},total]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>Mb</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>gpu{#GPUMEM}: GPU Memory Used</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.gpu.memory[gpu{#GPUMEM},used]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>Mb</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>gpu{#GPUTEMP}: Temperature</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.gpu.temp[gpu{#GPUTEMP}]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>C</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Temperature</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>gpu{#GPU}: ID</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.gpu.info[gpu{#GPU},ID]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>2</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>GPU model or ID.</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>gpu{#GPU}: Status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.gpu.info[gpu{#GPU},GPUstatus]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>2</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
                         <item_prototype>
                             <name>Motherboard fan speed: {#BRDFANNAME}</name>
                             <type>2</type>
@@ -2009,6 +1447,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Motherboard temperature: {#BRDTEMPNAME}</name>
@@ -2052,6 +1491,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#P5V}</name>
@@ -2095,6 +1535,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#P12V}</name>
@@ -2138,6 +1579,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#P33V}</name>
@@ -2181,6 +1623,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#VAVCC}</name>
@@ -2224,6 +1667,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#VBAT}</name>
@@ -2267,6 +1711,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#VCC3V}</name>
@@ -2310,6 +1755,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#VCORE}</name>
@@ -2353,6 +1799,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#VSB3V}</name>
@@ -2396,6 +1843,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>Voltage: {#VTT}</name>
@@ -2439,54 +1887,598 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPU}: Status</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.cpu.info[cpu{#CPU},CPUstatus]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>0</trends>
+                            <status>0</status>
+                            <value_type>2</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPU}: ID</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.cpu.info[cpu{#CPU},ID]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>0</trends>
+                            <status>0</status>
+                            <value_type>2</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>CPU model or ID.</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPU}: TjMax</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.cpu.info[cpu{#CPU},TjMax]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Thresholds</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPUC},core{#CORE}: Temperature</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.cpu.temp[cpu{#CPUC},core{#CORE}]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPU}: Maximum temperature</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.cpu.temp[cpu{#CPU},MAX]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUFAN}: Fan speed</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.gpu.fan[gpu{#GPUFAN},rpm]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>RPM</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Fan speed</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPU}: Status</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.gpu.info[gpu{#GPU},GPUstatus]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>0</trends>
+                            <status>0</status>
+                            <value_type>2</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPU}: ID</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.gpu.info[gpu{#GPU},ID]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>0</trends>
+                            <status>0</status>
+                            <value_type>2</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>GPU model or ID.</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUMEM}: GPU Memory Free</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.gpu.memory[gpu{#GPUMEM},free]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Mb</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUMEM}: GPU Memory Total</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.gpu.memory[gpu{#GPUMEM},total]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Mb</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUMEM}: GPU Memory Used</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.gpu.memory[gpu{#GPUMEM},used]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Mb</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUTEMP}: Temperature</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.gpu.temp[gpu{#GPUTEMP}]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.cpu.info[cpu{#CPU},ID].diff()}&gt;0</expression>
-                            <name>cpu{#CPU}: CPU model or ID was changed</name>
+                            <name>cpu{#CPU}: CPU model was changed</name>
                             <url/>
                             <status>0</status>
                             <priority>1</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].last(500)} &gt; {Template mini-IPMI v2:mini.cpu.info[cpu{#CPU},TjMax].last()}</expression>
-                            <name>cpu{#CPU}: is throttling right now: {ITEM.LASTVALUE}</name>
+                            <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].last()} &gt; {Template mini-IPMI v2:mini.cpu.info[cpu{#CPU},TjMax].last()}</expression>
+                            <name>cpu{#CPU}: is throttling right now</name>
                             <url/>
                             <status>0</status>
                             <priority>4</priority>
-                            <description>(depending on values from last 500 seconds)</description>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.cpu.info[cpu{#CPU},CPUstatus].str(NO_TEMP,#3)}=1 and&#13;
-{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS,#3)}=0</expression>
+                            <expression>{Template mini-IPMI v2:mini.cpu.info[cpu{#CPU},CPUstatus].str(NO_TEMP)}=1 and&#13;
+{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS)}=0</expression>
                             <name>cpu{#CPU}: no temperature info was found on CPU</name>
                             <url/>
                             <status>0</status>
                             <priority>1</priority>
-                            <description>Prevent multiple reporting.</description>
+                            <description>Take a look at CPUS_WITHOUT_SENSOR variable in the script and please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].last(500)}&gt;60</expression>
-                            <name>cpu{#CPU}: temperature is too high: {ITEM.LASTVALUE}</name>
+                            <expression>{Template mini-IPMI v2:mini.cpu.info[cpu{#CPU},CPUstatus].str(NO_SENSOR)}=1</expression>
+                            <name>cpu{#CPU}: no temperature sensor was found on CPU</name>
+                            <url/>
+                            <status>1</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                            <dependencies/>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].last()}&gt;{$CPU.HIGH.TEMP}</expression>
+                            <name>cpu{#CPU}: temperature is too high (over {$CPU.HIGH.TEMP} C)</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description>(depending on values from last 500 seconds)</description>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].max(24h)}&gt;60</expression>
-                            <name>cpu{#CPU}: temperature was too high within past 24 hours</name>
+                            <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].max(24h)}&gt;{$CPU.HIGH.TEMP}</expression>
+                            <name>cpu{#CPU}: temperature was too high within past 24 hours (over {$CPU.HIGH.TEMP} C)</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.cpu.temp[cpu{#CPU},MAX].max(24h)} &gt; {Template mini-IPMI v2:mini.cpu.info[cpu{#CPU},TjMax].last()}</expression>
@@ -2496,114 +2488,127 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.gpu.fan[gpu{#GPUFAN},rpm].last(500)}&lt;600</expression>
-                            <name>gpu{#GPUFAN}: fan speed is too low</name>
+                            <expression>{Template mini-IPMI v2:mini.gpu.fan[gpu{#GPUFAN},rpm].last()}&lt;{$GPU.FAN.MIN.RPM}</expression>
+                            <name>gpu{#GPUFAN}: fan speed is too low (below {$GPU.FAN.MIN.RPM} RPM)</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
-                            <description>Known false positives (zero speed).</description>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.gpu.memory[gpu{#GPUMEM},free].last()}&lt;32</expression>
-                            <name>gpu{#GPUMEM}: free video memory is less than 32Mb</name>
+                            <expression>{Template mini-IPMI v2:mini.gpu.memory[gpu{#GPUMEM},free].last()}&lt;{$GPU.MIN.MEM.MB}</expression>
+                            <name>gpu{#GPUMEM}: free video memory is too low (below {$GPU.MIN.MEM.MB} Mb)</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.gpu.temp[gpu{#GPUTEMP}].last(500)}&gt;70</expression>
-                            <name>gpu{#GPUTEMP}: temperature is too high: {ITEM.LASTVALUE}</name>
+                            <expression>{Template mini-IPMI v2:mini.gpu.temp[gpu{#GPUTEMP}].last()}&gt;{$GPU.HIGH.TEMP}</expression>
+                            <name>gpu{#GPUTEMP}: temperature is too high (over {$GPU.HIGH.TEMP} C)</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description>(depending on values from last 500 seconds)</description>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.gpu.temp[gpu{#GPUTEMP}].max(24h)}&gt;70</expression>
-                            <name>gpu{#GPUTEMP}: temperature was above 70C within past 24 hours</name>
+                            <expression>{Template mini-IPMI v2:mini.gpu.temp[gpu{#GPUTEMP}].max(24h)}&gt;{$GPU.HIGH.TEMP}</expression>
+                            <name>gpu{#GPUTEMP}: temperature was too high within past 24 hours (over {$GPU.HIGH.TEMP} C)</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.gpu.info[gpu{#GPU},ID].diff()}&gt;0</expression>
-                            <name>gpu{#GPU}: GPU model or ID was changed</name>
+                            <name>gpu{#GPU}: GPU model was changed</name>
                             <url/>
                             <status>0</status>
                             <priority>1</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.gpu.info[gpu{#GPU},GPUstatus].str(NO_FAN,#3)}=1</expression>
+                            <expression>{Template mini-IPMI v2:mini.gpu.info[gpu{#GPU},GPUstatus].str(NO_FAN)}=1</expression>
                             <name>gpu{#GPU}: no fan info was found on GPU</name>
                             <url/>
                             <status>1</status>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.gpu.info[gpu{#GPU},GPUstatus].str(NO_TEMP,#3)}=1</expression>
+                            <expression>{Template mini-IPMI v2:mini.gpu.info[gpu{#GPU},GPUstatus].str(NO_TEMP)}=1</expression>
                             <name>gpu{#GPU}: no temperature info was found on GPU</name>
                             <url/>
                             <status>0</status>
                             <priority>1</priority>
-                            <description/>
+                            <description>Please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.fan[{#BRDFANNUM},rpm].last(500)}&lt;600</expression>
-                            <name>{#BRDFANNAME}: motherboard fan speed is too low</name>
+                            <expression>{Template mini-IPMI v2:mini.brd.fan[{#BRDFANNUM},rpm].last()}&lt;{$BOARD.FAN.MIN.RPM}</expression>
+                            <name>{#BRDFANNAME}: board fan speed is too low (below {$BOARD.FAN.MIN.RPM} RPM)</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
-                            <description>Known false positives (zero speed).</description>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.temp[{#BRDTEMPNUM}].last(500)}&gt;60</expression>
-                            <name>{#BRDTEMPNAME}: motherboard temperature is too high: {ITEM.LASTVALUE}</name>
+                            <expression>{Template mini-IPMI v2:mini.brd.temp[{#BRDTEMPNUM}].last()}&gt;{$BOARD.HIGH.TEMP}</expression>
+                            <name>{#BRDTEMPNAME}: board temperature is too high (over {$BOARD.HIGH.TEMP} C)</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description>(depending on values from last 500 seconds)</description>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.temp[{#BRDTEMPNUM}].max(24h)}&gt;60</expression>
-                            <name>{#BRDTEMPNAME}: motherboard temperature was above 60C within past 24 hours</name>
+                            <expression>{Template mini-IPMI v2:mini.brd.temp[{#BRDTEMPNUM}].max(24h)}&gt;{$BOARD.HIGH.TEMP}</expression>
+                            <name>{#BRDTEMPNAME}: board temperature was too high within past 24 hours (over {$BOARD.HIGH.TEMP} C)</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P5V}].last(500)}&gt;5.5</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P5V}].last()}&gt;5.5</expression>
                             <name>{#P5V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P5V}].last(500)}&lt;4.5</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P5V}].last()}&lt;4.5</expression>
                             <name>{#P5V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P5V}].max(24h)}&gt;5.5</expression>
@@ -2613,6 +2618,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P5V}].max(24h)}&lt;4.5</expression>
@@ -2622,24 +2628,27 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P12V}].last(500)}&gt;13.8</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P12V}].last()}&gt;13.8</expression>
                             <name>{#P12V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P12V}].last(500)}&lt;10.2</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P12V}].last()}&lt;10.2</expression>
                             <name>{#P12V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P12V}].max(24h)}&gt;13.8</expression>
@@ -2649,6 +2658,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P12V}].max(24h)}&lt;10.2</expression>
@@ -2658,24 +2668,27 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P33V}].last(500)}&gt;3.6</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P33V}].last()}&gt;3.6</expression>
                             <name>{#P33V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P33V}].last(500)}&lt;3.0</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P33V}].last()}&lt;3.0</expression>
                             <name>{#P33V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P33V}].max(24h)}&gt;3.6</expression>
@@ -2685,6 +2698,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#P33V}].max(24h)}&lt;3.0</expression>
@@ -2694,33 +2708,37 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VBAT}].last(500)}&lt;2.7</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VBAT}].last()}&lt;2.7</expression>
                             <name>{#VBAT}: CMOS battery voltage is too low</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VCC3V}].last(500)}&gt;3.6</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VCC3V}].last()}&gt;3.6</expression>
                             <name>{#VCC3V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VCC3V}].last(500)}&lt;3.0</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VCC3V}].last()}&lt;3.0</expression>
                             <name>{#VCC3V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VCC3V}].max(24h)}&gt;3.6</expression>
@@ -2730,6 +2748,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VCC3V}].max(24h)}&lt;3.0</expression>
@@ -2739,42 +2758,27 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VCORE}].last(500)} &gt; {Template mini-IPMI v2:mini.brd.info[vcoreMax].last()}</expression>
-                            <name>{#VCORE}: CPU voltage is too high</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description>Each processor have individual threshold. OHMR usage must be tweaked (mini_ipmi_ohmr.py). Known incorrect measurements.</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VCORE}].max(24h)} &gt; {Template mini-IPMI v2:mini.brd.info[vcoreMax].last()}</expression>
-                            <name>{#VCORE}: CPU voltage was too high within past 24 hours</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Each processor have individual threshold. OHMR usage must be tweaked (mini_ipmi_ohmr.py). Known incorrect measurements.</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VSB3V}].last(500)}&gt;3.6</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VSB3V}].last()}&gt;3.6</expression>
                             <name>{#VSB3V}: voltage is too high</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VSB3V}].last(500)}&lt;3.0</expression>
+                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VSB3V}].last()}&lt;3.0</expression>
                             <name>{#VSB3V}: voltage is too low</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description/>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VSB3V}].max(24h)}&gt;3.6</expression>
@@ -2784,6 +2788,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VSB3V}].max(24h)}&lt;3.0</expression>
@@ -2793,31 +2798,14 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VTT}].last(500)} &gt; {Template mini-IPMI v2:mini.brd.info[vttMax].last()}</expression>
-                            <name>{#VTT}: voltage is too high</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description>Each processor have individual threshold. Tweak in mini_ipmi_ohmr.py before use.</description>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template mini-IPMI v2:mini.brd.vlt[{#VTT}].max(24h)} &gt; {Template mini-IPMI v2:mini.brd.info[vttMax].last()}</expression>
-                            <name>{#VTT}: voltage was too high within past 24h</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Each processor have individual threshold. Tweak in mini_ipmi_ohmr.py before use.</description>
-                            <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                     </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
                 <discovery_rule>
-                    <name>DISK temperature discovery</name>
+                    <name>DISK discovery</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
@@ -2849,6 +2837,50 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                     <lifetime>1</lifetime>
                     <description/>
                     <item_prototypes>
+                        <item_prototype>
+                            <name>{#DISK}: Status</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.disk.info[{#DISK},DriveStatus]</key>
+                            <delay>0</delay>
+                            <history>90</history>
+                            <trends>0</trends>
+                            <status>0</status>
+                            <value_type>2</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
                         <item_prototype>
                             <name>{#DISK}: Critical disk temperature threshold</name>
                             <type>2</type>
@@ -2886,11 +2918,100 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>mini-IPMI: Temperature thresholds</name>
+                                    <name>mini-IPMI: Thresholds</name>
                                 </application>
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DISK}: Maximum disk temperature threshold</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.disk.tempMax[{#DISK}]</key>
+                            <delay>0</delay>
+                            <history>14</history>
+                            <trends>30</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Thresholds</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DISK}: Minimum disk temperature threshold</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>mini.disk.tempMin[{#DISK}]</key>
+                            <delay>0</delay>
+                            <history>14</history>
+                            <trends>30</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>C</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Thresholds</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
                             <name>{#DISK}: Disk temperature</name>
@@ -2934,146 +3055,19 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>{#DISK}: Maximum disk temperature threshold</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.disk.tempMax[{#DISK}]</key>
-                            <delay>0</delay>
-                            <history>14</history>
-                            <trends>30</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>C</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Temperature thresholds</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>{#DISK}: Minimum disk temperature threshold</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.disk.tempMin[{#DISK}]</key>
-                            <delay>0</delay>
-                            <history>14</history>
-                            <trends>30</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>C</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Temperature thresholds</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>{#DISK}: Status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>mini.disk.info[{#DISK},DriveStatus]</key>
-                            <delay>0</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>2</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>mini-IPMI: Info</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
+                            <application_prototypes/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(DUMMY_NVME)}=1</expression>
-                            <name>{#DISK}: Assumed to be a placeholder NVMe</name>
+                            <name>{#DISK}: Assumed to be a placeholder NVMe (mini-IPMI)</name>
                             <url/>
                             <status>1</status>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_1)}=1</expression>
@@ -3083,54 +3077,64 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_2)}=1</expression>
                             <name>{#DISK}: Device open failed (mini-IPMI)</name>
                             <url/>
-                            <status>0</status>
+                            <status>1</status>
                             <priority>1</priority>
                             <description>Probably no administrative permissions for smartctl or incorrect device name.</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>({Template mini-IPMI v2:mini.disk.temp[{#DISK}].last()} &gt; {Template mini-IPMI v2:mini.disk.tempCrit[{#DISK}].last()}) and&#13;
 {Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
-                            <name>{#DISK}: Disk temperature is critical: {ITEM.LASTVALUE}</name>
+                            <name>{#DISK}: Disk temperature is critical</name>
                             <url/>
                             <status>0</status>
                             <priority>4</priority>
-                            <description>If last value is more than critical temperature setting and&#13;
+                            <description>Last value: {ITEM.LASTVALUE}&#13;
+If last value is more than critical temperature setting AND&#13;
 drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>({Template mini-IPMI v2:mini.disk.temp[{#DISK}].last()}  &gt; {Template mini-IPMI v2:mini.disk.tempMax[{#DISK}].last()}) and&#13;
 ({Template mini-IPMI v2:mini.disk.temp[{#DISK}].prev()} &gt; {Template mini-IPMI v2:mini.disk.tempMax[{#DISK}].last()}) and&#13;
 {Template mini-IPMI v2:mini.disk.temp[{#DISK}].count(2h)}&gt;=2 and&#13;
 {Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
-                            <name>{#DISK}: Disk temperature is too high: {ITEM.LASTVALUE}</name>
+                            <name>{#DISK}: Disk temperature is too high</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description>If last value is more than maximum temperature setting and&#13;
-previous value is more than maximum temperature setting and&#13;
+                            <description>Last value: {ITEM.LASTVALUE}&#13;
+If last value is more than maximum temperature setting AND&#13;
+previous value is more than maximum temperature setting AND&#13;
+there's been at least 2 values in the last 2 hours AND&#13;
 drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>({Template mini-IPMI v2:mini.disk.temp[{#DISK}].last()}  &lt; {Template mini-IPMI v2:mini.disk.tempMin[{#DISK}].last()}) and&#13;
 ({Template mini-IPMI v2:mini.disk.temp[{#DISK}].prev()} &lt; {Template mini-IPMI v2:mini.disk.tempMin[{#DISK}].last()}) and&#13;
-{Template mini-IPMI v2:mini.disk.temp[{#DISK}].count(2h)}&gt;=2 and&#13;
+{Template mini-IPMI v2:mini.disk.temp[{#DISK}].count(2h)}&gt;=3 and&#13;
 {Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
-                            <name>{#DISK}: Disk temperature is too low: {ITEM.LASTVALUE}</name>
+                            <name>{#DISK}: Disk temperature is too low</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
-                            <description>If last value is less than minimum temperature setting and&#13;
-previous value is less than minimum temperature setting and&#13;
+                            <description>Last value: {ITEM.LASTVALUE}&#13;
+If last value is less than minimum temperature setting AND&#13;
+previous value is less than minimum temperature setting AND&#13;
+there's been at least 3 values in the last 2 hours AND&#13;
 drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>({Template mini-IPMI v2:mini.disk.temp[{#DISK}].max(24h)} &gt; {Template mini-IPMI v2:mini.disk.tempCrit[{#DISK}].last()}) and&#13;
@@ -3142,6 +3146,7 @@ drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <description>If any value within last 24 hours exceeded critical temperature setting and&#13;
 last drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(NOSENSOR)}=1</expression>
@@ -3151,24 +3156,27 @@ last drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(SLEEP)}=1</expression>
-                            <name>{#DISK}: Is in SLEEP mode</name>
+                            <name>{#DISK}: Is in SLEEP mode (mini-IPMI)</name>
                             <url/>
                             <status>1</status>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(STANDBY)}=1</expression>
-                            <name>{#DISK}: Is in STANDBY mode</name>
+                            <name>{#DISK}: Is in STANDBY mode (mini-IPMI)</name>
                             <url/>
                             <status>1</status>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(NOTEMP)}=1</expression>
@@ -3176,8 +3184,9 @@ last drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <url/>
                             <status>0</status>
                             <priority>1</priority>
-                            <description/>
+                            <description>Take a look at noTemperatureSensorModels variable in the script and please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERROR)}=1</expression>
@@ -3187,6 +3196,7 @@ last drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].count(#3,&quot;TIMEOUT&quot;,&quot;eq&quot;)}&gt;=3</expression>
@@ -3196,72 +3206,125 @@ last drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
                             <priority>2</priority>
                             <description>Could indicate disk failure. Investigation is advised.</description>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(UNK_USB_BRIDGE)}=1</expression>
-                            <name>{#DISK}: Unknown USB bridge</name>
+                            <name>{#DISK}: Unknown USB bridge (mini-IPMI)</name>
                             <url/>
                             <status>1</status>
                             <priority>1</priority>
                             <description/>
                             <type>0</type>
+                            <dependencies/>
                         </trigger_prototype>
                     </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
             </discovery_rules>
-            <macros/>
+            <macros>
+                <macro>
+                    <macro>{$BOARD.FAN.MIN.RPM}</macro>
+                    <value>400</value>
+                </macro>
+                <macro>
+                    <macro>{$BOARD.HIGH.TEMP}</macro>
+                    <value>60</value>
+                </macro>
+                <macro>
+                    <macro>{$CPU.HIGH.TEMP}</macro>
+                    <value>60</value>
+                </macro>
+                <macro>
+                    <macro>{$EXPECTED.BIOS.VERS}</macro>
+                    <value>^4001$|^0508$|^P1\.90$|^0601$|^1801$|^V2\.7$</value>
+                </macro>
+                <macro>
+                    <macro>{$EXPECTED.OHMR.VERS}</macro>
+                    <value>^0\.8\.0\.5$|^0\.3\.2\.0$</value>
+                </macro>
+                <macro>
+                    <macro>{$GPU.FAN.MIN.RPM}</macro>
+                    <value>400</value>
+                </macro>
+                <macro>
+                    <macro>{$GPU.HIGH.TEMP}</macro>
+                    <value>70</value>
+                </macro>
+                <macro>
+                    <macro>{$GPU.MIN.MEM.MB}</macro>
+                    <value>32</value>
+                </macro>
+            </macros>
             <templates/>
             <screens/>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.disk.temp[MAX].last(500)}&gt;46</expression>
-            <name>Disk temperature is too high</name>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCMD)}=1</expression>
+            <name>CPU binary was not found in PATH or manually (mini-IPMI)</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template mini-IPMI v2:mini.cpu.temp[MAX].last()}&gt;{$CPU.HIGH.TEMP}</expression>
+            <name>CPU temperature is too high (over {$CPU.HIGH.TEMP} C)</name>
             <url/>
             <status>1</status>
             <priority>3</priority>
-            <description>(depending on values from last 500 seconds)&#13;
-This one is disabled - individual disk trigger takes precedence.</description>
+            <description>Last value: {ITEM.LASTVALUE}</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template mini-IPMI v2:mini.cpu.temp[MAX].max(24h)}&gt;{$CPU.HIGH.TEMP}</expression>
+            <name>CPU temperature was too high in past 24 hours (over {$CPU.HIGH.TEMP} C)</name>
+            <url/>
+            <status>1</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template mini-IPMI v2:mini.disk.temp[MAX].last()}&gt;46</expression>
+            <name>DISK temperature is too high</name>
+            <url/>
+            <status>1</status>
+            <priority>3</priority>
+            <description>Last value: {ITEM.LASTVALUE}</description>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.temp[MAX].max(24h)}&gt;46</expression>
-            <name>Disk temperature was too high in past 24 hours</name>
+            <name>DISK temperature was too high in past 24 hours</name>
             <url/>
             <status>1</status>
             <priority>2</priority>
-            <description>(depending on values from last day)&#13;
-This one is disabled - individual disk trigger takes precedence.</description>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCMD,#3)}=1</expression>
-            <name>mini-IPMI: CPU binary was not found in PATH or manually</name>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
             <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUS,#3)}=1</expression>
-            <name>mini-IPMI: no CPUs were found for temperature test</name>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUS)}=1</expression>
+            <name>No CPUs were found for temperature test (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
-            <description/>
+            <description>Please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NODISKS)}=1</expression>
-            <name>mini-IPMI: no DISKs were found for temperature test</name>
+            <name>No DISKs were found for temperature test (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -3270,8 +3333,8 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOGPUS,#3)}=1</expression>
-            <name>mini-IPMI: no GPUs were found for temperature test</name>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOGPUS)}=1</expression>
+            <name>No GPUs were found for temperature test (mini-IPMI)</name>
             <url/>
             <status>1</status>
             <priority>1</priority>
@@ -3280,10 +3343,10 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS,4d)}=1</expression>
-            <name>mini-IPMI: no temperatures were found among CPUs</name>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS)}=1</expression>
+            <name>No temperatures was found among CPUs (mini-IPMI)</name>
             <url/>
-            <status>0</status>
+            <status>1</status>
             <priority>1</priority>
             <description/>
             <type>0</type>
@@ -3291,7 +3354,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NODISKTEMPS)}=1</expression>
-            <name>mini-IPMI: no temperatures were found among DISKs</name>
+            <name>No temperatures was found among DISKs (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -3300,8 +3363,8 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOGPUTEMPS,#3)}=1</expression>
-            <name>mini-IPMI: no temperatures were found among GPUs</name>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(NOGPUTEMPS)}=1</expression>
+            <name>No temperatures was found among GPUs (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -3311,7 +3374,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(NOCMD)}=1</expression>
-            <name>mini-IPMI: smartctl was not found in PATH or manually</name>
+            <name>smartctl was not found in PATH or manually (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -3320,28 +3383,38 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(ERROR,#3)}=1</expression>
-            <name>mini-IPMI: something went wrong with CPU configuration</name>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(ERROR)}=1</expression>
+            <name>Something went wrong with CPU configuration (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
+            <description>Ensure you configuration is up to date and please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[SendStatus].str(ERROR,12h)}=1</expression>
+            <name>Something went wrong with CPU sending (mini-IPMI)</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].str(ERROR)}=1</expression>
-            <name>mini-IPMI: something went wrong with DISK configuration</name>
+            <name>Something went wrong with DISK configuration (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
-            <description/>
+            <description>Ensure you configuration is up to date and please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[SendStatus].str(ERROR,12h)}=1</expression>
-            <name>mini-IPMI: something went wrong with DISK sending</name>
+            <name>Something went wrong with DISK sending (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>2</priority>
@@ -3351,7 +3424,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].nodata(7d)}=1</expression>
-            <name>mini-IPMI: template is assigned, but no CPU data is recieved</name>
+            <name>Template is assigned, but no CPU data recieved (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -3361,7 +3434,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[ConfigStatus].nodata(7d)}=1</expression>
-            <name>mini-IPMI: template is assigned, but no DISK data is recieved</name>
+            <name>Template is assigned, but no DISK data recieved (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -3370,8 +3443,8 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.cpu.info[ConfigStatus].str(HUGEDATA,#3)}=1</expression>
-            <name>mini-IPMI: too much data for CPU sending</name>
+            <expression>{Template mini-IPMI v2:mini.cpu.info[SendStatus].str(HUGEDATA,12h)}=1</expression>
+            <name>Too much data for CPU sending (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>2</priority>
@@ -3381,7 +3454,7 @@ This one is disabled - individual disk trigger takes precedence.</description>
         </trigger>
         <trigger>
             <expression>{Template mini-IPMI v2:mini.disk.info[SendStatus].str(HUGEDATA,12h)}=1</expression>
-            <name>mini-IPMI: too much data for DISK sending</name>
+            <name>Too much data for DISK sending (mini-IPMI)</name>
             <url/>
             <status>0</status>
             <priority>2</priority>
@@ -3390,12 +3463,22 @@ This one is disabled - individual disk trigger takes precedence.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template mini-IPMI v2:mini.brd.info[BIOSversion].regexp(^4001$|^0508$|^P1.90$|^0601$|^1801$|^V2.7$)}=0</expression>
-            <name>Unexpected BIOS firmware version: {ITEM.LASTVALUE}</name>
+            <expression>{Template mini-IPMI v2:mini.brd.info[BIOSversion].regexp({$EXPECTED.BIOS.VERS})}=0</expression>
+            <name>Unexpected BIOS firmware version (mini-IPMI)</name>
             <url/>
-            <status>1</status>
+            <status>0</status>
             <priority>1</priority>
-            <description>List of newest BIOS firmware versions on the clients.</description>
+            <description>Last value: {ITEM.LASTVALUE}</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template mini-IPMI v2:mini.info[OHMRversion].regexp({$EXPECTED.OHMR.VERS})}=0</expression>
+            <name>Unexpected OHMR version</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description>Last value: {ITEM.LASTVALUE}</description>
             <type>0</type>
             <dependencies/>
         </trigger>
