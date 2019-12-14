@@ -85,10 +85,11 @@ def getOutput(binPath_):
     else:
         error = 'CONFIGURED'
 
-    pSplit = p.strip()
-    pSplit = pSplit.split('\n\n')
+    if p:
+        p = p.strip()
+        p = p.split('\n\n')
 
-    return error, pSplit
+    return error, p
 
 
 def getVoltages(pOut_):
