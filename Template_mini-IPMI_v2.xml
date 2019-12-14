@@ -3083,7 +3083,7 @@ Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.
                             <expression>{Template mini-IPMI v2:mini.disk.info[{#DISK},DriveStatus].str(ERR_CODE_2)}=1</expression>
                             <name>{#DISK}: Device open failed (mini-IPMI)</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>1</priority>
                             <description>Probably no administrative permissions for smartctl or incorrect device name.</description>
                             <type>0</type>
