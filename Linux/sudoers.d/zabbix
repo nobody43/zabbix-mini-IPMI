@@ -1,4 +1,4 @@
-Defaults:zabbix !requiretty
-Cmnd_Alias ZABBIX_CMD = /etc/zabbix/scripts/mini_ipmi_smartctl.py
-zabbix   ALL = (other_user)  NOPASSWD: ALL
-zabbix   ALL = (root)        NOPASSWD: ZABBIX_CMD
+#Defaults:zabbix !requiretty   # Uncomment in case of sudo errors
+
+zabbix	ALL=NOPASSWD:	/etc/zabbix/scripts/mini_ipmi_smartctl.py
+
