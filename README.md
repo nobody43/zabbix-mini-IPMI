@@ -15,16 +15,13 @@ CPU and disk temperature monitoring scripts for zabbix. Also support voltage and
 [More screenshots.](https://github.com/nobodysu/zabbix-mini-IPMI/tree/master/screenshots)
 
 ### STANDBY drives
-Update intervals on discovery scripts are set in a way to never induce drive spun up or prevent the disk from entering standby mode. With latest OHMR, however, drives will always be checked and spinned. Thus, update interval for cpu discovery must be less than disk idle mode on OS (20 minutes on Windows by default). This way the drive will not be spinned for every check.
-If you have more than one disk - please keep close attention to update interval setting and choose apropriate OHMR version.
+UPD: not relevant anymore. Just use custom 0.8.0.5.
 
 ### Choosing OHMR version
 #### [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845)
-That's the only available version without drive monitoring, but its hardware information is outdated. Any other version than this will work very slowly on Windows XP.
-#### [0.5.1.7](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issuecomment-133940467)
-Introduces drive monitoring, thus making idle drives spun on CPU every check. Wider hardware info.
-#### [0.8.0.2](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/776#issuecomment-313606249)
-2017 version with drive monitoring.
+Version for Windows XP.
+#### [0.8.0.5](https://github.com/openhardwaremonitor/openhardwaremonitor/pull/1115#issuecomment-462141642)
+Only version for Windows 7+.
 
 ## Installation
 As prerequisites you need `python3`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. For testing `zabbix-get` is also required.<br />
