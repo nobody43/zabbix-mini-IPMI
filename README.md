@@ -104,4 +104,5 @@ These scripts were tested to work with following configurations:
 - https://github.com/openhardwaremonitor/openhardwaremonitor
 - https://unlicense.org
 - [Disk SMART monitoring solution](https://github.com/nobodysu/zabbix-smartmontools)
+- [Last Zabbix 2.4 version](https://github.com/nobodysu/zabbix-mini-IPMI/tree/last_zabbix24_unsupported)
 - [Older unsupported mini-IPMI version with simpler approach](https://github.com/nobodysu/zabbix-mini-IPMI/tree/old_v1_unsupported)
