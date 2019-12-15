@@ -18,6 +18,7 @@ CPU and disk temperature monitoring scripts for zabbix. Also support voltage and
 UPD: not relevant anymore. Just use custom 0.8.0.5.
 
 ### Choosing OHMR version
+NEW: [Update](https://github.com/openhardwaremonitor/openhardwaremonitor/pull/1115#issuecomment-462141642) your OHMR version!
 #### [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845)
 Version for Windows XP.
 #### [0.8.0.5](https://github.com/openhardwaremonitor/openhardwaremonitor/pull/1115#issuecomment-462141642)
