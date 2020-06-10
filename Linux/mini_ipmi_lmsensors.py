@@ -40,6 +40,7 @@ CORES_REGEXPS = (
     ('Core(?:\s+)?(\d+):\n\s+temp\d+_input:\s+(\d+)'),
     ('Core(\d+)\s+Temp:\n\s+temp\d+_input:\s+(\d+)'),
     ('Tdie:\n\s+temp(\d+)_input:\s+(\d+)'),
+    ('k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
 )
 
 TIMEOUT = '80'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
@@ -166,7 +167,7 @@ def getGpuData(pOut_):
     gpuBlocks = -1
     allTemps = []
     for i in pOut_:
-        temp = re.search(r'(nouveau.+|nvidia.+)\n.+\n.+\n(?:\s+)?temp\d+_input:\s+(\d+)', i, re.I)
+        temp = re.search(r'(nouveau.+|nvidia.+|radeon.+)\n.+\n.+\n(?:\s+)?temp\d+_input:\s+(\d+)', i, re.I)
         if temp:
             gpuid = temp.group(1)
             val = temp.group(2)
