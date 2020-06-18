@@ -63,6 +63,8 @@ modelPatterns = (
 # First match returned right away; re.IGNORECASE | re.MULTILINE
 temperaturePatterns = (
     '^(?:\s+)?\d+\s+Temperature_Celsius\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
+    '^(?:\s+)?\d+\s+Temperature_Internal\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
+    '^(?:\s+)?\d+\s+Temperature_Case\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
     '^(?:\s+)?Current\s+Drive\s+Temperature:\s+(\d+)\s+',
     '^(?:\s+)?Temperature:\s+(\d+)\s+C',
     '^(?:\s+)?\d+\s+Airflow_Temperature_Cel\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
