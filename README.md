@@ -15,18 +15,30 @@ CPU and disk temperature monitoring scripts for zabbix. Also support voltage and
 [More screenshots.](https://github.com/nobodysu/zabbix-mini-IPMI/tree/master/screenshots)
 
 ### STANDBY drives
-UPD: not relevant anymore. Just use custom 0.8.0.5.
+UPD: not relevant anymore. Just use custom 0.8.0.5+.
 
 ### Choosing OHMR version
-NEW: [Update](https://github.com/openhardwaremonitor/openhardwaremonitor/pull/1115#issuecomment-462141642) your OHMR version!
+NEW: [Update](https://github.com/openhardwaremonitor/openhardwaremonitor/pull/1115#issuecomment-616230088) your OHMR version!
 #### [0.3.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/issues/230#issue-102662845)
 Version for Windows XP.
 #### [0.8.0.5](https://github.com/openhardwaremonitor/openhardwaremonitor/pull/1115#issuecomment-462141642)
-Only version for Windows 7+.
+#### [0.9.2.0](https://github.com/openhardwaremonitor/openhardwaremonitor/pull/1115#issuecomment-616230088)
+Only custom param-capable versions are supported on Windows 7+.
 
 ## Installation
-As prerequisites you need `python3`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. For testing `zabbix-get` is also required.<br />
-Take a look at scripts first lines and provide paths if needed. If you have a RAID configuration, also provide that by hand. Import `Template_mini-IPMI_v2.xml` in zabbix web interface.
+As prerequisites you need `python3`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. For testing `zabbix-get` is also required.
+### Debian / Ubuntu
+```sh
+client# apt install python3 sudo zabbix-agent zabbix-sender smartmontools lm-sensors
+server# apt install zabbix-get
+```
+### Centos
+```sh
+client# yum install python3 sudo zabbix-agent zabbix-sender smartmontools lm_sensors
+server# yum install zabbix-get
+```
+
+Take a look at scripts first lines and provide paths if needed. If you have custom RAID configuration, also provide that by hand. Import `Template_mini-IPMI_v2.xml` in zabbix web interface.
 
 ### First step
 #### Linux
