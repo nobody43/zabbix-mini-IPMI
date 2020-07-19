@@ -26,7 +26,8 @@ Version for Windows XP.
 Only custom param-capable versions are supported on Windows 7+.
 
 ## Installation
-As prerequisites you need `python3`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. For testing `zabbix-get` is also required.
+As prerequisites you need `python3`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. For testing `zabbix-get` is also required.<br />
+Take a look at scripts first lines and provide paths if needed. If you have custom RAID configuration, also provide that by hand. Import `Template_mini-IPMI_v2.xml` in zabbix web interface.
 ### Debian / Ubuntu
 ```sh
 client# apt install python3 sudo zabbix-agent zabbix-sender smartmontools lm-sensors
@@ -37,9 +38,6 @@ server# apt install zabbix-get
 client# yum install python3 sudo zabbix-agent zabbix-sender smartmontools lm_sensors
 server# yum install zabbix-get
 ```
-
-Take a look at scripts first lines and provide paths if needed. If you have custom RAID configuration, also provide that by hand. Import `Template_mini-IPMI_v2.xml` in zabbix web interface.
-
 ### First step
 #### Linux
 ```bash
