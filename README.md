@@ -29,37 +29,37 @@ Only custom param-capable versions are supported on Windows 7+.
 As prerequisites you need `python3`, `lm-sensors`, `smartmontools`, `sudo` and `zabbix-sender` packages. For testing `zabbix-get` is also required.<br />
 Take a look at scripts first lines and provide paths if needed. If you have custom RAID configuration, also provide that by hand. Import `Template_mini-IPMI_v2.xml` in zabbix web interface.
 ### Debian / Ubuntu
-```sh
+```bash
 client# apt install python3 sudo zabbix-agent zabbix-sender smartmontools lm-sensors
 server# apt install zabbix-get
 ```
 ### Centos
-```sh
+```bash
 client# yum install python3 sudo zabbix-agent zabbix-sender smartmontools lm_sensors
 server# yum install zabbix-get
 ```
 ### First step
 #### Linux
 ```bash
-mv mini_ipmi_smartctl.py Linux/mini_ipmi_lmsensors.py sender_wrapper.py /etc/zabbix/scripts/
-mv Linux/sudoers.d/zabbix /etc/sudoers.d/   # place sudoers include here for mini_ipmi_smartctl.py sudo access
-mv Linux/zabbix_agentd.d/userparameter_mini-ipmi2.conf /etc/zabbix/zabbix_agentd.d/
+client# mv mini_ipmi_smartctl.py Linux/mini_ipmi_lmsensors.py sender_wrapper.py /etc/zabbix/scripts/
+client# mv Linux/sudoers.d/zabbix /etc/sudoers.d/   # place sudoers include here for mini_ipmi_smartctl.py sudo access
+client# mv Linux/zabbix_agentd.d/userparameter_mini-ipmi2.conf /etc/zabbix/zabbix_agentd.d/
 ```
 
 #### FreeBSD
 ```bash
-mv mini_ipmi_smartctl.py BSD/mini_ipmi_bsdcpu.py sender_wrapper.py /etc/zabbix/scripts/
-mv BSD/sudoers.d/zabbix /usr/local/etc/sudoers.d/
-mv BSD/zabbix_agentd.conf.d/userparameter_mini-ipmi2.conf /usr/local/etc/zabbix/zabbix_agentd.d/
+client# mv mini_ipmi_smartctl.py BSD/mini_ipmi_bsdcpu.py sender_wrapper.py /etc/zabbix/scripts/
+client# mv BSD/sudoers.d/zabbix /usr/local/etc/sudoers.d/
+client# mv BSD/zabbix_agentd.conf.d/userparameter_mini-ipmi2.conf /usr/local/etc/zabbix/zabbix_agentd.d/
 ```
 Then, for Intel processor you need to add `coretemp_load="YES"` to `/boot/loader.conf`. For AMD it will be `amdtemp_load="YES"`. Reboot or manual `kldload` is required to take effect.
 
 #### Windows
 ```cmd
-move mini_ipmi_smartctl.py C:\zabbix-agent\scripts\
-move mini_ipmi_ohmr.py C:\zabbix-agent\scripts\
-move sender_wrapper.py C:\zabbix-agent\scripts\
-move userparameter_mini-ipmi2.conf C:\zabbix-agent\zabbix_agentd.conf.d\
+client> move mini_ipmi_smartctl.py C:\zabbix-agent\scripts\
+client> move mini_ipmi_ohmr.py C:\zabbix-agent\scripts\
+client> move sender_wrapper.py C:\zabbix-agent\scripts\
+client> move userparameter_mini-ipmi2.conf C:\zabbix-agent\zabbix_agentd.conf.d\
 ```
 Install `python3` for [all users](https://github.com/nobodysu/zabbix-mini-IPMI/blob/master/screenshots/mini-IPMI-python-installation1.png), [adding it to](https://github.com/nobodysu/zabbix-mini-IPMI/blob/master/screenshots/mini-IPMI-python-installation2.png) `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for `OpenHardwareMonitorReport`.
 
@@ -72,26 +72,36 @@ Also its recomended to add at least `Timeout=10` to config file to allow drives 
 
 Thats all for Windows. For others run the following to finish configuration:
 ```bash
-chmod 755 scripts/mini_ipmi*.py scripts/sender_wrapper.py   # apply necessary permissions
-chown root:zabbix scripts/mini_ipmi*.py scripts/sender_wrapper.py 
-chmod 644 userparameter_mini-ipmi2.conf
-chown root:zabbix userparameter_mini-ipmi2.conf
-chmod 400 sudoers.d/zabbix
-chown root sudoers.d/zabbix
-visudo   # test sudoers configuration, type :q! to exit
+client# chmod 755 scripts/mini_ipmi*.py scripts/sender_wrapper.py   # apply necessary permissions
+client# chown root:zabbix scripts/mini_ipmi*.py scripts/sender_wrapper.py 
+client# chmod 644 userparameter_mini-ipmi2.conf
+client# chown root:zabbix userparameter_mini-ipmi2.conf
+client# chmod 400 sudoers.d/zabbix
+client# chown root sudoers.d/zabbix
+client# visudo   # test sudoers configuration, type :q! to exit
 ```
 
 ## Testing
 ```bash
-zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[get,"Example host"]
-zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[get,"Example host"]
+server$ zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[get,"Example host"]
+server$ zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[get,"Example host"]
+```
+or locally:
+```bash
+client$ /etc/zabbix/scripts/mini_ipmi_lmsensors.py get "Example host"
+client$ /etc/zabbix/scripts/mini_ipmi_smartctl.py  get "Example host"
 ```
 Default operation mode. Displays json that server should get, detaches, then waits and sends data with zabbix-sender. `Example host` is your `Host name` field in zabbix.
 <br /><br />
 
 ```bash
-zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[getverb,"Example host"]
-zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[getverb,"Example host"]
+server$ zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[getverb,"Example host"]
+server$ zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[getverb,"Example host"]
+```
+or locally:
+```bash
+client$ /etc/zabbix/scripts/mini_ipmi_lmsensors.py getverb "Example host"
+client$ /etc/zabbix/scripts/mini_ipmi_smartctl.py  getverb "Example host"
 ```
 Verbose mode. Does not detaches or prints LLD. Lists all items sent to zabbix-sender, also it is possible to see sender output in this mode.
 <br /><br />
