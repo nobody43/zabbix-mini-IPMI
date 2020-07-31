@@ -100,8 +100,8 @@ server$ zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[getverb,"Example host
 ```
 or locally:
 ```mixed
-client$        /etc/zabbix/scripts/mini_ipmi_lmsensors.py      getverb "Example host"
-client> python "C:\zabbix-agent\scripts\mini_ipmi_smartctl.py" getverb "Example host"
+client$ /etc/zabbix/scripts/mini_ipmi_lmsensors.py getverb "Example host"
+client_admin!_console> python "C:\zabbix-agent\scripts\mini_ipmi_ohmr.py" getverb "Example host"
 ```
 Verbose mode. Does not detaches or prints LLD. Lists all items sent to zabbix-sender, also it is possible to see sender output in this mode.
 <br /><br />
