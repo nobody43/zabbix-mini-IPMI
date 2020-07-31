@@ -91,7 +91,7 @@ or locally:
 client$ /etc/zabbix/scripts/mini_ipmi_lmsensors.py get "Example host"
 client$ /etc/zabbix/scripts/mini_ipmi_smartctl.py  get "Example host"
 ```
-Default operation mode. Displays json that server should get, detaches, then waits and sends data with zabbix-sender. `Example host` is your `Host name` field in zabbix.
+Default operation mode. Displays json that server should get, detaches, then waits and sends data with zabbix-sender. `Example host` is your `Host name` field in zabbix. You might want to use nonexistent name for testing to avoid unnecessary database pollution (client introduces itself with this name and false names will be ignored).
 <br /><br />
 
 ```bash
