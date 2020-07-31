@@ -99,9 +99,9 @@ server$ zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[getverb,"Example host"
 server$ zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[getverb,"Example host"]
 ```
 or locally:
-```bash
-client$ /etc/zabbix/scripts/mini_ipmi_lmsensors.py getverb "Example host"
-client$ /etc/zabbix/scripts/mini_ipmi_smartctl.py  getverb "Example host"
+```mixed
+client$        /etc/zabbix/scripts/mini_ipmi_lmsensors.py      getverb "Example host"
+client> python "C:\zabbix-agent\scripts\mini_ipmi_smartctl.py" getverb "Example host"
 ```
 Verbose mode. Does not detaches or prints LLD. Lists all items sent to zabbix-sender, also it is possible to see sender output in this mode.
 <br /><br />
@@ -110,7 +110,7 @@ These scripts were tested to work with following configurations:
 - Centos 7 / Zabbix 3.0 / Python 3.6
 - Debian 9 / Zabbix 3.0 / Python 3.5
 - Debian 10 / Server 5.0 / Agent 4.0 / Python 3.7
-- Ubuntu 17.10 / Zabbix 3.0 / Python 3.6
+- Ubuntu 20.04 / Server 5.0 / Agent 4.0 / Python 3.8
 - FreeBSD 10.3 / Zabbix 3.0 / Python 3.6
 - Windows XP / Zabbix 3.0 / Python 3.4
 - Windows 7 / Zabbix (3.0, 5.0) / Python (3.4, 3.7, 3.8)
