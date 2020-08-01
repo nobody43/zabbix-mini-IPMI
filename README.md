@@ -61,7 +61,7 @@ client> move mini_ipmi_ohmr.py C:\zabbix-agent\scripts\
 client> move sender_wrapper.py C:\zabbix-agent\scripts\
 client> move userparameter_mini-ipmi2.conf C:\zabbix-agent\zabbix_agentd.conf.d\
 ```
-Install `python3` for [all users](https://github.com/nobodysu/zabbix-mini-IPMI/blob/master/screenshots/mini-IPMI-python-installation1.png), [adding it to](https://github.com/nobodysu/zabbix-mini-IPMI/blob/master/screenshots/mini-IPMI-python-installation2.png) `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for `OpenHardwareMonitorReport`.
+Install `python3` for [all users](https://github.com/nobodysu/zabbix-mini-IPMI/blob/master/screenshots/python-installation2.png), [adding it to](https://github.com/nobodysu/zabbix-mini-IPMI/blob/master/screenshots/python-installation1.png) `PATH` during installation. Install `smartmontools` and add its bin folder to `PATH` in environment variables. `.NET Framework` is also required for `OpenHardwareMonitorReport`.
 
 ### Second step
 Then you need to include your zabbix conf folder in `zabbix_agentd.conf`, like this:
