@@ -244,7 +244,14 @@ def getCpusData(pOut_):
         elif isCpuWithoutSensor(name):
             sender.append('"%s" mini.cpu.info[cpu%s,CPUstatus] "NO_SENSOR"' % (HOST, id))
         else:
-            sender.append('"%s" mini.cpu.info[cpu%s,CPUstatus] "NO_TEMP"'   % (HOST, id))
+            packageTempsRe = re.findall(r'Package.+:\s+(\d+).+\(\/[\w-]+cpu\/%s\/temperature\/(\d+)\)' % id, pOut_, re.I)
+            if packageTempsRe:
+                sender.append('"%s" mini.cpu.info[cpu%s,CPUstatus] "PROCESSED"' % (HOST, id))
+                for packagetemp, packageid in packageTempsRe:
+                    allTemps.append(int(packagetemp))
+
+            else:
+                sender.append('"%s" mini.cpu.info[cpu%s,CPUstatus] "NO_TEMP"'   % (HOST, id))
 
     if cpus:
         if allTemps:
