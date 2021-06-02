@@ -3,9 +3,9 @@
 ## Installation instructions: https://github.com/nobodysu/zabbix-mini-IPMI ##
 
 # Only one out of three system-specific setting is used, PATH considered.
-binPath_LINUX      = r'smartctl'
+binPath_LINUX      = r'sudo smartctl'
 binPath_WIN        = r'C:\Program Files\smartmontools\bin\smartctl.exe'
-binPath_OTHER      = r'/usr/local/sbin/smartctl'
+binPath_OTHER      = r'sudo /usr/local/sbin/smartctl'
 
 # path to zabbix agent configuration file
 agentConf_LINUX    = r'/etc/zabbix/zabbix_agentd.conf'
@@ -50,6 +50,7 @@ diskListManual = []
 noTemperatureSensorModels = (
     'INTEL SSDSC2CW060A3',
     'AXXROMBSASMR',
+    'PLEXTOR PX-256M6Pro',
 )
 
 # re.IGNORECASE | re.MULTILINE
@@ -83,9 +84,9 @@ from sender_wrapper import (fail_ifNot_Py3, sanitizeStr, clearDiskTypeStr, proce
 def scanDisks(mode):
     '''Determines available disks. Can be skipped.'''
     if mode == 'NOTYPE':
-        cmd = [binPath, '--scan']
+        cmd = binPath + ['--scan']
     elif mode == 'NVME':
-        cmd = [binPath, '--scan', '-d', 'nvme']
+        cmd = binPath + ['--scan', '-d', 'nvme']
     else:
         print('Invalid type %s. Terminating.' % mode)
         sys.exit(1)
@@ -171,7 +172,7 @@ def findErrorsAndOuts(cD):
     p = ''
 
     try:
-        cmd = [binPath, '-A', '-i', '-n', 'standby'] + shlex.split(cD)
+        cmd = binPath + ['-A', '-i', '-n', 'standby'] + shlex.split(cD)
 
         if      (sys.version_info.major == 3 and
                  sys.version_info.minor <= 2):
@@ -250,8 +251,9 @@ def findSerial(p):
 
 
 def chooseSystemSpecificPaths():
+
     if sys.platform.startswith('linux'):
-        binPath_        = binPath_LINUX
+        binPath_        = shlex.split(binPath_LINUX)
         agentConf_      = agentConf_LINUX
         senderPath_     = senderPath_LINUX
         senderPyPath_   = senderPyPath_LINUX
@@ -263,7 +265,7 @@ def chooseSystemSpecificPaths():
         senderPyPath_   = senderPyPath_WIN
 
     else:
-        binPath_        = binPath_OTHER
+        binPath_        = shlex.split(binPath_OTHER)
         agentConf_      = agentConf_OTHER
         senderPath_     = senderPath_OTHER
         senderPyPath_   = senderPyPath_OTHER
