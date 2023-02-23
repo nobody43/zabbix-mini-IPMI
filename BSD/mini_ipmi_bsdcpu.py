@@ -13,8 +13,8 @@ AGENT_CONF_PATH = r'/usr/local/etc/zabbix3/zabbix_agentd.conf'
 SENDER_PATH = r'zabbix_sender'
 #SENDER_PATH = r'/usr/bin/zabbix_sender'
 
-TIMEOUT = '80'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
-                       # this setting MUST be lower than 'Update interval' in discovery rule
+DELAY = '50'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
+                     # this setting MUST be lower than 'Update interval' in discovery rule
 TJMAX = '70'
 
 ## End of configuration ##
@@ -107,5 +107,5 @@ if __name__ == '__main__':
 
     link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.cpu.info[SendStatus]'
-    processData(senderData, jsonData, AGENT_CONF_PATH, SENDER_WRAPPER_PATH, SENDER_PATH, TIMEOUT, HOST, link, sendStatusKey)
+    processData(senderData, jsonData, AGENT_CONF_PATH, SENDER_WRAPPER_PATH, SENDER_PATH, DELAY, HOST, link, sendStatusKey)
 

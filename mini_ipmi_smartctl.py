@@ -37,8 +37,8 @@ isHeavyDebug = False
 
 perDiskTimeout = 3   # Single disk query can not exceed this value. Python33 or above required.
 
-timeout = '80'   # How long the script must wait between LLD and sending, increase if data received late (does not affect windows).
-                 # This setting MUST be lower than 'Update interval' in discovery rule.
+delay = '50'   # How long the script must wait between LLD and sending, increase if data received late (does not affect windows).
+               # This setting MUST be lower than 'Update interval' in discovery rule.
 
 # Manually provide disk list or RAID configuration if needed.
 diskListManual = []
@@ -410,5 +410,5 @@ if __name__ == '__main__':
 
     link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.disk.info[SendStatus]'
-    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host, link, sendStatusKey)
+    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, delay, host, link, sendStatusKey)
 

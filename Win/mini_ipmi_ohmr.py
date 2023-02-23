@@ -62,8 +62,8 @@ VOLTAGE_REGEXPS_KEYS_AND_JSONS = (
     ('^VTT$',                               'VTT',      '{#VTT}'),
 )
 
-TIMEOUT = '50'              # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
-                            # this setting MUST be lower than 'Update interval' in discovery rule
+DELAY = '50'              # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
+                          # this setting MUST be lower than 'Update interval' in discovery rule
 
 ## End of configuration ##
 
@@ -475,5 +475,5 @@ if __name__ == '__main__':
         
     link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.cpu.info[SendStatus]'
-    processData(senderData, jsonData, AGENT_CONF_PATH, SENDER_WRAPPER_PATH, SENDER_PATH, TIMEOUT, HOST, link, sendStatusKey)
+    processData(senderData, jsonData, AGENT_CONF_PATH, SENDER_WRAPPER_PATH, SENDER_PATH, DELAY, HOST, link, sendStatusKey)
 

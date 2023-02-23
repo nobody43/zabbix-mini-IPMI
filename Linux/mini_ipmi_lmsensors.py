@@ -43,8 +43,8 @@ CORES_REGEXPS = (
     ('k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
 )
 
-TIMEOUT = '80'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
-                       # this setting MUST be lower than 'Update interval' in discovery rule
+DELAY = '50'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
+                     # this setting MUST be lower than 'Update interval' in discovery rule
 
 ## End of configuration ##
 
