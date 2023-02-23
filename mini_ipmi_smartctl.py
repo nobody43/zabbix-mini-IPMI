@@ -3,22 +3,22 @@
 ## Installation instructions: https://github.com/nobodysu/zabbix-mini-IPMI ##
 
 # Only one out of three system-specific setting is used, PATH considered.
-binPath_LINUX      = r'sudo smartctl'
+binPath_LINUX      = r'smartctl'
 binPath_WIN        = r'C:\Program Files\smartmontools\bin\smartctl.exe'
-binPath_OTHER      = r'sudo /usr/local/sbin/smartctl'
+binPath_OTHER      = r'/usr/local/sbin/smartctl'
 
 # path to zabbix agent configuration file
 agentConf_LINUX    = r'/etc/zabbix/zabbix_agentd.conf'
-agentConf_WIN      = r'C:\zabbix_agentd.conf'
+agentConf_WIN      = r'C:\Program Files\Zabbix Agent\zabbix_agentd.conf'
 agentConf_OTHER    = r'/usr/local/etc/zabbix3/zabbix_agentd.conf'
 
 senderPath_LINUX   = r'zabbix_sender'
-senderPath_WIN     = r'C:\zabbix-agent\bin\win32\zabbix_sender.exe'
+senderPath_WIN     = r'C:\Program Files\Zabbix Agent\zabbix_sender.exe'
 senderPath_OTHER   = r'/usr/local/bin/zabbix_sender'
 
 # path to second send script
 senderPyPath_LINUX = r'/etc/zabbix/scripts/sender_wrapper.py'
-senderPyPath_WIN   = r'C:\zabbix-agent\scripts\sender_wrapper.py'
+senderPyPath_WIN   = r'C:\Program Files\Zabbix Agent\scripts\sender_wrapper.py'
 senderPyPath_OTHER = r'/usr/local/etc/zabbix/scripts/sender_wrapper.py'
 
 
@@ -84,9 +84,9 @@ from sender_wrapper import (fail_ifNot_Py3, sanitizeStr, clearDiskTypeStr, proce
 def scanDisks(mode):
     '''Determines available disks. Can be skipped.'''
     if mode == 'NOTYPE':
-        cmd = binPath + ['--scan']
+        cmd = addSudoIfNix([binPath, '--scan'])
     elif mode == 'NVME':
-        cmd = binPath + ['--scan', '-d', 'nvme']
+        cmd = addSudoIfNix([binPath, '--scan', '-d', 'nvme'])
     else:
         print('Invalid type %s. Terminating.' % mode)
         sys.exit(1)
@@ -172,7 +172,7 @@ def findErrorsAndOuts(cD):
     p = ''
 
     try:
-        cmd = binPath + ['-A', '-i', '-n', 'standby'] + shlex.split(cD)
+        cmd = addSudoIfNix([binPath, '-A', '-i', '-n', 'standby']) + shlex.split(cD)
 
         if      (sys.version_info.major == 3 and
                  sys.version_info.minor <= 2):
@@ -253,7 +253,7 @@ def findSerial(p):
 def chooseSystemSpecificPaths():
 
     if sys.platform.startswith('linux'):
-        binPath_        = shlex.split(binPath_LINUX)
+        binPath_        = binPath_LINUX
         agentConf_      = agentConf_LINUX
         senderPath_     = senderPath_LINUX
         senderPyPath_   = senderPyPath_LINUX
@@ -265,7 +265,7 @@ def chooseSystemSpecificPaths():
         senderPyPath_   = senderPyPath_WIN
 
     else:
-        binPath_        = shlex.split(binPath_OTHER)
+        binPath_        = binPath_OTHER
         agentConf_      = agentConf_OTHER
         senderPath_     = senderPath_OTHER
         senderPyPath_   = senderPyPath_OTHER
@@ -288,8 +288,8 @@ def isModelWithoutSensor(p):
                 break
 
     return result
-    
-    
+
+
 def isDummyNVMe(p):
     subsystemRe = re.search(r'Subsystem ID:\s+0x0000', p, re.I)
     ouiRe =       re.search(r'IEEE OUI Identifier:\s+0x000000', p, re.I)
@@ -300,6 +300,15 @@ def isDummyNVMe(p):
         return True
     else:
         return False
+
+
+def addSudoIfNix(cmd):
+    
+    result = cmd
+    if not sys.platform == 'win32':
+        result = ['sudo'] + cmd
+
+    return result
 
 
 if __name__ == '__main__':

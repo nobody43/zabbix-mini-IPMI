@@ -1,3 +1,4 @@
-#Defaults:zabbix !requiretty   # Uncomment in case of sudo errors
+#Defaults:zabbix !requiretty   # Older sudo
 
+# Covers multiple projects
 zabbix ALL=NOPASSWD: /usr/sbin/smartctl --scan, /usr/sbin/smartctl --scan -d nvme, /usr/sbin/smartctl -a /dev/*, /usr/sbin/smartctl -A -i -n standby /dev/*
