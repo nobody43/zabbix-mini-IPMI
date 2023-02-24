@@ -1,3 +1,4 @@
 #Defaults:zabbix !requiretty   # Older sudo
 
 zabbix ALL=NOPASSWD: /usr/sbin/smartctl, /usr/bin/smartctl, /usr/local/sbin/smartctl, /sbin/smartctl, /bin/smartctl
+
