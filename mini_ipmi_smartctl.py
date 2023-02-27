@@ -9,16 +9,16 @@ binPath_OTHER      = r'/usr/local/sbin/smartctl'
 
 # path to zabbix agent configuration file
 agentConf_LINUX    = r'/etc/zabbix/zabbix_agentd.conf'
-agentConf_WIN      = r'C:\zabbix_agentd.conf'
+agentConf_WIN      = r'C:\Program Files\Zabbix Agent\zabbix_agentd.conf'
 agentConf_OTHER    = r'/usr/local/etc/zabbix3/zabbix_agentd.conf'
 
 senderPath_LINUX   = r'zabbix_sender'
-senderPath_WIN     = r'C:\zabbix-agent\bin\win32\zabbix_sender.exe'
+senderPath_WIN     = r'C:\Program Files\Zabbix Agent\zabbix_sender.exe'
 senderPath_OTHER   = r'/usr/local/bin/zabbix_sender'
 
 # path to second send script
 senderPyPath_LINUX = r'/etc/zabbix/scripts/sender_wrapper.py'
-senderPyPath_WIN   = r'C:\zabbix-agent\scripts\sender_wrapper.py'
+senderPyPath_WIN   = r'C:\Program Files\Zabbix Agent\scripts\sender_wrapper.py'
 senderPyPath_OTHER = r'/usr/local/etc/zabbix/scripts/sender_wrapper.py'
 
 
@@ -37,8 +37,8 @@ isHeavyDebug = False
 
 perDiskTimeout = 3   # Single disk query can not exceed this value. Python33 or above required.
 
-timeout = '80'   # How long the script must wait between LLD and sending, increase if data received late (does not affect windows).
-                 # This setting MUST be lower than 'Update interval' in discovery rule.
+delay = '50'   # How long the script must wait between LLD and sending, increase if data received late (does not affect windows).
+               # This setting MUST be lower than 'Update interval' in discovery rule.
 
 # Manually provide disk list or RAID configuration if needed.
 diskListManual = []
@@ -50,6 +50,7 @@ diskListManual = []
 noTemperatureSensorModels = (
     'INTEL SSDSC2CW060A3',
     'AXXROMBSASMR',
+    'PLEXTOR PX-256M6Pro',
 )
 
 # re.IGNORECASE | re.MULTILINE
@@ -83,9 +84,9 @@ from sender_wrapper import (fail_ifNot_Py3, sanitizeStr, clearDiskTypeStr, proce
 def scanDisks(mode):
     '''Determines available disks. Can be skipped.'''
     if mode == 'NOTYPE':
-        cmd = [binPath, '--scan']
+        cmd = addSudoIfNix([binPath, '--scan'])
     elif mode == 'NVME':
-        cmd = [binPath, '--scan', '-d', 'nvme']
+        cmd = addSudoIfNix([binPath, '--scan', '-d', 'nvme'])
     else:
         print('Invalid type %s. Terminating.' % mode)
         sys.exit(1)
@@ -171,7 +172,7 @@ def findErrorsAndOuts(cD):
     p = ''
 
     try:
-        cmd = [binPath, '-A', '-i', '-n', 'standby'] + shlex.split(cD)
+        cmd = addSudoIfNix([binPath, '-A', '-i', '-n', 'standby']) + shlex.split(cD)
 
         if      (sys.version_info.major == 3 and
                  sys.version_info.minor <= 2):
@@ -250,6 +251,7 @@ def findSerial(p):
 
 
 def chooseSystemSpecificPaths():
+
     if sys.platform.startswith('linux'):
         binPath_        = binPath_LINUX
         agentConf_      = agentConf_LINUX
@@ -286,8 +288,8 @@ def isModelWithoutSensor(p):
                 break
 
     return result
-    
-    
+
+
 def isDummyNVMe(p):
     subsystemRe = re.search(r'Subsystem ID:\s+0x0000', p, re.I)
     ouiRe =       re.search(r'IEEE OUI Identifier:\s+0x000000', p, re.I)
@@ -298,6 +300,15 @@ def isDummyNVMe(p):
         return True
     else:
         return False
+
+
+def addSudoIfNix(cmd):
+    
+    result = cmd
+    if not sys.platform == 'win32':
+        result = ['sudo'] + cmd
+
+    return result
 
 
 if __name__ == '__main__':
@@ -399,5 +410,5 @@ if __name__ == '__main__':
 
     link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.disk.info[SendStatus]'
-    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, timeout, host, link, sendStatusKey)
+    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, delay, host, link, sendStatusKey)
 

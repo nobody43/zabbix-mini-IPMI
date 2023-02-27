@@ -107,14 +107,14 @@ Verbose mode. Does not detaches or prints LLD. Lists all items sent to zabbix-se
 <br /><br />
 
 These scripts were tested to work with following configurations:
+- Debian 11 / Server (5.0, 6.0) / Agent 4.0 / Python 3.9
+- Ubuntu 22.04 / Server (5.0, 6.0) / Agent 5.0 / Python 3.10
+- Windows Server 2012 / Server 6.0 / Agent 4.0 / Python (3.7, 3.11)
+- Windows 10 / Server 6.0 / Agent 4.0 / Python (3.10, 3.11)
+- Windows 7 / Server 6.0 / Agent 4.0 / Python (3.4, 3.7, 3.8)
 - Centos 7 / Zabbix 3.0 / Python 3.6
-- Debian 9 / Zabbix 3.0 / Python 3.5
-- Debian 10 / Server 5.0 / Agent 4.0 / Python 3.7
-- Ubuntu 20.04 / Server 5.0 / Agent 4.0 / Python 3.8
 - FreeBSD 10.3 / Zabbix 3.0 / Python 3.6
 - Windows XP / Zabbix 3.0 / Python 3.4
-- Windows 7 / Zabbix (3.0, 5.0) / Python (3.4, 3.7, 3.8)
-- Windows Server 2012 / Zabbix 3.0 / Python 3.7
 
 ## Known issues
 - Zabbix web panel displays an error on json discovery, but everything works fine ([#18](https://github.com/nobodysu/zabbix-mini-IPMI/issues/18))
