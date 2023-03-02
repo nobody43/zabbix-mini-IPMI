@@ -26,11 +26,14 @@ senderPyPath_OTHER = r'/usr/local/etc/zabbix/scripts/sender_wrapper.py'
 # 'True' or 'False'
 isCheckNVMe = False       # Additional overhead. Should be disabled if smartmontools is >= 7 or NVMe is absent.
 
+isCheckSAS = False        # Additional overhead.
+
 isIgnoreDuplicates = True
 
 # type, min, max, critical
 thresholds = (
     ('hdd', 25, 45, 60),
+    ('ssd', 5,  55, 70),
 )
 
 isHeavyDebug = False
@@ -172,7 +175,10 @@ def findErrorsAndOuts(cD):
     p = ''
 
     try:
-        cmd = addSudoIfNix([binPath, '-A', '-i', '-n', 'standby']) + shlex.split(cD)
+        if isCheckSAS:
+            cmd = addSudoIfNix([binPath, '-a', '-i', '-n', 'standby']) + shlex.split(cD)
+        else:
+            cmd = addSudoIfNix([binPath, '-A', '-i', '-n', 'standby']) + shlex.split(cD)
 
         if      (sys.version_info.major == 3 and
                  sys.version_info.minor <= 2):
@@ -243,11 +249,11 @@ def findDiskTemp(p):
 def findSerial(p):
     reSerial = re.search(r'^(?:\s+)?Serial Number:\s+(.+)', p, re.I | re.M)
     if reSerial:
-        serial = reSerial.group(1)
+        result = reSerial.group(1)
     else:
-        serial = None
+        result = 'EmptySerial'  # only one occurrence of the hardware handled
         
-    return serial
+    return result
 
 
 def chooseSystemSpecificPaths():
@@ -307,6 +313,17 @@ def addSudoIfNix(cmd):
     result = cmd
     if not sys.platform == 'win32':
         result = ['sudo'] + cmd
+
+    return result
+
+
+def isSSD(p):
+    ssdRe = re.search('^(?:\s+)?Rotation Rate:\s+Solid State Device', p, re.I | re.M)
+
+    if ssdRe:
+        result = True
+    else:
+        result = False
 
     return result
 
@@ -376,9 +393,18 @@ if __name__ == '__main__':
             senderData.append('"%s" mini.disk.temp[%s] "%s"' % (host, sanitizedD, temp))
             allTemps.append(temp)
 
-        senderData.append('"%s" mini.disk.tempMin[%s] "%s"'  % (host, sanitizedD, thresholds[0][1]))
-        senderData.append('"%s" mini.disk.tempMax[%s] "%s"'  % (host, sanitizedD, thresholds[0][2]))
-        senderData.append('"%s" mini.disk.tempCrit[%s] "%s"' % (host, sanitizedD, thresholds[0][3]))
+        if isSSD(diskPout):
+            threshMin  = thresholds[1][1]
+            threshMax  = thresholds[1][2]
+            threshCrit = thresholds[1][3]
+        else:
+            threshMin  = thresholds[0][1]
+            threshMax  = thresholds[0][2]
+            threshCrit = thresholds[0][3]
+ 
+        senderData.append('"%s" mini.disk.tempMin[%s] "%s"'  % (host, sanitizedD, threshMin))
+        senderData.append('"%s" mini.disk.tempMax[%s] "%s"'  % (host, sanitizedD, threshMax))
+        senderData.append('"%s" mini.disk.tempCrit[%s] "%s"' % (host, sanitizedD, threshCrit))
 
         if isHeavyDebug:
             heavyOut = repr(diskPout.strip())
