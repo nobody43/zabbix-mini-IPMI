@@ -10,7 +10,7 @@ CPU and disk temperature monitoring scripts for zabbix. Also support voltage and
 - Does not spin idle drives
 - RAID passthrough (manual)
 
-![Temperature graph](https://github.com/nobody43/mini-IPMI/blob/master/screenshots/mini-IPMI-graph.png?raw=true)
+![Temperature graph](https://raw.githubusercontent.com/nobody43/zabbix-mini-IPMI/master/screenshots/mini-IPMI-graph.png)
 
 [More screenshots.](https://github.com/nobody43/zabbix-mini-IPMI/tree/master/screenshots)
 
@@ -115,7 +115,7 @@ These scripts were tested to work with following configurations:
 - Windows XP / Zabbix 3.0 / Python 3.4
 
 ## Updating
-Overwrite scripts and UserParameters. If UserParameters were changed - agent restart is required. If template had changed from previous version - update it in zabbix web interface [marking](https://github.com/nobody43/zabbix-smartmontools/blob/master/screenshots/template-updating.png) all `Delete missing` checkboxes.
+Overwrite scripts and UserParameters. If UserParameters were changed - agent restart is required. If template had changed from previous version - update it in zabbix web interface [marking](https://github.com/nobody43/zabbix-smartmontools/blob/main/screenshots/template-updating.png) all `Delete missing` checkboxes.
 
 > **Note**: low values in php settings `/etc/httpd/conf.d/zabbix.conf` may result in request failure. Especially `php_value memory_limit`.
 
