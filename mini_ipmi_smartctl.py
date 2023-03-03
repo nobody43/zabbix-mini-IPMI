@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-## Installation instructions: https://github.com/nobodysu/zabbix-mini-IPMI ##
-
 # Only one out of three system-specific setting is used, PATH considered.
 binPath_LINUX      = r'smartctl'
 binPath_WIN        = r'C:\Program Files\smartmontools\bin\smartctl.exe'
@@ -44,9 +42,9 @@ delay = '50'   # How long the script must wait between LLD and sending, increase
                # This setting MUST be lower than 'Update interval' in discovery rule.
 
 # Manually provide disk list or RAID configuration if needed.
-diskListManual = []
+diskDevsManual = []
 # like this:
-#diskListManual = ['/dev/sda -d sat+megaraid,4', '/dev/sda -d sat+megaraid,5']
+#diskDevsManual = ['/dev/sda -d sat+megaraid,4', '/dev/sda -d sat+megaraid,5']
 # more info: https://www.smartmontools.org/wiki/Supported_RAID-Controllers
 
 # These models will not produce 'NOTEMP' warning. Pull requests are welcome.
@@ -127,7 +125,7 @@ def scanDisks(mode):
 def moveCsmiToBegining(disks):
     csmis = []
     others = []
-    
+ 
     for i in disks:
         if re.search(r'\/csmi\d+\,\d+', i, re.I):
             csmis.append(i)
@@ -142,7 +140,7 @@ def moveCsmiToBegining(disks):
 def listDisks():
     errors = []
 
-    if not diskListManual:
+    if not diskDevsManual:
         scanDisks_Out = scanDisks('NOTYPE')
         errors.append(scanDisks_Out[0])   # SCAN_OS_NOCMD_*, SCAN_OS_ERROR_*, SCAN_UNKNOWN_ERROR_*
 
@@ -157,7 +155,7 @@ def listDisks():
             errors.append('')
 
     else:
-        disks = diskListManual
+        disks = diskDevsManual
 
     # Remove duplicates preserving order
     diskResult = []
@@ -209,7 +207,7 @@ def findErrorsAndOuts(cD):
             err = 'UNK_USB_BRIDGE'
         elif r"Packet Interface Devices [this device: CD/DVD] don't support ATA SMART" in p:
             err = 'CD_DVD_DRIVE'
-            
+
         elif    (sys.version_info.major == 3 and
                  sys.version_info.minor <= 1):
 
@@ -231,28 +229,37 @@ def findErrorsAndOuts(cD):
             p = e.output
         except:
             p = ''
-            
+ 
     return (err, p)
 
 
 def findDiskTemp(p):
-    resultA = None
+    result = None
     for i in temperaturePatterns:
         temperatureRe = re.search(i, p, re.I | re.M)
         if temperatureRe:
-            resultA = temperatureRe.group(1)
+            result = temperatureRe.group(1)
             break
 
-    return resultA
+    return result
 
 
-def findSerial(p):
-    reSerial = re.search(r'^(?:\s+)?Serial Number:\s+(.+)', p, re.I | re.M)
-    if reSerial:
-        result = reSerial.group(1)
-    else:
-        result = 'EmptySerial'  # only one occurrence of the hardware handled
-        
+def findIdent(p):
+    identPatterns = (
+        '^Serial Number:\s+(.+)$',
+        '^LU WWN Device Id:\s+(.+)$',
+        '^Logical Unit id:\s+(.+)$',
+        '^Product:\s+(.+)$',
+        '^Device Model:\s+(.+)$',
+    )
+
+    result = None
+    for i in identPatterns:
+        identRe = re.search(i, p, re.I | re.M)
+        if identRe:
+            result = identRe.group(1)
+            break
+ 
     return result
 
 
@@ -299,7 +306,7 @@ def isModelWithoutSensor(p):
 def isDummyNVMe(p):
     subsystemRe = re.search(r'Subsystem ID:\s+0x0000', p, re.I)
     ouiRe =       re.search(r'IEEE OUI Identifier:\s+0x000000', p, re.I)
-    
+
     if     (subsystemRe and
             ouiRe):
 
@@ -309,7 +316,7 @@ def isDummyNVMe(p):
 
 
 def addSudoIfNix(cmd):
-    
+
     result = cmd
     if not sys.platform == 'win32':
         result = ['sudo'] + cmd
@@ -330,7 +337,7 @@ def isSSD(p):
 
 if __name__ == '__main__':
     fail_ifNot_Py3()
-    
+
     paths_Out = chooseSystemSpecificPaths()
     binPath = paths_Out[0]
     agentConf = paths_Out[1]
@@ -343,7 +350,7 @@ if __name__ == '__main__':
 
     listDisks_Out = listDisks()
     scanErrors = listDisks_Out[0]
-    diskList = listDisks_Out[1]
+    diskDevs = listDisks_Out[1]
 
     scanErrorNotype = scanErrors[0]
     scanErrorNvme = scanErrors[1]
@@ -351,7 +358,7 @@ if __name__ == '__main__':
     sessionSerials = []
     allTemps = []
     diskError_NOCMD = False
-    for d in diskList:
+    for d in diskDevs:
         clearedD = clearDiskTypeStr(d)
         sanitizedD = sanitizeStr(clearedD)
         jsonData.append({'{#DISK}':sanitizedD})
@@ -365,11 +372,11 @@ if __name__ == '__main__':
                 break   # other disks json are discarded
 
         isDuplicate = False
-        serial = findSerial(diskPout)
-        if serial in sessionSerials:
+        ident = findIdent(diskPout)
+        if ident in sessionSerials:
             isDuplicate = True
-        elif serial:
-            sessionSerials.append(serial)
+        elif ident:
+            sessionSerials.append(ident)
 
         temp = findDiskTemp(diskPout)
         if isDuplicate:
@@ -377,13 +384,13 @@ if __name__ == '__main__':
                 driveStatus = 'DUPLICATE_IGNORE'
             else:
                 driveStatus = 'DUPLICATE_MENTION'
-        elif diskError:
-            driveStatus = diskError
         elif isModelWithoutSensor(diskPout):
             driveStatus = 'NOSENSOR'
         elif isDummyNVMe(diskPout):
             driveStatus = 'DUMMY_NVME'
-        elif not temp:
+        elif diskError:
+            driveStatus = diskError
+        elif not temp:  # !!BUG!! needs more complex conditionals
             driveStatus = 'NOTEMP'
         else:
             driveStatus = 'PROCESSED'
@@ -423,7 +430,7 @@ if __name__ == '__main__':
         configStatus = scanErrorNotype
     elif diskError_NOCMD:
         configStatus = diskError_NOCMD
-    elif not diskList:
+    elif not diskDevs:
         configStatus = 'NODISKS'
     elif not allTemps:
         configStatus = 'NODISKTEMPS'
@@ -434,7 +441,7 @@ if __name__ == '__main__':
     if allTemps:
         senderData.append('"%s" mini.disk.temp[MAX] "%s"' % (host, str(max(allTemps))))
 
-    link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
+    link = r'https://github.com/nobody43/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.disk.info[SendStatus]'
     processData(senderData, jsonData, agentConf, senderPyPath, senderPath, delay, host, link, sendStatusKey)
 
