@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-## Installation instructions: https://github.com/nobodysu/zabbix-mini-IPMI ##
-
 BIN_PATH = r'sensors'   # -u
 #BIN_PATH = r'/usr/bin/sensors'   # if 'sensors' isn't in PATH
 
@@ -41,6 +39,10 @@ CORES_REGEXPS = (
     ('Core(\d+)\s+Temp:\n\s+temp\d+_input:\s+(\d+)'),
     ('Tdie:\n\s+temp(\d+)_input:\s+(\d+)'),
     ('k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
+)
+
+IGNORE_SENSORS = (
+    ('nct6791-isa-0290', 'AUXTIN3'),  # ignore 'AUXTIN3' on 'nct6791-isa-0290'
 )
 
 DELAY = '50'         # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
@@ -147,16 +149,38 @@ def getBoardTemps(pOut_):
     for i in pOut_:
         if 'Adapter: PCI adapter' in i:   # we dont need GPU temps
             continue
+
+        blockIdentRe = re.search(r'^.+', i)
+        if blockIdentRe:
+            blockIdent = blockIdentRe.group(0).strip()
+        else:
+            blockIdent = None
  
         temps = re.findall(r'((?:CPU|GPU|MB|M/B|AUX|Ambient|Other|SYS|Processor).+):\n(?:\s+)?temp(\d+)_input:\s+(\d+)', i, re.I)
         if temps:
             for name, num, val in temps:
+                if isIgnoredMbSensor(blockIdent, name):
+                    continue
+
                 sender.append('"%s" mini.brd.temp[%s] "%s"' % (HOST, num, val))
                 json.append({'{#BRDTEMPNAME}':name.strip(), '{#BRDTEMPNUM}':num})
 
-            break
+            break  # unrelated blocks
 
     return sender, json
+
+
+def isIgnoredMbSensor(ident_, sensor_):
+
+    result = False
+    for ident, sensor in IGNORE_SENSORS:
+        if (ident_  == ident and
+            sensor_ == sensor):
+
+            result = True
+            break
+
+    return result
 
 
 def getGpuData(pOut_):
@@ -308,7 +332,7 @@ if __name__ == '__main__':
     else:
         senderData.append('"%s" mini.cpu.info[ConfigStatus] "%s"' % (HOST, pRunStatus))   # OS_NOCMD, OS_ERROR, UNKNOWN_EXC_ERROR, CONFIGURED
 
-    link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
+    link = r'https://github.com/nobody43/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.cpu.info[SendStatus]'
     processData(senderData, jsonData, AGENT_CONF_PATH, SENDER_WRAPPER_PATH, SENDER_PATH, DELAY, HOST, link, sendStatusKey)
 
