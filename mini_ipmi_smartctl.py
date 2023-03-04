@@ -28,13 +28,13 @@ isCheckSAS = False        # Additional overhead.
 
 isIgnoreDuplicates = True
 
+isHeavyDebug = False
+
 # type, min, max, critical
 thresholds = (
     ('hdd', 25, 45, 60),
     ('ssd', 5,  55, 70),
 )
-
-isHeavyDebug = False
 
 perDiskTimeout = 3   # Single disk query can not exceed this value. Python33 or above required.
 
@@ -81,6 +81,8 @@ import re
 import shlex
 from sender_wrapper import (fail_ifNot_Py3, sanitizeStr, clearDiskTypeStr, processData)
 
+HOST = sys.argv[2]
+
 
 def scanDisks(mode):
     '''Determines available disks. Can be skipped.'''
@@ -123,6 +125,7 @@ def scanDisks(mode):
 
 
 def moveCsmiToBegining(disks):
+
     csmis = []
     others = []
  
@@ -138,6 +141,7 @@ def moveCsmiToBegining(disks):
 
 
 def listDisks():
+
     errors = []
 
     if not diskDevsManual:
@@ -169,6 +173,7 @@ def listDisks():
 
 
 def findErrorsAndOuts(cD):
+
     err = None
     p = ''
 
@@ -234,6 +239,7 @@ def findErrorsAndOuts(cD):
 
 
 def findDiskTemp(p):
+
     result = None
     for i in temperaturePatterns:
         temperatureRe = re.search(i, p, re.I | re.M)
@@ -245,6 +251,7 @@ def findDiskTemp(p):
 
 
 def findIdent(p):
+
     identPatterns = (
         '^Serial Number:\s+(.+)$',
         '^LU WWN Device Id:\s+(.+)$',
@@ -290,6 +297,7 @@ def chooseSystemSpecificPaths():
 
 
 def isModelWithoutSensor(p):
+
     result = False
     for i in modelPatterns:
         modelRe = re.search(i, p, re.I | re.M)
@@ -304,15 +312,18 @@ def isModelWithoutSensor(p):
 
 
 def isDummyNVMe(p):
+
     subsystemRe = re.search(r'Subsystem ID:\s+0x0000', p, re.I)
     ouiRe =       re.search(r'IEEE OUI Identifier:\s+0x000000', p, re.I)
 
     if     (subsystemRe and
             ouiRe):
 
-        return True
+        result = True
     else:
-        return False
+        result = False
+        
+    return result
 
 
 def addSudoIfNix(cmd):
@@ -325,7 +336,8 @@ def addSudoIfNix(cmd):
 
 
 def isSSD(p):
-    ssdRe = re.search('^(?:\s+)?Rotation Rate:\s+Solid State Device', p, re.I | re.M)
+
+    ssdRe = re.search('^Rotation Rate:\s+Solid State Device', p, re.I | re.M)
 
     if ssdRe:
         result = True
@@ -335,7 +347,21 @@ def isSSD(p):
     return result
 
 
+def doHeavyDebug(diskError_, driveStatus_, diskPout_):
+
+    if (diskError_ and
+        driveStatus_ != 'DUPLICATE_IGNORE'):
+
+        heavyOut = repr(diskPout_.strip())
+        heavyOut = heavyOut.strip().strip('"').strip("'").strip()
+        heavyOut = heavyOut.replace("'", r"\'").replace('"', r'\"')
+
+        debugData = '"%s" mini.disk.HeavyDebug "%s"' % (HOST, heavyOut)
+        senderData.append(debugData)
+
+
 if __name__ == '__main__':
+
     fail_ifNot_Py3()
 
     paths_Out = chooseSystemSpecificPaths()
@@ -344,7 +370,6 @@ if __name__ == '__main__':
     senderPath = paths_Out[2]
     senderPyPath = paths_Out[3]
 
-    host = sys.argv[2]
     senderData = []
     jsonData = []
 
@@ -361,7 +386,7 @@ if __name__ == '__main__':
     for d in diskDevs:
         clearedD = clearDiskTypeStr(d)
         sanitizedD = sanitizeStr(clearedD)
-        jsonData.append({'{#DISK}':sanitizedD})
+        jsonData.append({'{#DISK}':sanitizedD})  # always discover to prevent flapping
 
         disk_Out = findErrorsAndOuts(clearedD)
         diskError = disk_Out[0]
@@ -369,7 +394,7 @@ if __name__ == '__main__':
         if diskError:
             if 'D_OS_' in diskError:
                 diskError_NOCMD = diskError
-                break   # other disks json are discarded
+                break   # [v] fatal; json of other disks is discarded
 
         isDuplicate = False
         ident = findIdent(diskPout)
@@ -394,12 +419,13 @@ if __name__ == '__main__':
             driveStatus = 'NOTEMP'
         else:
             driveStatus = 'PROCESSED'
-        senderData.append('"%s" mini.disk.info[%s,DriveStatus] "%s"' % (host, sanitizedD, driveStatus))
+        senderData.append('"%s" mini.disk.info[%s,DriveStatus] "%s"' % (HOST, sanitizedD, driveStatus))
 
-        if (temp and
-            not isModelWithoutSensor(diskPout)):
+        if     (temp and
+            not driveStatus == 'NOSENSOR' and
+            not driveStatus == 'DUPLICATE_IGNORE'):
 
-            senderData.append('"%s" mini.disk.temp[%s] "%s"' % (host, sanitizedD, temp))
+            senderData.append('"%s" mini.disk.temp[%s] "%s"' % (HOST, sanitizedD, temp))
             allTemps.append(temp)
 
             if isSSD(diskPout):
@@ -410,23 +436,13 @@ if __name__ == '__main__':
                 threshMin  = thresholds[0][1]
                 threshMax  = thresholds[0][2]
                 threshCrit = thresholds[0][3]
-     
-            senderData.append('"%s" mini.disk.tempMin[%s] "%s"'  % (host, sanitizedD, threshMin))
-            senderData.append('"%s" mini.disk.tempMax[%s] "%s"'  % (host, sanitizedD, threshMax))
-            senderData.append('"%s" mini.disk.tempCrit[%s] "%s"' % (host, sanitizedD, threshCrit))
+
+            senderData.append('"%s" mini.disk.tempMin[%s] "%s"'  % (HOST, sanitizedD, threshMin))
+            senderData.append('"%s" mini.disk.tempMax[%s] "%s"'  % (HOST, sanitizedD, threshMax))
+            senderData.append('"%s" mini.disk.tempCrit[%s] "%s"' % (HOST, sanitizedD, threshCrit))
 
         if isHeavyDebug:
-            heavyOut = repr(diskPout.strip())
-            heavyOut = heavyOut.strip().strip('"').strip("'").strip()
-            heavyOut = heavyOut.replace("'", r"\'").replace('"', r'\"')
-
-            debugData = '"%s" mini.disk.HeavyDebug "%s"' % (host, heavyOut)
-            if diskError:
-                if 'ERR_CODE_' in diskError:
-                    senderData.append(debugData)
-            elif not temp:
-                if not isModelWithoutSensor(diskPout):
-                    senderData.append(debugData)
+            doHeavyDebug(diskError, driveStatus, diskPout)
 
     if scanErrorNotype:
         configStatus = scanErrorNotype
@@ -438,12 +454,12 @@ if __name__ == '__main__':
         configStatus = 'NODISKTEMPS'
     else:
         configStatus = 'CONFIGURED'
-    senderData.append('"%s" mini.disk.info[ConfigStatus] "%s"' % (host, configStatus))
+    senderData.append('"%s" mini.disk.info[ConfigStatus] "%s"' % (HOST, configStatus))
 
     if allTemps:
-        senderData.append('"%s" mini.disk.temp[MAX] "%s"' % (host, str(max(allTemps))))
+        senderData.append('"%s" mini.disk.temp[MAX] "%s"' % (HOST, str(max(allTemps))))
 
     link = r'https://github.com/nobody43/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.disk.info[SendStatus]'
-    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, delay, host, link, sendStatusKey)
+    processData(senderData, jsonData, agentConf, senderPyPath, senderPath, delay, HOST, link, sendStatusKey)
 
