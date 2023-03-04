@@ -180,9 +180,9 @@ def findErrorsAndOuts(cD):
 
         if      (sys.version_info.major == 3 and
                  sys.version_info.minor <= 2):
-                 
+
             p = subprocess.check_output(cmd, universal_newlines=True)
-            
+ 
             err = 'OLD_PYTHON32_OR_LESS'
         else:
             p = subprocess.check_output(cmd, universal_newlines=True, timeout=perDiskTimeout)
@@ -396,22 +396,24 @@ if __name__ == '__main__':
             driveStatus = 'PROCESSED'
         senderData.append('"%s" mini.disk.info[%s,DriveStatus] "%s"' % (host, sanitizedD, driveStatus))
 
-        if temp:
+        if (temp and
+            not isModelWithoutSensor(diskPout)):
+
             senderData.append('"%s" mini.disk.temp[%s] "%s"' % (host, sanitizedD, temp))
             allTemps.append(temp)
 
-        if isSSD(diskPout):
-            threshMin  = thresholds[1][1]
-            threshMax  = thresholds[1][2]
-            threshCrit = thresholds[1][3]
-        else:
-            threshMin  = thresholds[0][1]
-            threshMax  = thresholds[0][2]
-            threshCrit = thresholds[0][3]
- 
-        senderData.append('"%s" mini.disk.tempMin[%s] "%s"'  % (host, sanitizedD, threshMin))
-        senderData.append('"%s" mini.disk.tempMax[%s] "%s"'  % (host, sanitizedD, threshMax))
-        senderData.append('"%s" mini.disk.tempCrit[%s] "%s"' % (host, sanitizedD, threshCrit))
+            if isSSD(diskPout):
+                threshMin  = thresholds[1][1]
+                threshMax  = thresholds[1][2]
+                threshCrit = thresholds[1][3]
+            else:
+                threshMin  = thresholds[0][1]
+                threshMax  = thresholds[0][2]
+                threshCrit = thresholds[0][3]
+     
+            senderData.append('"%s" mini.disk.tempMin[%s] "%s"'  % (host, sanitizedD, threshMin))
+            senderData.append('"%s" mini.disk.tempMax[%s] "%s"'  % (host, sanitizedD, threshMax))
+            senderData.append('"%s" mini.disk.tempCrit[%s] "%s"' % (host, sanitizedD, threshCrit))
 
         if isHeavyDebug:
             heavyOut = repr(diskPout.strip())
