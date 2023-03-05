@@ -41,7 +41,7 @@ CORES_REGEXPS = (
     ('k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
 )
 
-IGNORE_SENSORS = (
+IGNORED_SENSORS = (
     ('nct6791-isa-0290', 'AUXTIN3'),  # ignore 'AUXTIN3' on 'nct6791-isa-0290'
 )
 
@@ -173,7 +173,7 @@ def getBoardTemps(pOut_):
 def isIgnoredMbSensor(ident_, sensor_):
 
     result = False
-    for ident, sensor in IGNORE_SENSORS:
+    for ident, sensor in IGNORED_SENSORS:
         if (ident_  == ident and
             sensor_ == sensor):
 
