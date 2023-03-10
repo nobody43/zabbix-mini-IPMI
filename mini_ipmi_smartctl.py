@@ -24,7 +24,7 @@ senderPyPath_OTHER = r'/usr/local/etc/zabbix/scripts/sender_wrapper.py'
 # 'True' or 'False'
 isCheckNVMe = False       # Additional overhead. Should be disabled if smartmontools is >= 7 or NVMe is absent.
 
-isCheckSAS = False        # Additional overhead.
+isCheckSAS = False        # Use '-a' instead of '-A', which may produce ERR_CODE_*. Slight overhead.
 
 isIgnoreDuplicates = True
 
@@ -39,7 +39,7 @@ thresholds = (
 perDiskTimeout = 3   # Single disk query can not exceed this value. Python33 or above required.
 
 delay = '50'   # How long the script must wait between LLD and sending, increase if data received late (does not affect windows).
-               # This setting MUST be lower than 'Update interval' in discovery rule.
+               # This setting MUST be lower than 'Update interval' in the discovery rule.
 
 # Manually provide disk list or RAID configuration if needed.
 diskDevsManual = []
