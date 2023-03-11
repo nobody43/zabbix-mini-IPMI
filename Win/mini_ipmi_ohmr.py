@@ -91,6 +91,7 @@ def chooseCmd(binPath_, params_):
 
 
 def getOutput(cmd_):
+
     p = None
     try:
         p = subprocess.check_output(cmd_, universal_newlines=True)
@@ -315,6 +316,7 @@ def getBoardFans(pOut_):
 
 
 def getBoardTemps(pOut_):
+
     sender = []
     json = []
     
@@ -335,8 +337,9 @@ def getBoardTemps(pOut_):
         ignoredSensor = False
         if board:
             for boardReference, ignoredTempName in IGNORED_SENSORS:
-                if      (boardReference == board and
-                         ignoredTempName    == name):
+                if      (boardReference  == board and
+                         ignoredTempName == name):
+
                     ignoredSensor = True
 
         if ignoredSensor:
@@ -354,26 +357,27 @@ def getBoardTemps(pOut_):
 
 
 def getGpusData(pOut_):
+
     sender = []
     json = []
 
     # Determine available GPUs
     gpusRe = re.findall(r'\+\-\s+(.+)\s+\(\/[\w-]+gpu\/(\d+)\)', pOut_, re.I)
-    gpus = set(gpusRe)   # remove duplicates
+    gpus = set(gpusRe)
 
     allTemps = []
     for name, num in gpus:
         errors = []
         sender.append('"%s" mini.gpu.info[gpu%s,ID] "%s"' % (HOST, num, name.strip()))
         json.append({'{#GPU}':num})
-        
+
         temp = re.search(r':\s+(\d+).+\(\/[\w-]+gpu\/%s\/temperature\/0\)' % num, pOut_, re.I)
         if temp:
             json.append({'{#GPUTEMP}':num})
             allTemps.append(int(temp.group(1)))
             sender.append('"%s" mini.gpu.temp[gpu%s] "%s"' % (HOST, num, temp.group(1)))
         elif isGpuWithoutSensor(name):
-            sender.append('"%s" mini.gpu.info[gpu%s,GPUstatus] "NO_SENSOR"' % (HOST, num))
+            errors.append('NO_SENSOR')
         else:
             errors.append('NO_TEMP')
 
@@ -388,26 +392,24 @@ def getGpusData(pOut_):
         memory = re.findall(r'\+\-\s+(GPU\s+Memory\s+Free|GPU\s+Memory\s+Used|GPU\s+Memory\s+Total)\s+:\s+(\d+).+\(\/[\w-]+gpu\/%s\/smalldata\/\d+\)' % num, pOut_, re.I)
         if memory:
             json.append({'{#GPUMEM}':num})
-            for memname, memval in memory:   # more controllable
-                if 'Free' in memname:
+            for memname, memval in memory:
+                if   'Free'  in memname:
                     sender.append('"%s" mini.gpu.memory[gpu%s,free] "%s"'   % (HOST, num, memval))
-                elif 'Used' in memname:
+                elif 'Used'  in memname:
                     sender.append('"%s" mini.gpu.memory[gpu%s,used] "%s"'   % (HOST, num, memval))
                 elif 'Total' in memname:
                     sender.append('"%s" mini.gpu.memory[gpu%s,total] "%s"'  % (HOST, num, memval))
 
         if errors:
             for e in errors:
-                sender.append('"%s" mini.gpu.info[gpu%s,GPUstatus] "%s"'    % (HOST, num, e))   # NO_TEMP, NO_FAN
+                sender.append('"%s" mini.gpu.info[gpu%s,GPUstatus] "%s"'    % (HOST, num, e))   # NO_TEMP, NO_FAN, NO_SENSOR
         else:
             sender.append('"%s" mini.gpu.info[gpu%s,GPUstatus] "PROCESSED"' % (HOST, num))
 
     if gpus:
+        statusError = None
         if allTemps:
-            statusError = None
             sender.append('"%s" mini.gpu.temp[MAX] "%s"' % (HOST, str(max(allTemps))))
-        else:
-            statusError = 'NOGPUTEMPS'
     else:
         statusError = 'NOGPUS'
 
