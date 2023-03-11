@@ -81,11 +81,11 @@ HOST = sys.argv[2]
 
 def chooseCmd(binPath_, params_):
 
+    cmd = '%s %s' % (binPath_, params_)
+
     if not SKIP_PARAMS_ON_WINXP:
         if platform.release() == "XP":
             cmd = binPath_
-    else:
-        cmd = '%s %s' % (binPath_, params_)
 
     return cmd
 
