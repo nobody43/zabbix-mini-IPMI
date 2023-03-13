@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-## Installation instructions: https://github.com/nobodysu/zabbix-mini-IPMI ##
-
 #BIN_PATH = r'OpenHardwareMonitorReport.exe'
 BIN_PATH = r'C:\Program Files\OpenHardwareMonitorReport\OpenHardwareMonitorReport.exe'   # if OHMR isn't in PATH
 
@@ -39,9 +37,14 @@ IGNORED_SENSORS = (
 #   ('Pull requests',     'are welcome'),
 )
 
-# These CPUs will produce NO_SENSOR trigger instead of NO_TEMP
+# These CPUs will not produce NO_TEMP problem
 CPUS_WITHOUT_SENSOR = (
     'Intel Pentium 4 3.00GHz',
+)
+
+GPUS_WITHOUT_SENSOR = (
+    'AMD Radeon Vega 8 Graphics',
+    'AMD Radeon Vega 10 Graphics',
 )
 
 BOARD_REGEXPS_AND_KEYS = (
@@ -63,7 +66,7 @@ VOLTAGE_REGEXPS_KEYS_AND_JSONS = (
 )
 
 DELAY = '50'              # how long the script must wait between LLD and sending, increase if data received late (does not affect windows)
-                          # this setting MUST be lower than 'Update interval' in discovery rule
+                          # this setting MUST be lower than 'Update interval' in the discovery rule
 
 ## End of configuration ##
 
@@ -83,11 +86,12 @@ def chooseCmd(binPath_, params_):
     if not SKIP_PARAMS_ON_WINXP:
         if platform.release() == "XP":
             cmd = binPath_
-    
+
     return cmd
-    
+
 
 def getOutput(cmd_):
+
     p = None
     try:
         p = subprocess.check_output(cmd_, universal_newlines=True)
@@ -119,7 +123,7 @@ def getOutput(cmd_):
         if    (m0 in p or
                m1 in p or
                m2 in p):
-               
+
             print('OHMR failed. Try again.')
             sys.exit(1)
 
@@ -133,12 +137,12 @@ def getOHMRversion(pOut_):
         version = OHMRver.group(1).strip()
     else:
         version = None
-        
+
     sender = ['"%s" mini.info[OHMRversion] "%s"' % (HOST, removeQuotes(version))]
-        
+
     return sender
-    
-    
+
+
 def getBoardInfo(pOut_):
 
     sender = []
@@ -160,10 +164,10 @@ def getBoardName(pOut_):
         board = None
 
     return board
-    
-    
+
+
 def getTjmax(pOut_, cpuID_, cpuName_):
-    
+
     tjMaxRe = re.search(r'\(\/[\w-]+cpu\/%s\/temperature\/\d+\)\s+\|\s+\|\s+\+\-\s+TjMax\s+\[\S+\]\s+:\s+(\d+)' % cpuID_, pOut_, re.I | re.M)
     if tjMaxRe:
         tjmax = tjMaxRe.group(1)
@@ -175,8 +179,8 @@ def getTjmax(pOut_, cpuID_, cpuName_):
                 break
 
     return tjmax
-    
-    
+
+
 def isCpuWithoutSensor(cpuname_):
 
     if cpuname_ in CPUS_WITHOUT_SENSOR:
@@ -185,8 +189,8 @@ def isCpuWithoutSensor(cpuname_):
         result = False
 
     return result
-    
-    
+
+
 def isCpuSensorPresent(pOut_):
 
     coreTempsRe = re.search(r'Core.+:\s+\d+.+\(\/[\w-]+cpu\/\d+\/temperature\/\d+\)', pOut_, re.I)
@@ -196,18 +200,28 @@ def isCpuSensorPresent(pOut_):
         result = False
 
     return result
-    
-    
+
+
+def isGpuWithoutSensor(gpuname_):
+
+    if gpuname_ in GPUS_WITHOUT_SENSOR:
+        result = True
+    else:
+        result = False
+
+    return result
+
+
 def isParamIgnored(param_):
 
     if param_ in PARAMS:
         result = True
     else:
         result = False
-        
+
     return result
-    
-    
+
+
 def getCpusData(pOut_):
 
     sender = []
@@ -263,8 +277,8 @@ def getCpusData(pOut_):
         error = 'NOCPUS'
 
     return sender, json, error
-    
-    
+
+
 def getVoltages(pOut_):
 
     sender = []
@@ -302,6 +316,7 @@ def getBoardFans(pOut_):
 
 
 def getBoardTemps(pOut_):
+
     sender = []
     json = []
     
@@ -316,14 +331,15 @@ def getBoardTemps(pOut_):
         
         if  (isCpuSensorPresent(pOut_) and
              re.match('^CPU Core$|^CPU$', name)):
-            
+
             continue
 
         ignoredSensor = False
         if board:
             for boardReference, ignoredTempName in IGNORED_SENSORS:
-                if      (boardReference == board and
-                         ignoredTempName    == name):
+                if      (boardReference  == board and
+                         ignoredTempName == name):
+
                     ignoredSensor = True
 
         if ignoredSensor:
@@ -341,24 +357,27 @@ def getBoardTemps(pOut_):
 
 
 def getGpusData(pOut_):
+
     sender = []
     json = []
 
     # Determine available GPUs
     gpusRe = re.findall(r'\+\-\s+(.+)\s+\(\/[\w-]+gpu\/(\d+)\)', pOut_, re.I)
-    gpus = set(gpusRe)   # remove duplicates
+    gpus = set(gpusRe)
 
     allTemps = []
     for name, num in gpus:
         errors = []
         sender.append('"%s" mini.gpu.info[gpu%s,ID] "%s"' % (HOST, num, name.strip()))
         json.append({'{#GPU}':num})
-        
+
         temp = re.search(r':\s+(\d+).+\(\/[\w-]+gpu\/%s\/temperature\/0\)' % num, pOut_, re.I)
         if temp:
             json.append({'{#GPUTEMP}':num})
             allTemps.append(int(temp.group(1)))
             sender.append('"%s" mini.gpu.temp[gpu%s] "%s"' % (HOST, num, temp.group(1)))
+        elif isGpuWithoutSensor(name):
+            errors.append('NO_SENSOR')
         else:
             errors.append('NO_TEMP')
 
@@ -373,26 +392,24 @@ def getGpusData(pOut_):
         memory = re.findall(r'\+\-\s+(GPU\s+Memory\s+Free|GPU\s+Memory\s+Used|GPU\s+Memory\s+Total)\s+:\s+(\d+).+\(\/[\w-]+gpu\/%s\/smalldata\/\d+\)' % num, pOut_, re.I)
         if memory:
             json.append({'{#GPUMEM}':num})
-            for memname, memval in memory:   # more controllable
-                if 'Free' in memname:
+            for memname, memval in memory:
+                if   'Free'  in memname:
                     sender.append('"%s" mini.gpu.memory[gpu%s,free] "%s"'   % (HOST, num, memval))
-                elif 'Used' in memname:
+                elif 'Used'  in memname:
                     sender.append('"%s" mini.gpu.memory[gpu%s,used] "%s"'   % (HOST, num, memval))
                 elif 'Total' in memname:
                     sender.append('"%s" mini.gpu.memory[gpu%s,total] "%s"'  % (HOST, num, memval))
 
         if errors:
             for e in errors:
-                sender.append('"%s" mini.gpu.info[gpu%s,GPUstatus] "%s"'    % (HOST, num, e))   # NO_TEMP, NO_FAN
+                sender.append('"%s" mini.gpu.info[gpu%s,GPUstatus] "%s"'    % (HOST, num, e))   # NO_TEMP, NO_FAN, NO_SENSOR
         else:
             sender.append('"%s" mini.gpu.info[gpu%s,GPUstatus] "PROCESSED"' % (HOST, num))
 
     if gpus:
+        statusError = None
         if allTemps:
-            statusError = None
             sender.append('"%s" mini.gpu.temp[MAX] "%s"' % (HOST, str(max(allTemps))))
-        else:
-            statusError = 'NOGPUTEMPS'
     else:
         statusError = 'NOGPUS'
 
@@ -408,26 +425,26 @@ if __name__ == '__main__':
     statusErrors = []
 
     cmd = chooseCmd(BIN_PATH, PARAMS)
-    
+
     p_Output = getOutput(cmd)
     pRunStatus = p_Output[0]
     pOut = p_Output[1]
-    
+
     if pOut:
         senderData.extend(getOHMRversion(pOut))
-        
+
         senderData.extend(getBoardInfo(pOut))
-        
+
         if not isParamIgnored('--IgnoreMonitorCPU'):
             cpuData_Out = getCpusData(pOut)
             if cpuData_Out:
                 cpuSender = cpuData_Out[0]
                 cpuJson =   cpuData_Out[1]
                 cpuError =  cpuData_Out[2]
-            
+
                 senderData.extend(cpuSender)
                 jsonData.extend(cpuJson)
-                
+
                 if cpuError:
                     statusErrors.append(cpuError)
 
@@ -436,44 +453,43 @@ if __name__ == '__main__':
             if boardTemps_Out:
                 boardSender = boardTemps_Out[0]
                 boardJson =   boardTemps_Out[1]
-                
+
                 senderData.extend(boardSender)
                 jsonData.extend(boardJson)
-            
+
             voltages_Out = getVoltages(pOut)
             if voltages_Out:
                 voltagesSender = voltages_Out[0]
                 voltagesJson = voltages_Out[1]
-                
+
                 senderData.extend(voltagesSender)
                 jsonData.extend(voltagesJson)
-        
+
         if not isParamIgnored('--IgnoreMonitorFanController'):
             boardFans_Out = getBoardFans(pOut)
             if boardFans_Out:
                 senderData.extend(boardFans_Out[0])
                 jsonData.extend(boardFans_Out[1])
-            
+
         if not isParamIgnored('--IgnoreMonitorGPU'):
             gpuData_Out = getGpusData(pOut)
             if gpuData_Out:
                 gpuSender = gpuData_Out[0]
                 gpuJson =   gpuData_Out[1]
                 gpuError =  gpuData_Out[2]
-                
+
                 senderData.extend(gpuSender)
                 jsonData.extend(gpuJson)
-                
+
                 if gpuError:
                     statusErrors.append(gpuError)
-            
+
     if statusErrors:
         errorsString = ', '.join(statusErrors).strip()
         senderData.append('"%s" mini.cpu.info[ConfigStatus] "%s"' % (HOST, errorsString))
     elif pRunStatus:
         senderData.append('"%s" mini.cpu.info[ConfigStatus] "%s"' % (HOST, pRunStatus))
-        
-    link = r'https://github.com/nobodysu/zabbix-mini-IPMI/issues'
+
+    link = r'https://github.com/nobody43/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.cpu.info[SendStatus]'
     processData(senderData, jsonData, AGENT_CONF_PATH, SENDER_WRAPPER_PATH, SENDER_PATH, DELAY, HOST, link, sendStatusKey)
-
