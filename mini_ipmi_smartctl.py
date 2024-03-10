@@ -44,7 +44,7 @@ delay = '50'   # How long the script must wait between LLD and sending, increase
 # Manually provide disk list or RAID configuration if needed.
 diskDevsManual = []
 # like this:
-#diskDevsManual = ['/dev/sda -d sat+megaraid,4', '/dev/sda -d sat+megaraid,5']
+#diskDevsManual = ['/dev/bus/0 -d megaraid,4', '/dev/bus/0 -d megaraid,5']
 # more info: https://www.smartmontools.org/wiki/Supported_RAID-Controllers
 
 # These models will not produce 'NOTEMP' warning. Pull requests are welcome.
@@ -377,8 +377,12 @@ if __name__ == '__main__':
     scanErrors = listDisks_Out[0]
     diskDevs = listDisks_Out[1]
 
-    scanErrorNotype = scanErrors[0]
-    scanErrorNvme = scanErrors[1]
+    if scanErrors:
+        scanErrorNotype = scanErrors[0]
+        scanErrorNvme   = scanErrors[1]
+    else:
+        scanErrorNotype = None
+        scanErrorNvme   = None
 
     sessionSerials = []
     allTemps = []
