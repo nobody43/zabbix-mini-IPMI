@@ -38,6 +38,7 @@ CORES_REGEXPS = (
     ('Core(?:\s+)?(\d+):\n\s+temp\d+_input:\s+(\d+)'),
     ('Core(\d+)\s+Temp:\n\s+temp\d+_input:\s+(\d+)'),
     ('Tdie:\n\s+temp(\d+)_input:\s+(\d+)'),
+    ('Tccd(\d+):\n\s+temp\d+_input:\s+(\d+)'),
     ('k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
 )
 
