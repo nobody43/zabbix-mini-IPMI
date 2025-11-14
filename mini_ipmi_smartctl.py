@@ -44,7 +44,7 @@ delay = '50'   # How long the script must wait between LLD and sending, increase
 # Manually provide disk list or RAID configuration if needed.
 diskDevsManual = []
 # like this:
-#diskDevsManual = ['/dev/bus/0 -d megaraid,4', '/dev/bus/0 -d megaraid,5']
+#diskDevsManual = ['/dev/sda -d sat+megaraid,4', '/dev/sda -d sat+megaraid,5']
 # more info: https://www.smartmontools.org/wiki/Supported_RAID-Controllers
 
 # These models will not produce 'NOTEMP' warning. Pull requests are welcome.
@@ -56,20 +56,20 @@ noTemperatureSensorModels = (
 
 # re.IGNORECASE | re.MULTILINE
 modelPatterns = (
-    '^Device Model:\s+(.+)$',
-    '^Device:\s+(.+)$',
-    '^Product:\s+(.+)$',
-    '^Model Number:\s+(.+)$',
+    r'^Device Model:\s+(.+)$',
+    r'^Device:\s+(.+)$',
+    r'^Product:\s+(.+)$',
+    r'^Model Number:\s+(.+)$',
 )
 
 # First match returned right away; re.IGNORECASE | re.MULTILINE
 temperaturePatterns = (
-    '^(?:\s+)?\d+\s+Temperature_Celsius\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
-    '^(?:\s+)?\d+\s+Temperature_Internal\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
-    '^(?:\s+)?\d+\s+Temperature_Case\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
-    '^(?:\s+)?Current\s+Drive\s+Temperature:\s+(\d+)\s+',
-    '^(?:\s+)?Temperature:\s+(\d+)\s+C',
-    '^(?:\s+)?\d+\s+Airflow_Temperature_Cel\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
+    r'^(?:\s+)?\d+\s+Temperature_Celsius\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
+    r'^(?:\s+)?\d+\s+Temperature_Internal\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
+    r'^(?:\s+)?\d+\s+Temperature_Case\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
+    r'^(?:\s+)?Current\s+Drive\s+Temperature:\s+(\d+)\s+',
+    r'^(?:\s+)?Temperature:\s+(\d+)\s+C',
+    r'^(?:\s+)?\d+\s+Airflow_Temperature_Cel\s+[\w-]+\s+\d{3}\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+[\w-]+\s+(\d+)',
 )
 
 ## End of configuration ##
@@ -82,6 +82,26 @@ import shlex
 from sender_wrapper import (fail_ifNot_Py3, sanitizeStr, clearDiskTypeStr, processData)
 
 HOST = sys.argv[2]
+
+
+def findIdent(p):
+
+    identPatterns = (
+        r'^Serial Number:\s+(.+)$',
+        r'^LU WWN Device Id:\s+(.+)$',
+        r'^Logical Unit id:\s+(.+)$',
+        r'^Product:\s+(.+)$',
+        r'^Device Model:\s+(.+)$',
+    )
+
+    result = None
+    for i in identPatterns:
+        identRe = re.search(i, p, re.I | re.M)
+        if identRe:
+            result = identRe.group(1)
+            break
+ 
+    return result
 
 
 def scanDisks(mode):
@@ -250,26 +270,6 @@ def findDiskTemp(p):
     return result
 
 
-def findIdent(p):
-
-    identPatterns = (
-        '^Serial Number:\s+(.+)$',
-        '^LU WWN Device Id:\s+(.+)$',
-        '^Logical Unit id:\s+(.+)$',
-        '^Product:\s+(.+)$',
-        '^Device Model:\s+(.+)$',
-    )
-
-    result = None
-    for i in identPatterns:
-        identRe = re.search(i, p, re.I | re.M)
-        if identRe:
-            result = identRe.group(1)
-            break
- 
-    return result
-
-
 def chooseSystemSpecificPaths():
 
     if sys.platform.startswith('linux'):
@@ -337,7 +337,7 @@ def addSudoIfNix(cmd):
 
 def isSSD(p):
 
-    ssdRe = re.search('^Rotation Rate:\s+Solid State Device', p, re.I | re.M)
+    ssdRe = re.search(r'^Rotation Rate:\s+Solid State Device', p, re.I | re.M)
 
     if ssdRe:
         result = True
@@ -419,7 +419,7 @@ if __name__ == '__main__':
             driveStatus = 'DUMMY_NVME'
         elif diskError:
             driveStatus = diskError
-        elif not temp:  # !!BUG!! needs more complex conditionals
+        elif not temp:  # !!BUG!! needs more complex conditionals TODO
             driveStatus = 'NOTEMP'
         else:
             driveStatus = 'PROCESSED'

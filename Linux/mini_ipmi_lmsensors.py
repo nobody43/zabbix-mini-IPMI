@@ -22,24 +22,25 @@ GATHER_GPU_DATA     = True
 GATHER_CPU_DATA     = True
 
 VOLTAGE_REGEXPS_KEYS_AND_JSONS = (
-    ('Vcore',                               'cpuVcore', '{#VCORE}'),
-    ('VBAT',                                'VBat',     '{#VBAT}'),
-    ('3VSB|VSB3V|Standby \+3\.3V|3V_SB',    'VSB3V',    '{#VSB3V}'),
-    ('3VCC|VCC3V',                          'VCC3V',    '{#VCC3V}'),
-    ('AVCC',                                'AVCC',     '{#AVCC}'),
-    ('VTT',                                 'VTT',      '{#VTT}'),
-    ('\+3\.3 Voltage',                      'p3.3V',    '{#p3.3V}'),
-    ('\+5 Voltage',                         'p5V',      '{#p5V}'),
-    ('\+12 Voltage',                        'p12V',     '{#p12V}'),
+    ( 'Vcore',                               'cpuVcore', '{#VCORE}'),
+    ( 'VBAT',                                'VBat',     '{#VBAT}'),
+    (r'3VSB|VSB3V|Standby \+3\.3V|3V_SB',    'VSB3V',    '{#VSB3V}'),
+    ( '3VCC|VCC3V',                          'VCC3V',    '{#VCC3V}'),
+    ( 'AVCC',                                'AVCC',     '{#AVCC}'),
+    ( 'VTT',                                 'VTT',      '{#VTT}'),
+    (r'\+3\.3 Voltage',                      'p3.3V',    '{#p3.3V}'),
+    (r'\+5 Voltage',                         'p5V',      '{#p5V}'),
+    (r'\+12 Voltage',                        'p12V',     '{#p12V}'),
 )
 
 # re.I | re.M
 CORES_REGEXPS = (
-    ('Core(?:\s+)?(\d+):\n\s+temp\d+_input:\s+(\d+)'),
-    ('Core(\d+)\s+Temp:\n\s+temp\d+_input:\s+(\d+)'),
-    ('Tdie:\n\s+temp(\d+)_input:\s+(\d+)'),
-    ('Tccd(\d+):\n\s+temp\d+_input:\s+(\d+)'),
-    ('k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
+    (r'Core(?:\s+)?(\d+):\n\s+temp\d+_input:\s+(\d+)'),
+    (r'Core(\d+)\s+Temp:\n\s+temp\d+_input:\s+(\d+)'),
+    (r'Tdie:\n\s+temp(\d+)_input:\s+(\d+)'),
+    (r'Tccd(\d+):\n\s+temp\d+_input:\s+(\d+)'),
+    (r'k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\nTctl:\n\s+temp(\d+)_input:\s+(\d+)'),
+    (r'k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
 )
 
 IGNORED_SENSORS = (
