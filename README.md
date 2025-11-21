@@ -39,16 +39,16 @@ server# yum install zabbix-get
 > **Note**: Your include directory may be either `zabbix_agentd.d` or `zabbix_agentd.conf.d` dependent on the distribution.
 #### Linux
 ```bash
-client# mv mini_ipmi_smartctl.py Linux/mini_ipmi_lmsensors.py sender_wrapper.py /etc/zabbix/scripts/
-client# mv Linux/sudoers.d/zabbix /etc/sudoers.d/   # place sudoers include for smartctl sudo access
-client# mv Linux/zabbix_agentd.d/userparameter_mini-ipmi2.conf /etc/zabbix/zabbix_agentd.d/
+client# install -o root -g zabbix -m 755 mini_ipmi_smartctl.py Linux/mini_ipmi_lmsensors.py sender_wrapper.py /etc/zabbix/scripts/
+client# install -o root -g zabbix -m 644 Linux/zabbix_agentd.d/userparameter_mini-ipmi2.conf /etc/zabbix/zabbix_agentd.d/
+client# install -o root -g root -m 600 Linux/sudoers.d/zabbix /etc/sudoers.d/   # place sudoers include for smartctl sudo access
 ```
 
 #### FreeBSD
 ```bash
-client# mv mini_ipmi_smartctl.py BSD/mini_ipmi_bsdcpu.py sender_wrapper.py /etc/zabbix/scripts/
-client# mv BSD/sudoers.d/zabbix /usr/local/etc/sudoers.d/
-client# mv BSD/zabbix_agentd.d/userparameter_mini-ipmi2.conf /usr/local/etc/zabbix/zabbix_agentd.d/
+client# install -o root -g zabbix -m 755 mini_ipmi_smartctl.py BSD/mini_ipmi_bsdcpu.py sender_wrapper.py /etc/zabbix/scripts/
+client# install -o root -g zabbix -m 644 BSD/zabbix_agentd.d/userparameter_mini-ipmi2.conf /usr/local/etc/zabbix/zabbix_agentd.d/
+client# install -o root -g root -m 600 BSD/sudoers.d/zabbix /usr/local/etc/sudoers.d/
 ```
 Then, for Intel processor you need to add `coretemp_load="YES"` to `/boot/loader.conf`. For AMD it will be `amdtemp_load="YES"`. Reboot or manual `kldload` is required to take effect.
 
@@ -68,21 +68,12 @@ Include=/usr/local/etc/zabbix/zabbix_agentd.d/
 ```
 Its recomended to add at least `Timeout=10` to server and client config files to allow drives spun up and OHMR execution.
 
-Thats all for Windows. For others run the following to finish configuration:
-```bash
-client# chmod 755 scripts/mini_ipmi*.py scripts/sender_wrapper.py   # apply necessary permissions
-client# chown root:zabbix scripts/mini_ipmi*.py scripts/sender_wrapper.py 
-client# chmod 644 userparameter_mini-ipmi2.conf
-client# chown root:zabbix userparameter_mini-ipmi2.conf
-client# chmod 400 sudoers.d/zabbix
-client# chown root sudoers.d/zabbix
-client# visudo   # test sudoers configuration, type :q! to exit
-```
-
 ## Testing
 ```bash
-server$ zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[get,"Example host"]
-server$ zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[get,"Example host"]
+server$ zabbix_get -s client.tld -k mini.cputemp.discovery[get,"Example host"]
+server$ zabbix_get -s client.tld -k mini.disktemp.discovery[get,"Example host"]
+server$ zabbix_get -s client.tld -k mini.cputemp.discovery[get,"Example host"] --tls-connect psk --tls-psk-identity client.tld --tls-psk-file /home/zabbix/client.tld.psk
+server$ zabbix_get -s client.tld -k mini.disktemp.discovery[get,"Example host"] --tls-connect psk --tls-psk-identity client.tld --tls-psk-file /home/zabbix/client.tld.psk
 ```
 or locally:
 ```bash
@@ -93,11 +84,13 @@ Default operation mode. Displays json that server should get, detaches, then wai
 <br /><br />
 
 ```bash
-server$ zabbix_get -s 192.0.2.1 -k mini.cputemp.discovery[getverb,"Example host"]
-server$ zabbix_get -s 192.0.2.1 -k mini.disktemp.discovery[getverb,"Example host"]
+server$ zabbix_get -s client.tld -k mini.cputemp.discovery[getverb,"Example host"]
+server$ zabbix_get -s client.tld -k mini.disktemp.discovery[getverb,"Example host"]
+server$ zabbix_get -s client.tld -k mini.cputemp.discovery[getverb,"Example host"] --tls-connect psk --tls-psk-identity client.tld --tls-psk-file /home/zabbix/client.tld.psk
+server$ zabbix_get -s client.tld -k mini.disktemp.discovery[getverb,"Example host"] --tls-connect psk --tls-psk-identity client.tld --tls-psk-file /home/zabbix/client.tld.psk
 ```
 or locally:
-```mixed
+```cmd
 client$ /etc/zabbix/scripts/mini_ipmi_lmsensors.py getverb "Example host"
 client_admin!_console> python "C:\Program Files\Zabbix Agent\scripts\mini_ipmi_ohmr.py" getverb "Example host"
 ```
@@ -106,6 +99,7 @@ Verbose mode. Does not detaches or prints LLD. Lists all items sent to zabbix-se
 
 These scripts were tested to work with following configurations:
 - Debian 11 / Server (5.0, 6.0) / Agent 4.0 / Python 3.9
+- Debian 13 / Server 7.0 / Agent 7.0 / Python 3.13
 - Ubuntu 22.04 / Server (5.0, 6.0) / Agent 5.0 / Python 3.10
 - Windows Server 2012 / Server 6.0 / Agent 4.0 / Python (3.7, 3.11)
 - Windows 10 / Server 6.0 / Agent 4.0 / Python (3.10, 3.11)
