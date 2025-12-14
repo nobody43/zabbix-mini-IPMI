@@ -112,10 +112,10 @@ def getVoltages(pOut_):
             
                 for regexp, key, jsn in VOLTAGE_REGEXPS_KEYS_AND_MACRO:
                     if re.search(regexp, name, re.I):
-                        sender.append("mini.brd.vlt[%s] '%s'" % (key, removeQuotes(val)))
+                        sender.append('mini.brd.vlt[%s] "%s"' % (key, removeQuotes(val)))
                         json.append({jsn:key})
  
-                sender.append("mini.brd.vlt[%s] '%s'" % (num, removeQuotes(val)))   # static items for graph, could be duplicate
+                sender.append('mini.brd.vlt[%s] "%s"' % (num, removeQuotes(val)))   # static items for graph, could be duplicate
 
             break   # as safe as possible
 
@@ -135,7 +135,7 @@ def getBoardFans(pOut_):
         if fans:
             for name, num, val in fans:
                 # only create LLD when speed is not zero, BUT always send values including zero (prevents false triggering)
-                sender.append("mini.brd.fan[%s,rpm] '%s'" % (num, val))
+                sender.append('mini.brd.fan[%s,rpm] "%s"' % (num, val))
                 if val != '0':
                     json.append({'{#BRDFANNAME}':name.strip(), '{#BRDFANNUM}':num})
  
@@ -165,7 +165,7 @@ def getBoardTemps(pOut_):
                 if isIgnoredMbSensor(blockIdent, name):
                     continue
 
-                sender.append("mini.brd.temp[%s] '%s'" % (num, val))
+                sender.append('mini.brd.temp[%s] "%s"' % (num, val))
                 json.append({'{#BRDTEMPNAME}':name.strip(), '{#BRDTEMPNUM}':num})
 
             break  # unrelated blocks
@@ -190,15 +190,15 @@ def getGpuData(pOut_):
             allTemps.append(int(val))
 
             json.append({'{#GPU}':gpuBlocks})
-            sender.append("mini.gpu.info[gpu%s,ID] '%s'" % (gpuBlocks, removeQuotes(gpuid)))
+            sender.append('mini.gpu.info[gpu%s,ID] "%s"' % (gpuBlocks, removeQuotes(gpuid)))
 
             json.append({'{#GPUTEMP}':gpuBlocks})
-            sender.append("mini.gpu.temp[gpu%s] '%s'" % (gpuBlocks, val))
+            sender.append('mini.gpu.temp[gpu%s] "%s"' % (gpuBlocks, val))
 
     if gpuBlocks != -1:
         if allTemps:
             error = None
-            sender.append("mini.gpu.temp[MAX] '%s'" % (max(allTemps)))
+            sender.append('mini.gpu.temp[MAX] "%s"' % (max(allTemps)))
         else:
             error = 'NOGPUTEMPS'   # unreachable
     else:
@@ -223,7 +223,7 @@ def getCpuData(pOut_):
             cpuBlocks += 1
 
             json.append({'{#CPU}':cpuBlocks})
-            sender.append("mini.cpu.info[cpu%s,ID] '%s'" % (cpuBlocks, removeQuotes(block.splitlines()[0])))
+            sender.append('mini.cpu.info[cpu%s,ID] "%s"' % (cpuBlocks, removeQuotes(block.splitlines()[0])))
 
             tempCrit = re.search(r'_crit:\s+(\d+)\.\d+', block, re.I)
             if tempCrit:
@@ -231,7 +231,7 @@ def getCpuData(pOut_):
             else:
                 tjMax = FALLBACK_TJMAX
 
-            sender.append("mini.cpu.info[cpu%s,TjMax] '%s'" % (cpuBlocks, tjMax))
+            sender.append('mini.cpu.info[cpu%s,TjMax] "%s"' % (cpuBlocks, tjMax))
 
             cpuTemps = []
             previousCore = None
@@ -242,15 +242,15 @@ def getCpuData(pOut_):
 
                 cpuTemps.append(int(val))
                 allTemps.append(int(val))
-                sender.append("mini.cpu.temp[cpu%s,core%s] '%s'" % (cpuBlocks, num, val))
+                sender.append('mini.cpu.temp[cpu%s,core%s] "%s"' % (cpuBlocks, num, val))
                 json.append({'{#CPUC}':cpuBlocks, '{#CORE}':num})
 
-            sender.append("mini.cpu.temp[cpu%s,MAX] '%s'" % (cpuBlocks, max(cpuTemps)))
+            sender.append('mini.cpu.temp[cpu%s,MAX] "%s"' % (cpuBlocks, max(cpuTemps)))
 
     if cpuBlocks != -1:
         if allTemps:
             error = None
-            sender.append("mini.cpu.temp[MAX] '%s'" % (max(allTemps)))
+            sender.append('mini.cpu.temp[MAX] "%s"' % (max(allTemps)))
         else:
             error = 'NOCPUTEMPS'
     else:
@@ -326,18 +326,15 @@ def main(pOut_, pRunStatus_, host_):
 
     if statusErrors:
         errorsString = ', '.join(statusErrors).strip()
-        bareSenderData.append("mini.cpu.info[ConfigStatus] '%s'" % errorsString)
+        bareSenderData.append('mini.cpu.info[ConfigStatus] "%s"' % errorsString)
     else:
-        bareSenderData.append("mini.cpu.info[ConfigStatus] '%s'" % pRunStatus_)  # UNKNOWN_ERROR, NO_SENSORS, OS_NOCMD, OS_ERROR, UNKNOWN_EXC_ERROR, CONFIGURED
+        bareSenderData.append('mini.cpu.info[ConfigStatus] "%s"' % pRunStatus_)  # UNKNOWN_ERROR, NO_SENSORS, OS_NOCMD, OS_ERROR, UNKNOWN_EXC_ERROR, CONFIGURED
 
     # Add host key to sender data
     senderData = []
     for i in bareSenderData:
-        senderData.append(f"'{host_}' {i}")
+        senderData.append(f'"{host_}" {i}')
 
-#    import json
-#    print(json.dumps(senderData, indent=4))
-#    print(json.dumps(jsonData, indent=4))
     return (senderData, jsonData)
 
 
