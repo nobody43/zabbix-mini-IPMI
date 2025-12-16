@@ -1,0 +1,55 @@
+[
+    {
+        "{#VCORE}": "cpuVcore"
+    },
+    {
+        "{#AVCC}": "AVCC"
+    },
+    {
+        "{#VSB3V}": "VSB3V"
+    },
+    {
+        "{#VBAT}": "VBat"
+    },
+    {
+        "{#FAN_NAME}": "cpu_fan"
+    },
+    {
+        "{#FAN_NAME}": "fan2"
+    },
+    {
+        "{#BOARD_TEMP}": "SYSTIN"
+    },
+    {
+        "{#BOARD_TEMP}": "CPUTIN"
+    },
+    {
+        "{#BOARD_TEMP}": "AUXTIN0"
+    },
+    {
+        "{#BOARD_TEMP}": "AUXTIN1"
+    },
+    {
+        "{#BOARD_TEMP}": "AUXTIN2"
+    },
+    {
+        "{#BOARD_TEMP}": "PECI_Agent_0"
+    },
+    {
+        "{#BOARD_TEMP}": "PCH_CHIP_TEMP"
+    },
+    {
+        "{#BOARD_TEMP}": "PCH_CPU_TEMP"
+    },
+    {
+        "{#CPU}": 0
+    },
+    {
+        "{#CPUC}": 0,
+        "{#CORE}": "0"
+    },
+    {
+        "{#CPUC}": 0,
+        "{#CORE}": "1"
+    }
+]

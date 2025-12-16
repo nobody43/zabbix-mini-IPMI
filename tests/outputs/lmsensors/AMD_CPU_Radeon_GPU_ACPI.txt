@@ -1,0 +1,27 @@
+radeon-pci-0008
+Adapter: PCI adapter
+temp1:
+  temp1_input: 47.000
+  temp1_crit: 120.000
+  temp1_crit_hyst: 90.000
+
+radeon-pci-9999
+Adapter: PCI adapter
+temp1:
+  temp1_input: 55.000
+  temp1_crit: 120.000
+  temp1_crit_hyst: 90.000
+
+acpitz-acpi-0
+Adapter: ACPI interface
+temp1:
+  temp1_input: 48.100
+  temp1_crit: 110.000
+
+k10temp-pci-00c3
+Adapter: PCI adapter
+temp1:
+  temp1_input: 48.125
+  temp1_max: 70.000
+  temp1_crit: 100.000
+  temp1_crit_hyst: 99.000

@@ -1,0 +1,36 @@
+bnxt_en-pci-6301
+Adapter: PCI adapter
+temp1:
+  temp1_input: 70.000
+
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tctl:
+  temp1_input: 24.750
+Tccd1:
+  temp3_input: 25.000
+Tccd3:
+  temp5_input: 23.000
+Tccd5:
+  temp7_input: 24.250
+Tccd7:
+  temp9_input: 22.750
+
+bnxt_en-pci-6300
+Adapter: PCI adapter
+temp1:
+  temp1_input: 70.000
+
+k10temp-pci-00cb
+Adapter: PCI adapter
+Tctl:
+  temp1_input: 27.500
+Tccd1:
+  temp3_input: 25.750
+Tccd3:
+  temp5_input: 26.250
+Tccd5:
+  temp7_input: 26.500
+Tccd7:
+  temp9_input: 27.250
+

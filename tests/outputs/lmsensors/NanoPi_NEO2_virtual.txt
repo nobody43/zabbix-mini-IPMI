@@ -1,0 +1,9 @@
+cpu_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 32.679
+
+gpu_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 36.013

@@ -1,0 +1,15 @@
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tdie:
+  temp1_input: 48.000
+  temp1_max: 70.000
+Tctl:
+  temp2_input: 75.000
+
+k10temp-pci-00cb
+Adapter: PCI adapter
+Tdie:
+  temp1_input: 47.500
+  temp1_max: 70.000
+Tctl:
+  temp2_input: 74.500

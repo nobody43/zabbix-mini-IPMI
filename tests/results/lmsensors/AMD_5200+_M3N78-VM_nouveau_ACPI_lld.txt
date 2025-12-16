@@ -1,0 +1,46 @@
+[
+    {
+        "{#VCORE}": "cpuVcore"
+    },
+    {
+        "{#p3.3V}": "p3.3V"
+    },
+    {
+        "{#p5V}": "p5V"
+    },
+    {
+        "{#p12V}": "p12V"
+    },
+    {
+        "{#FAN_NAME}": "CPU_FAN_Speed"
+    },
+    {
+        "{#BOARD_TEMP}": "CPU_Temperature"
+    },
+    {
+        "{#BOARD_TEMP}": "MB_Temperature"
+    },
+    {
+        "{#GPU}": 0
+    },
+    {
+        "{#GPUTEMP}": 0
+    },
+    {
+        "{#GPU}": 1
+    },
+    {
+        "{#GPUTEMP}": 1
+    },
+    {
+        "{#CPU}": 0
+    },
+    {
+        "{#CPUC}": 0,
+        "{#CORE}": "0"
+    },
+    {
+        "{#CPUC}": 0,
+        "{#CORE}": "1"
+    }
+]

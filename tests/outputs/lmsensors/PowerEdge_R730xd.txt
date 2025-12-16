@@ -1,0 +1,136 @@
+coretemp-isa-0000
+Adapter: ISA adapter
+Package id 0:
+  temp1_input: 39.000
+  temp1_max: 85.000
+  temp1_crit: 95.000
+  temp1_crit_alarm: 0.000
+Core 0:
+  temp2_input: 31.000
+  temp2_max: 85.000
+  temp2_crit: 95.000
+  temp2_crit_alarm: 0.000
+Core 1:
+  temp3_input: 28.000
+  temp3_max: 85.000
+  temp3_crit: 95.000
+  temp3_crit_alarm: 0.000
+Core 2:
+  temp4_input: 27.000
+  temp4_max: 85.000
+  temp4_crit: 95.000
+  temp4_crit_alarm: 0.000
+Core 3:
+  temp5_input: 31.000
+  temp5_max: 85.000
+  temp5_crit: 95.000
+  temp5_crit_alarm: 0.000
+Core 4:
+  temp6_input: 30.000
+  temp6_max: 85.000
+  temp6_crit: 95.000
+  temp6_crit_alarm: 0.000
+Core 5:
+  temp7_input: 29.000
+  temp7_max: 85.000
+  temp7_crit: 95.000
+  temp7_crit_alarm: 0.000
+Core 8:
+  temp10_input: 30.000
+  temp10_max: 85.000
+  temp10_crit: 95.000
+  temp10_crit_alarm: 0.000
+Core 9:
+  temp11_input: 31.000
+  temp11_max: 85.000
+  temp11_crit: 95.000
+  temp11_crit_alarm: 0.000
+Core 10:
+  temp12_input: 26.000
+  temp12_max: 85.000
+  temp12_crit: 95.000
+  temp12_crit_alarm: 0.000
+Core 11:
+  temp13_input: 32.000
+  temp13_max: 85.000
+  temp13_crit: 95.000
+  temp13_crit_alarm: 0.000
+Core 12:
+  temp14_input: 30.000
+  temp14_max: 85.000
+  temp14_crit: 95.000
+  temp14_crit_alarm: 0.000
+Core 13:
+  temp15_input: 28.000
+  temp15_max: 85.000
+  temp15_crit: 95.000
+  temp15_crit_alarm: 0.000
+
+coretemp-isa-0001
+Adapter: ISA adapter
+Package id 1:
+  temp1_input: 38.000
+  temp1_max: 85.000
+  temp1_crit: 95.000
+  temp1_crit_alarm: 0.000
+Core 0:
+  temp2_input: 28.000
+  temp2_max: 85.000
+  temp2_crit: 95.000
+  temp2_crit_alarm: 0.000
+Core 1:
+  temp3_input: 28.000
+  temp3_max: 85.000
+  temp3_crit: 95.000
+  temp3_crit_alarm: 0.000
+Core 2:
+  temp4_input: 29.000
+  temp4_max: 85.000
+  temp4_crit: 95.000
+  temp4_crit_alarm: 0.000
+Core 3:
+  temp5_input: 31.000
+  temp5_max: 85.000
+  temp5_crit: 95.000
+  temp5_crit_alarm: 0.000
+Core 4:
+  temp6_input: 27.000
+  temp6_max: 85.000
+  temp6_crit: 95.000
+  temp6_crit_alarm: 0.000
+Core 5:
+  temp7_input: 30.000
+  temp7_max: 85.000
+  temp7_crit: 95.000
+  temp7_crit_alarm: 0.000
+Core 8:
+  temp10_input: 26.000
+  temp10_max: 85.000
+  temp10_crit: 95.000
+  temp10_crit_alarm: 0.000
+Core 9:
+  temp11_input: 30.000
+  temp11_max: 85.000
+  temp11_crit: 95.000
+  temp11_crit_alarm: 0.000
+Core 10:
+  temp12_input: 31.000
+  temp12_max: 85.000
+  temp12_crit: 95.000
+  temp12_crit_alarm: 0.000
+Core 11:
+  temp13_input: 31.000
+  temp13_max: 85.000
+  temp13_crit: 95.000
+  temp13_crit_alarm: 0.000
+Core 12:
+  temp14_input: 30.000
+  temp14_max: 85.000
+  temp14_crit: 95.000
+  temp14_crit_alarm: 0.000
+Core 13:
+  temp15_input: 28.000
+  temp15_max: 85.000
+  temp15_crit: 95.000
+  temp15_crit_alarm: 0.000
+
