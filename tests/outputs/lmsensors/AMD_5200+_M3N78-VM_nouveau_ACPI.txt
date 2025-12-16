@@ -1,0 +1,79 @@
+nouveau-pci-0200
+Adapter: PCI adapter
+GPU core:
+  in0_input: 1.100
+  in0_min: 0.920
+  in0_max: 1.100
+temp1:
+  temp1_input: 42.000
+  temp1_max: 95.000
+  temp1_max_hyst: 3.000
+  temp1_crit: 105.000
+  temp1_crit_hyst: 5.000
+  temp1_emergency: 135.000
+  temp1_emergency_hyst: 5.000
+
+nouveau-pci-9999
+Adapter: PCI adapter
+GPU core:
+  in0_input: 1.100
+  in0_min: 0.920
+  in0_max: 1.100
+temp1:
+  temp1_input: 59.000
+  temp1_max: 95.000
+  temp1_max_hyst: 3.000
+  temp1_crit: 105.000
+  temp1_crit_hyst: 5.000
+  temp1_emergency: 135.000
+  temp1_emergency_hyst: 5.000
+
+atk0110-acpi-0
+Adapter: ACPI interface
+Vcore Voltage:
+  in0_input: 1.136
+  in0_min: 0.800
+  in0_max: 1.800
+ +3.3 Voltage:
+  in1_input: 3.344
+  in1_min: 2.970
+  in1_max: 3.630
+ +5 Voltage:
+  in2_input: 4.966
+  in2_min: 4.500
+  in2_max: 5.500
+ +12 Voltage:
+  in3_input: 12.337
+  in3_min: 10.200
+  in3_max: 13.800
+CPU FAN Speed:
+  fan1_input: 1558.000
+  fan1_min: 600.000
+  fan1_max: 7200.000
+CHASSIS FAN Speed:
+  fan2_input: 0.000
+  fan2_min: 600.000
+  fan2_max: 7200.000
+POWER FAN Speed:
+  fan3_input: 0.000
+  fan3_min: 600.000
+  fan3_max: 7200.000
+CPU Temperature:
+  temp1_input: 32.000
+  temp1_max: 60.000
+  temp1_crit: 95.000
+MB Temperature:
+  temp2_input: 34.000
+  temp2_max: 45.000
+  temp2_crit: 95.000
+
+k8temp-pci-00c3
+Adapter: PCI adapter
+Core0 Temp:
+  temp1_input: 35.000
+Core0 Temp:
+  temp2_input: 22.000
+Core1 Temp:
+  temp3_input: 26.000
+Core1 Temp:
+  temp4_input: 26.000

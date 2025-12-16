@@ -1,0 +1,64 @@
+pwmfan-isa-0000
+Adapter: ISA adapter
+pwm1:
+  pwm1: 0.000
+  pwm1_enable: 1.000
+
+npu_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 33.307
+  temp1_crit: 115.000
+
+center_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 33.307
+  temp1_crit: 115.000
+
+bigcore1_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 33.307
+  temp1_crit: 115.000
+
+soc_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 33.307
+  temp1_crit: 115.000
+
+tcpm_source_psy_6_0022-i2c-6-22
+Adapter: rk3x-i2c
+in0:
+  in0_input: 0.000
+  in0_min: 0.000
+  in0_max: 0.000
+curr1:
+  curr1_input: 0.000
+  curr1_max: 0.000
+
+gpu_thermal-virtual-9
+Adapter: Virtual device
+temp1:
+  temp1_input: 39.999
+  temp1_crit: 115.000
+
+gpu_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 33.307
+  temp1_crit: 115.000
+
+littlecore_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 33.307
+  temp1_crit: 115.000
+
+bigcore0_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 37.999
+  temp1_crit: 115.000
+

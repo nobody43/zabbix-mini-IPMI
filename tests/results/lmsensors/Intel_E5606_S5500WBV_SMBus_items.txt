@@ -1,0 +1,11 @@
+[
+    "\"Example host\" mini.cpu.info[cpu0] \"coretemp-isa-0000\"",
+    "\"Example host\" mini.cpu.info[cpu0,TjMax] \"85\"",
+    "\"Example host\" mini.cpu.temp[cpu0,core0] \"35\"",
+    "\"Example host\" mini.cpu.temp[cpu0,core1] \"38\"",
+    "\"Example host\" mini.cpu.temp[cpu0,core9] \"39\"",
+    "\"Example host\" mini.cpu.temp[cpu0,core10] \"35\"",
+    "\"Example host\" mini.cpu.temp[cpu0,MAX] \"39\"",
+    "\"Example host\" mini.cpu.temp[MAX] \"39\"",
+    "\"Example host\" mini.cpu.info[ConfigStatus] \"NOGPUS\""
+]

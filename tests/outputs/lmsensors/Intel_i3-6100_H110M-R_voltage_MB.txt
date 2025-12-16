@@ -1,0 +1,199 @@
+nct6791-isa-0290
+Adapter: ISA adapter
+Vcore:
+  in0_input: 0.352
+  in0_min: 0.000
+  in0_max: 1.744
+  in0_alarm: 0.000
+  in0_beep: 0.000
+in1:
+  in1_input: 1.016
+  in1_min: 0.000
+  in1_max: 0.000
+  in1_alarm: 1.000
+  in1_beep: 0.000
+AVCC:
+  in2_input: 3.344
+  in2_min: 2.976
+  in2_max: 3.632
+  in2_alarm: 0.000
+  in2_beep: 0.000
++3.3V:
+  in3_input: 3.328
+  in3_min: 2.976
+  in3_max: 3.632
+  in3_alarm: 0.000
+  in3_beep: 0.000
+in4:
+  in4_input: 1.048
+  in4_min: 0.000
+  in4_max: 0.000
+  in4_alarm: 1.000
+  in4_beep: 0.000
+in5:
+  in5_input: 2.000
+  in5_min: 0.000
+  in5_max: 0.000
+  in5_alarm: 1.000
+  in5_beep: 0.000
+in6:
+  in6_input: 1.016
+  in6_min: 0.000
+  in6_max: 0.000
+  in6_alarm: 1.000
+  in6_beep: 0.000
+3VSB:
+  in7_input: 3.360
+  in7_min: 2.976
+  in7_max: 3.632
+  in7_alarm: 0.000
+  in7_beep: 0.000
+Vbat:
+  in8_input: 3.136
+  in8_min: 2.704
+  in8_max: 3.632
+  in8_alarm: 0.000
+  in8_beep: 0.000
+in9:
+  in9_input: 0.992
+  in9_min: 0.000
+  in9_max: 0.000
+  in9_alarm: 1.000
+  in9_beep: 0.000
+in10:
+  in10_input: 1.016
+  in10_min: 0.000
+  in10_max: 0.000
+  in10_alarm: 1.000
+  in10_beep: 0.000
+in11:
+  in11_input: 1.016
+  in11_min: 0.000
+  in11_max: 0.000
+  in11_alarm: 1.000
+  in11_beep: 0.000
+in12:
+  in12_input: 1.048
+  in12_min: 0.000
+  in12_max: 0.000
+  in12_alarm: 1.000
+  in12_beep: 0.000
+in13:
+  in13_input: 1.016
+  in13_min: 0.000
+  in13_max: 0.000
+  in13_alarm: 1.000
+  in13_beep: 0.000
+in14:
+  in14_input: 0.384
+  in14_min: 0.000
+  in14_max: 0.000
+  in14_alarm: 1.000
+  in14_beep: 0.000
+fan1:
+  fan1_input: 0.000
+  fan1_min: 0.000
+  fan1_alarm: 0.000
+  fan1_beep: 0.000
+  fan1_pulses: 2.000
+fan2:
+  fan2_input: 940.000
+  fan2_min: 0.000
+  fan2_alarm: 0.000
+  fan2_beep: 0.000
+  fan2_pulses: 2.000
+fan5:
+  fan5_input: 0.000
+  fan5_min: 0.000
+  fan5_alarm: 0.000
+  fan5_beep: 0.000
+  fan5_pulses: 2.000
+fan6:
+  fan6_input: 0.000
+  fan6_min: 0.000
+  fan6_alarm: 0.000
+  fan6_pulses: 2.000
+SYSTIN:
+  temp1_input: 25.000
+  temp1_max: 98.000
+  temp1_max_hyst: 95.000
+  temp1_type: 4.000
+  temp1_offset: 0.000
+CPUTIN:
+  temp2_input: 26.000
+  temp2_max: 80.000
+  temp2_max_hyst: 75.000
+  temp2_alarm: 0.000
+  temp2_type: 4.000
+  temp2_offset: 0.000
+  temp2_beep: 0.000
+AUXTIN0:
+  temp3_input: 27.500
+  temp3_type: 4.000
+  temp3_offset: 0.000
+AUXTIN1:
+  temp4_input: 28.000
+  temp4_type: 4.000
+  temp4_offset: 0.000
+AUXTIN2:
+  temp5_input: 29.000
+  temp5_type: 4.000
+  temp5_offset: 0.000
+AUXTIN3:
+  temp6_input: 96.000
+  temp6_type: 4.000
+  temp6_offset: 0.000
+PECI Agent 0:
+  temp7_input: 29.000
+  temp7_max: 98.000
+  temp7_max_hyst: 95.000
+  temp7_crit: 100.000
+  temp7_alarm: 0.000
+  temp7_beep: 0.000
+PCH_CHIP_CPU_MAX_TEMP:
+  temp8_input: 0.000
+PCH_CHIP_TEMP:
+  temp9_input: 0.000
+PCH_CPU_TEMP:
+  temp10_input: 0.000
+intrusion0:
+  intrusion0_alarm: 0.000
+  intrusion0_beep: 0.000
+intrusion1:
+  intrusion1_alarm: 1.000
+  intrusion1_beep: 0.000
+beep_enable:
+  beep_enable: 0.000
+
+acpitz-acpi-0
+Adapter: ACPI interface
+temp1:
+  temp1_input: 27.800
+  temp1_crit: 119.000
+temp2:
+  temp2_input: 29.800
+  temp2_crit: 119.000
+
+asus-isa-0000
+Adapter: ISA adapter
+cpu_fan:
+  fan1_input: 999.000
+
+coretemp-isa-0000
+Adapter: ISA adapter
+Package id 0:
+  temp1_input: 27.000
+  temp1_max: 80.000
+  temp1_crit: 100.000
+  temp1_crit_alarm: 0.000
+Core 0:
+  temp2_input: 23.000
+  temp2_max: 80.000
+  temp2_crit: 100.000
+  temp2_crit_alarm: 0.000
+Core 1:
+  temp3_input: 27.000
+  temp3_max: 80.000
+  temp3_crit: 100.000
+  temp3_crit_alarm: 0.000
+

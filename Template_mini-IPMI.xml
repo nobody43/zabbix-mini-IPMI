@@ -1,0 +1,1541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2025-11-19T06:55:32Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+        <group>
+            <name>Templates Custom</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template mini-IPMI</template>
+            <name>Template mini-IPMI</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+                <group>
+                    <name>Templates Custom</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>mini-IPMI: Fan speed</name>
+                </application>
+                <application>
+                    <name>mini-IPMI: Info</name>
+                </application>
+                <application>
+                    <name>mini-IPMI: Temperature</name>
+                </application>
+                <application>
+                    <name>mini-IPMI: Thresholds</name>
+                </application>
+                <application>
+                    <name>mini-IPMI: Voltage</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>BIOS Vendor</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.info[BIOSvendor]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>BIOS Version</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.info[BIOSversion]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{regexp({$EXPECTED.BIOS.VERS})}=0</expression>
+                            <name>Unexpected BIOS firmware version (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Mainboard Manufacturer</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.info[MainboardManufacturer]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Mainboard Name</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.info[MainboardName]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Mainboard Version</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.info[MainboardVersion]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>SMBIOS Version</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.info[SMBIOSversion]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>All motherboard sensors maximum temperature</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.temp[MAX]</key>
+                    <delay>0</delay>
+                    <units>C</units>
+                    <description>Among all cards and its cores.</description>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Temperature</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #0</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[0]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #1</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[1]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #2</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[2]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #3</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[3]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #4</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[4]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #5</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[5]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #6</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[6]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #7</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[7]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #8</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[8]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #9</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[9]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #10</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[10]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #11</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[11]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #12</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[12]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #13</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[13]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Voltage #14</name>
+                    <type>TRAP</type>
+                    <key>mini.brd.vlt[14]</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Voltage</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>CPU temperature configuration status</name>
+                    <type>TRAP</type>
+                    <key>mini.cpu.info[ConfigStatus]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <description>In some cases it could also mean GPU temperature, system voltage and fan speed.&#13;
+&#13;
+Could refer to mini_ipmi_lmsensors.py, mini_ipmi_ohmr.py or mini_ipmi_bsdcpu.py.</description>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(NOCMD)}=1</expression>
+                            <name>CPU binary was not found in PATH or manually (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(NOCPUS)}=1</expression>
+                            <name>No CPUs were found for temperature test (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                            <description>Please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(NOGPUS)}=1</expression>
+                            <name>No GPUs were found for temperature test (mini-IPMI)</name>
+                            <status>DISABLED</status>
+                            <priority>INFO</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(NOCPUTEMPS)}=1</expression>
+                            <name>No temperatures were found among CPUs (mini-IPMI)</name>
+                            <status>DISABLED</status>
+                            <priority>INFO</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(NOGPUTEMPS)}=1</expression>
+                            <name>No temperatures were found among GPUs (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(ERROR)}=1</expression>
+                            <name>Something went wrong with CPU configuration (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                            <description>Ensure you configuration is up to date and please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
+                        </trigger>
+                        <trigger>
+                            <expression>{nodata(7d)}=1</expression>
+                            <name>Template is assigned, but no CPU data recieved (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>CPU last failed send status</name>
+                    <type>TRAP</type>
+                    <key>mini.cpu.info[SendStatus]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(ERROR,12h)}=1</expression>
+                            <name>Something went wrong with CPU sending (mini-IPMI)</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(HUGEDATA,12h)}=1</expression>
+                            <name>Too much data for CPU sending (mini-IPMI)</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>All CPUs maximum temperature</name>
+                    <type>TRAP</type>
+                    <key>mini.cpu.temp[MAX]</key>
+                    <delay>0</delay>
+                    <units>C</units>
+                    <description>Among all processors and its cores.</description>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Temperature</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&gt;{$CPU.HIGH.TEMP}</expression>
+                            <name>CPU temperature is too high (over {$CPU.HIGH.TEMP} C)</name>
+                            <status>DISABLED</status>
+                            <priority>AVERAGE</priority>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
+                        </trigger>
+                        <trigger>
+                            <expression>{max(24h)}&gt;{$CPU.HIGH.TEMP}</expression>
+                            <name>CPU temperature was too high in past 24 hours (over {$CPU.HIGH.TEMP} C)</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>DISK heavy debug</name>
+                    <type>TRAP</type>
+                    <key>mini.disk.HeavyDebug</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>DISK temperature configuration status</name>
+                    <type>TRAP</type>
+                    <key>mini.disk.info[ConfigStatus]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <description>Refers to mini_ipmi_smartctl.py.</description>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(NODISKS)}=1</expression>
+                            <name>No DISKs were found for temperature test (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(NODISKTEMPS)}=1</expression>
+                            <name>No temperatures were found among DISKs (mini-IPMI)</name>
+                            <status>DISABLED</status>
+                            <priority>INFO</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(NOCMD)}=1</expression>
+                            <name>smartctl was not found in PATH or manually (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(ERROR)}=1</expression>
+                            <name>Something went wrong with DISK configuration (mini-IPMI)</name>
+                            <priority>INFO</priority>
+                            <description>Ensure you configuration is up to date and please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
+                        </trigger>
+                        <trigger>
+                            <expression>{nodata(7d)}=1</expression>
+                            <name>Template is assigned, but no DISK data recieved (mini-IPMI)</name>
+                            <status>DISABLED</status>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>DISK last failed send status</name>
+                    <type>TRAP</type>
+                    <key>mini.disk.info[SendStatus]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(ERROR,12h)}=1</expression>
+                            <name>Something went wrong with DISK sending (mini-IPMI)</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{str(HUGEDATA,12h)}=1</expression>
+                            <name>Too much data for DISK sending (mini-IPMI)</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>All DISKs maximum temperature</name>
+                    <type>TRAP</type>
+                    <key>mini.disk.temp[MAX]</key>
+                    <delay>0</delay>
+                    <units>C</units>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Temperature</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&gt;46</expression>
+                            <name>DISK temperature is too high</name>
+                            <status>DISABLED</status>
+                            <priority>AVERAGE</priority>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
+                        </trigger>
+                        <trigger>
+                            <expression>{max(24h)}&gt;46</expression>
+                            <name>DISK temperature was too high in past 24 hours</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>All GPUs maximum temperature</name>
+                    <type>TRAP</type>
+                    <key>mini.gpu.temp[MAX]</key>
+                    <delay>0</delay>
+                    <units>C</units>
+                    <description>Among all cards and its cores.</description>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Temperature</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>OpenHardwareMonitorReport version</name>
+                    <type>TRAP</type>
+                    <key>mini.info[OHMRversion]</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>mini-IPMI: Info</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{regexp({$EXPECTED.OHMR.VERS})}=0</expression>
+                            <name>Unexpected OHMR version</name>
+                            <priority>INFO</priority>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>CPU discovery</name>
+                    <key>mini.cputemp.discovery[get,{HOST.HOST}]</key>
+                    <delay>{$DISCOVERY.INTERVAL.CPU}</delay>
+                    <description>Update interval MUST be higher than 60 seconds!</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Motherboard temperature: {#BOARD_TEMP}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.temp[{#BOARD_TEMP}]</key>
+                            <delay>0</delay>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;{$BOARD.HIGH.TEMP}</expression>
+                                    <name>{#BOARD_TEMP}: board temperature is too high (over {$BOARD.HIGH.TEMP} C)</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&gt;{$BOARD.HIGH.TEMP}</expression>
+                                    <name>{#BOARD_TEMP}: board temperature was too high within past 24 hours (over {$BOARD.HIGH.TEMP} C)</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#P5V}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#P5V}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;5.5</expression>
+                                    <name>{#P5V}: voltage is too high</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4.5</expression>
+                                    <name>{#P5V}: voltage is too low</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&gt;5.5</expression>
+                                    <name>{#P5V}: voltage was too high within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&lt;4.5</expression>
+                                    <name>{#P5V}: voltage was too low within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#P12V}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#P12V}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;13.8</expression>
+                                    <name>{#P12V}: voltage is too high</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;10.2</expression>
+                                    <name>{#P12V}: voltage is too low</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&gt;13.8</expression>
+                                    <name>{#P12V}: voltage was too high within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&lt;10.2</expression>
+                                    <name>{#P12V}: voltage was too low within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#P33V}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#P33V}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;3.6</expression>
+                                    <name>{#P33V}: voltage is too high</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;3.0</expression>
+                                    <name>{#P33V}: voltage is too low</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&gt;3.6</expression>
+                                    <name>{#P33V}: voltage was too high within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&lt;3.0</expression>
+                                    <name>{#P33V}: voltage was too low within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#VAVCC}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#VAVCC}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#VBAT}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#VBAT}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;2.7</expression>
+                                    <name>{#VBAT}: CMOS battery voltage is too low</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#VCC3V}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#VCC3V}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;3.6</expression>
+                                    <name>{#VCC3V}: voltage is too high</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;3.0</expression>
+                                    <name>{#VCC3V}: voltage is too low</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&gt;3.6</expression>
+                                    <name>{#VCC3V}: voltage was too high within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&lt;3.0</expression>
+                                    <name>{#VCC3V}: voltage was too low within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#VCORE}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#VCORE}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#VSB3V}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#VSB3V}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;3.6</expression>
+                                    <name>{#VSB3V}: voltage is too high</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;3.0</expression>
+                                    <name>{#VSB3V}: voltage is too low</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&gt;3.6</expression>
+                                    <name>{#VSB3V}: voltage was too high within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&lt;3.0</expression>
+                                    <name>{#VSB3V}: voltage was too low within past 24 hours</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Voltage: {#VTT}</name>
+                            <type>TRAP</type>
+                            <key>mini.brd.vlt[{#VTT}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>V</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Voltage</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPU}: Status</name>
+                            <type>TRAP</type>
+                            <key>mini.cpu.info[cpu{#CPU},CPUstatus]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>LOG</value_type>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{str(NO_SENSOR)}=1</expression>
+                                    <name>cpu{#CPU}: no temperature sensor was found on CPU</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPU}: TjMax</name>
+                            <type>TRAP</type>
+                            <key>mini.cpu.info[cpu{#CPU},TjMax]</key>
+                            <delay>0</delay>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Thresholds</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPU}: ID</name>
+                            <type>TRAP</type>
+                            <key>mini.cpu.info[cpu{#CPU}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>LOG</value_type>
+                            <description>CPU model or ID.</description>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{diff()}&gt;0</expression>
+                                    <name>cpu{#CPU}: CPU model had changed</name>
+                                    <priority>INFO</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPUC},core{#CORE}: Temperature</name>
+                            <type>TRAP</type>
+                            <key>mini.cpu.temp[cpu{#CPUC},core{#CORE}]</key>
+                            <delay>0</delay>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>cpu{#CPU}: Maximum temperature</name>
+                            <type>TRAP</type>
+                            <key>mini.cpu.temp[cpu{#CPU},MAX]</key>
+                            <delay>0</delay>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;{$CPU.HIGH.TEMP}</expression>
+                                    <name>cpu{#CPU}: temperature is too high (over {$CPU.HIGH.TEMP} C)</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&gt;{$CPU.HIGH.TEMP}</expression>
+                                    <name>cpu{#CPU}: temperature was too high within past 24 hours (over {$CPU.HIGH.TEMP} C)</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Fan speed: {#FAN_NAME}</name>
+                            <type>TRAP</type>
+                            <key>mini.fan[{#FAN_NAME}]</key>
+                            <delay>0</delay>
+                            <units>RPM</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Fan speed</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;{$FAN.MIN.RPM}</expression>
+                                    <name>{#FAN_NAME}: fan speed is too low (below {$FAN.MIN.RPM} RPM)</name>
+                                    <priority>WARNING</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUFAN}: Fan speed</name>
+                            <type>TRAP</type>
+                            <key>mini.gpu.fan[gpu{#GPUFAN},rpm]</key>
+                            <delay>0</delay>
+                            <units>RPM</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Fan speed</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;{$GPU.FAN.MIN.RPM}</expression>
+                                    <name>gpu{#GPUFAN}: fan speed is too low (below {$GPU.FAN.MIN.RPM} RPM)</name>
+                                    <priority>WARNING</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPU}: Status</name>
+                            <type>TRAP</type>
+                            <key>mini.gpu.info[gpu{#GPU},GPUstatus]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>LOG</value_type>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{str(NO_FAN)}=1</expression>
+                                    <name>gpu{#GPU}: no fan info was found on GPU</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(NO_TEMP)}=1</expression>
+                                    <name>gpu{#GPU}: no temperature info was found on GPU</name>
+                                    <priority>INFO</priority>
+                                    <description>Please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPU}: ID</name>
+                            <type>TRAP</type>
+                            <key>mini.gpu.info[gpu{#GPU}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>LOG</value_type>
+                            <description>GPU model or ID.</description>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{diff()}&gt;0</expression>
+                                    <name>gpu{#GPU}: GPU model had changed</name>
+                                    <priority>INFO</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUMEM}: GPU Memory Free</name>
+                            <type>TRAP</type>
+                            <key>mini.gpu.memory[gpu{#GPUMEM},free]</key>
+                            <delay>0</delay>
+                            <units>Mb</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;{$GPU.MIN.MEM.MB}</expression>
+                                    <name>gpu{#GPUMEM}: free video memory is too low (below {$GPU.MIN.MEM.MB} Mb)</name>
+                                    <priority>WARNING</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUMEM}: GPU Memory Total</name>
+                            <type>TRAP</type>
+                            <key>mini.gpu.memory[gpu{#GPUMEM},total]</key>
+                            <delay>0</delay>
+                            <units>Mb</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUMEM}: GPU Memory Used</name>
+                            <type>TRAP</type>
+                            <key>mini.gpu.memory[gpu{#GPUMEM},used]</key>
+                            <delay>0</delay>
+                            <units>Mb</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>gpu{#GPUTEMP}: Temperature</name>
+                            <type>TRAP</type>
+                            <key>mini.gpu.temp[gpu{#GPUTEMP}]</key>
+                            <delay>0</delay>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;{$GPU.HIGH.TEMP}</expression>
+                                    <name>gpu{#GPUTEMP}: temperature is too high (over {$GPU.HIGH.TEMP} C)</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Last value: {ITEM.LASTVALUE}</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{max(24h)}&gt;{$GPU.HIGH.TEMP}</expression>
+                                    <name>gpu{#GPUTEMP}: temperature was too high within past 24 hours (over {$GPU.HIGH.TEMP} C)</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI:mini.cpu.temp[cpu{#CPU},MAX].last()} &gt; {Template mini-IPMI:mini.cpu.info[cpu{#CPU},TjMax].last()}</expression>
+                            <name>cpu{#CPU}: is throttling right now</name>
+                            <priority>HIGH</priority>
+                            <description>Last value: {ITEM.LASTVALUE}</description>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI:mini.cpu.info[cpu{#CPU},CPUstatus].str(NO_TEMP)}=1 and&#13;
+{Template mini-IPMI:mini.cpu.info[ConfigStatus].str(NOCPUTEMPS)}=0</expression>
+                            <name>cpu{#CPU}: no temperature info was found on CPU</name>
+                            <priority>INFO</priority>
+                            <description>Take a look at CPUS_WITHOUT_SENSOR variable in the script and please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template mini-IPMI:mini.cpu.temp[cpu{#CPU},MAX].max(24h)} &gt; {Template mini-IPMI:mini.cpu.info[cpu{#CPU},TjMax].last()}</expression>
+                            <name>cpu{#CPU}: was throttled within past 24 hours</name>
+                            <priority>WARNING</priority>
+                        </trigger_prototype>
+                    </trigger_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>DISK discovery</name>
+                    <key>mini.disktemp.discovery[get,{HOST.HOST}]</key>
+                    <delay>{$DISCOVERY.INTERVAL.DISK}</delay>
+                    <description>Update interval MUST be higher than 60 seconds!</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>{#DISK}: Status</name>
+                            <type>TRAP</type>
+                            <key>mini.disk.info[{#DISK},DriveStatus]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>LOG</value_type>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Info</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{str(DUMMY_NVME)}=1</expression>
+                                    <name>{#DISK}: Assumed to be a placeholder NVMe (mini-IPMI)</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(ERR_CODE_1)}=1</expression>
+                                    <name>{#DISK}: Command line did not parse (mini-IPMI)</name>
+                                    <priority>INFO</priority>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(ERR_CODE_2)}=1</expression>
+                                    <name>{#DISK}: Device open failed (mini-IPMI)</name>
+                                    <priority>INFO</priority>
+                                    <description>Probably no administrative permissions for smartctl or incorrect device name.</description>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(NOSENSOR)}=1</expression>
+                                    <name>{#DISK}: Have no temperature sensor</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(SLEEP)}=1</expression>
+                                    <name>{#DISK}: Is in SLEEP mode (mini-IPMI)</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(STANDBY)}=1</expression>
+                                    <name>{#DISK}: Is in STANDBY mode (mini-IPMI)</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(NOTEMP)}=1</expression>
+                                    <name>{#DISK}: No temperature info was found on disk</name>
+                                    <priority>INFO</priority>
+                                    <description>Take a look at noTemperatureSensorModels variable in the script and please report: https://github.com/nobodysu/zabbix-mini-IPMI/issues</description>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(ERROR)}=1</expression>
+                                    <name>{#DISK}: Something went wrong (mini-IPMI)</name>
+                                    <priority>INFO</priority>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{count(#3,&quot;TIMEOUT&quot;,&quot;eq&quot;)}&gt;=3</expression>
+                                    <name>{#DISK}: Timeout exceeded while calling the disk (mini-IPMI)</name>
+                                    <priority>WARNING</priority>
+                                    <description>Could indicate disk failure. Investigation is advised.</description>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{str(UNK_USB_BRIDGE)}=1</expression>
+                                    <name>{#DISK}: Unknown USB bridge (mini-IPMI)</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                    <manual_close>YES</manual_close>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DISK}: Critical disk temperature threshold</name>
+                            <type>TRAP</type>
+                            <key>mini.disk.tempCrit[{#DISK}]</key>
+                            <delay>0</delay>
+                            <history>14d</history>
+                            <trends>30d</trends>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Thresholds</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DISK}: Maximum disk temperature threshold</name>
+                            <type>TRAP</type>
+                            <key>mini.disk.tempMax[{#DISK}]</key>
+                            <delay>0</delay>
+                            <history>14d</history>
+                            <trends>30d</trends>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Thresholds</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DISK}: Minimum disk temperature threshold</name>
+                            <type>TRAP</type>
+                            <key>mini.disk.tempMin[{#DISK}]</key>
+                            <delay>0</delay>
+                            <history>14d</history>
+                            <trends>30d</trends>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Thresholds</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DISK}: Disk temperature</name>
+                            <type>TRAP</type>
+                            <key>mini.disk.temp[{#DISK}]</key>
+                            <delay>0</delay>
+                            <units>C</units>
+                            <applications>
+                                <application>
+                                    <name>mini-IPMI: Temperature</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>({Template mini-IPMI:mini.disk.temp[{#DISK}].last()} &gt; {Template mini-IPMI:mini.disk.tempCrit[{#DISK}].last()}) and&#13;
+{Template mini-IPMI:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
+                            <name>{#DISK}: Disk temperature is critical</name>
+                            <priority>HIGH</priority>
+                            <description>Last value: {ITEM.LASTVALUE}&#13;
+If last value is more than critical temperature setting AND&#13;
+drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
+                            <manual_close>YES</manual_close>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({Template mini-IPMI:mini.disk.temp[{#DISK}].last()}  &gt; {Template mini-IPMI:mini.disk.tempMax[{#DISK}].last()}) and&#13;
+({Template mini-IPMI:mini.disk.temp[{#DISK}].prev()} &gt; {Template mini-IPMI:mini.disk.tempMax[{#DISK}].last()}) and&#13;
+{Template mini-IPMI:mini.disk.temp[{#DISK}].count(2h)}&gt;=2 and&#13;
+{Template mini-IPMI:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
+                            <name>{#DISK}: Disk temperature is too high</name>
+                            <priority>AVERAGE</priority>
+                            <description>Last value: {ITEM.LASTVALUE}&#13;
+If last value is more than maximum temperature setting AND&#13;
+previous value is more than maximum temperature setting AND&#13;
+there's been at least 2 values in the last 2 hours AND&#13;
+drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
+                            <manual_close>YES</manual_close>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({Template mini-IPMI:mini.disk.temp[{#DISK}].last()}  &lt; {Template mini-IPMI:mini.disk.tempMin[{#DISK}].last()}) and&#13;
+({Template mini-IPMI:mini.disk.temp[{#DISK}].prev()} &lt; {Template mini-IPMI:mini.disk.tempMin[{#DISK}].last()}) and&#13;
+{Template mini-IPMI:mini.disk.temp[{#DISK}].count(2h)}&gt;=3 and&#13;
+{Template mini-IPMI:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
+                            <name>{#DISK}: Disk temperature is too low</name>
+                            <priority>AVERAGE</priority>
+                            <description>Last value: {ITEM.LASTVALUE}&#13;
+If last value is less than minimum temperature setting AND&#13;
+previous value is less than minimum temperature setting AND&#13;
+there's been at least 3 values in the last 2 hours AND&#13;
+drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
+                            <manual_close>YES</manual_close>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({Template mini-IPMI:mini.disk.temp[{#DISK}].max(24h)} &gt; {Template mini-IPMI:mini.disk.tempCrit[{#DISK}].last()}) and&#13;
+{Template mini-IPMI:mini.disk.info[{#DISK},DriveStatus].regexp(^DUPLICATE_IGNORE$|^STANDBY|^SLEEP$)}=0</expression>
+                            <name>{#DISK}: Disk temperature was critical in the past 24 hours</name>
+                            <priority>WARNING</priority>
+                            <description>If any value within last 24 hours exceeded critical temperature setting and&#13;
+last drive status is not DUPLICATE_IGNORE, STANDBY* or SLEEP.</description>
+                            <manual_close>YES</manual_close>
+                        </trigger_prototype>
+                    </trigger_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$BOARD.HIGH.TEMP}</macro>
+                    <value>60</value>
+                </macro>
+                <macro>
+                    <macro>{$CPU.HIGH.TEMP}</macro>
+                    <value>60</value>
+                </macro>
+                <macro>
+                    <macro>{$DISCOVERY.INTERVAL.CPU}</macro>
+                    <value>18m</value>
+                    <description>Update interval MUST be higher than 60 seconds!</description>
+                </macro>
+                <macro>
+                    <macro>{$DISCOVERY.INTERVAL.DISK}</macro>
+                    <value>22m</value>
+                    <description>Update interval MUST be higher than 60 seconds! Intervals less than 20 minutes will cause disk never to spun down.</description>
+                </macro>
+                <macro>
+                    <macro>{$EXPECTED.BIOS.VERS}</macro>
+                    <value>^4001$|^0508$|^P1\.90$|^0601$|^1801$|^V2\.7|^V30\.1$</value>
+                </macro>
+                <macro>
+                    <macro>{$EXPECTED.OHMR.VERS}</macro>
+                    <value>^0\.9\.2\.0$</value>
+                </macro>
+                <macro>
+                    <macro>{$FAN.MIN.RPM}</macro>
+                    <value>400</value>
+                </macro>
+                <macro>
+                    <macro>{$GPU.FAN.MIN.RPM}</macro>
+                    <value>400</value>
+                </macro>
+                <macro>
+                    <macro>{$GPU.HIGH.TEMP}</macro>
+                    <value>80</value>
+                </macro>
+                <macro>
+                    <macro>{$GPU.MIN.MEM.MB}</macro>
+                    <value>32</value>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <name>mini-IPMI: Board voltages</name>
+            <graph_items>
+                <graph_item>
+                    <color>00C800</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[0]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>C80000</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[1]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <color>0000C8</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[2]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>3</sortorder>
+                    <color>C800C8</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[3]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>4</sortorder>
+                    <color>00C8C8</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[4]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>5</sortorder>
+                    <color>C8C800</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[5]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>6</sortorder>
+                    <color>C8C8C8</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[6]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>7</sortorder>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[7]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>8</sortorder>
+                    <color>960000</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[8]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>9</sortorder>
+                    <color>000096</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[9]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>10</sortorder>
+                    <color>960096</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[10]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>11</sortorder>
+                    <color>009696</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[11]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>12</sortorder>
+                    <color>969600</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[12]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>13</sortorder>
+                    <color>969696</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[13]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>14</sortorder>
+                    <color>00FF00</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.vlt[14]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>mini-IPMI: Overall temperatures</name>
+            <graph_items>
+                <graph_item>
+                    <color>00C800</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.disk.temp[MAX]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>C80000</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.cpu.temp[MAX]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <color>0000C8</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.gpu.temp[MAX]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>3</sortorder>
+                    <color>C800C8</color>
+                    <item>
+                        <host>Template mini-IPMI</host>
+                        <key>mini.brd.temp[MAX]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>

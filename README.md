@@ -121,5 +121,4 @@ Overwrite scripts and UserParameters. If UserParameters were changed - agent res
 - https://www.smartmontools.org
 - https://wiki.archlinux.org/index.php/Lm_sensors
 - https://github.com/openhardwaremonitor/openhardwaremonitor
-- https://unlicense.org
 - [Disk SMART monitoring solution](https://github.com/nobody43/zabbix-smartmontools)

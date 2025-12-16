@@ -1,0 +1,18 @@
+[
+    "\"Example host\" mini.fan[CPU_Opt] \"592\"",
+    "\"Example host\" mini.brd.temp[Chipset] \"49\"",
+    "\"Example host\" mini.brd.temp[CPU] \"29\"",
+    "\"Example host\" mini.brd.temp[Motherboard] \"31\"",
+    "\"Example host\" mini.brd.temp[MAX] \"49\"",
+    "\"Example host\" mini.gpu.info[gpu0] \"amdgpu-pci-3c00\"",
+    "\"Example host\" mini.gpu.temp[gpu0] \"25\"",
+    "\"Example host\" mini.gpu.info[gpu1] \"amdgpu-pci-9999\"",
+    "\"Example host\" mini.gpu.temp[gpu1] \"56\"",
+    "\"Example host\" mini.gpu.temp[MAX] \"56\"",
+    "\"Example host\" mini.cpu.info[cpu0] \"k10temp-pci-00c3\"",
+    "\"Example host\" mini.cpu.info[cpu0,TjMax] \"70\"",
+    "\"Example host\" mini.cpu.temp[cpu0,core1] \"34\"",
+    "\"Example host\" mini.cpu.temp[cpu0,MAX] \"34\"",
+    "\"Example host\" mini.cpu.temp[MAX] \"34\"",
+    "\"Example host\" mini.cpu.info[ConfigStatus] \"TEST_STATUS\""
+]

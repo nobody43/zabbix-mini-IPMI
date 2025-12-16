@@ -18,7 +18,7 @@ FALLBACK_TJMAX = '70'
 
 # Following settings brings (almost) no overhead. True or False
 GATHER_VOLTAGES     = True
-GATHER_BOARD_FANS   = True
+GATHER_FANS         = True
 GATHER_BOARD_TEMPS  = True
 GATHER_GPU_DATA     = True
 GATHER_CPU_DATA     = True
@@ -35,15 +35,35 @@ VOLTAGE_REGEXPS_KEYS_AND_MACRO = (
     (r'\+12 Voltage',                        'p12V',     '{#p12V}'),
 )
 
-# re.I | re.M
-CORES_REGEXPS = (
-    (r'Core(?:\s+)?(\d+):\n\s+temp\d+_input:\s+(\d+)'),
-    (r'Core(\d+)\s+Temp:\n\s+temp\d+_input:\s+(\d+)'),
-    (r'Tdie:\n\s+temp(\d+)_input:\s+(\d+)'),
-    (r'Tccd(\d+):\n\s+temp\d+_input:\s+(\d+)'),
-    (r'k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\nTctl:\n\s+temp(\d+)_input:\s+(\d+)'),
-    (r'k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
-#    (r'k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\nTctl:\s+\+(\d+)'),
+# re.I | re.M ; (core_ident, core_temperature)
+CPU_REGEXPS = (
+    (r'^Core(?:\s+)?(\d+):\n\s+temp\d+_input:\s+(\d+)'),
+    (r'^Core(\d+)\s+Temp:\n\s+temp\d+_input:\s+(\d+)'),
+    (r'^Tdie:\n\s+temp(\d+)_input:\s+(\d+)'),
+    (r'^Tccd(\d+):\n\s+temp\d+_input:\s+(\d+)'),
+    (r'^k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\nTctl:\n\s+temp(\d+)_input:\s+(\d+)'),
+    (r'^k\d+temp-pci-\w+\nAdapter:\s+PCI\s+adapter\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)'),
+    (r'^cpu_thermal-virtual-\w+\nAdapter: Virtual device\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)\.'),
+    (r'^bigcore\d+_thermal-virtual-\w+\nAdapter: Virtual device\ntemp(\d+):\n\s+temp\d+_input:\s+(\d+)\.'),
+)
+
+# re.I | re.M ; (gpu_ident, temperature)
+GPU_REGEXPS = (
+    (r'^(radeon-.+)(?:\n.*?)*\ntemp\d+:\n\s+temp\d+_input:\s+(\d+)\.'),
+    (r'^(amdgpu-.+)(?:\n.*?)*\nedge:\n\s+temp\d+_input:\s+(\d+)\.'),
+    (r'^(nouveau-.+)(?:\n.*?)*\ntemp\d+:\n\s+temp\d+_input:\s+(\d+)\.'),
+    (r'^(gpu_thermal-virtual-.+)(?:\n.*?)*\ntemp\d+:\n\s+temp\d+_input:\s+(\d+)\.'),
+    (r'^(nvidia.+)(?:\n.*?)*(?:\s+)?temp\d+_input:\s+(\d+)'),
+)
+
+# re.I | re.M ; (temperature_ident, temperature)
+BOARD_REGEXP = r'(^(?:Motherboard|Chipset|CPU|GPU|MB|M/B|AUX|Ambient|Other|SYS|Processor|PCH_.+_TEMP|PECI Agent)(?<!_MAX_TEMP).*):\n(?:\s+)?temp\d+_input:\s+(\d+)'
+
+# re.I | re.M ; (fan_ident, rpm)
+FAN_REGEXPS = (
+    (r'(.+):\n(?:\s+)?fan\d+_input:\s+(\d+)'),
+    (r'^(fan\d+):\n\s+fan\d+_input:\s+(\d+)\.'),
+    (r'^pwmfan-isa-\w+\nAdapter: ISA adapter\n(pwm\d+):\n\s+pwm\d+:\s+(\d+)\.'),
 )
 
 IGNORED_SENSORS = (
@@ -58,7 +78,7 @@ DELAY = '50'         # how long the script must wait between LLD and sending, in
 import sys
 import subprocess
 import re
-from sender_wrapper import (readConfig, processData, fail_ifNot_Py3, removeQuotes, chooseDevnull)
+from sender_wrapper import (readConfig, processData, fail_ifNot_Py3, removeQuotes, chooseDevnull, sanitizeStr)
 
  
 def getOutput(binPath_):
@@ -94,7 +114,7 @@ def getOutput(binPath_):
     else:
         error = 'CONFIGURED'
 
-    return error, p
+    return (error, p)
 
 
 def getVoltages(pOut_):
@@ -106,7 +126,7 @@ def getVoltages(pOut_):
         if 'Adapter: PCI adapter' in block:   # we dont need GPU voltages
             continue
 
-        voltagesRe = re.findall(r'(.+):\n(?:\s+)?in(\d+)_input:\s+(\d+\.\d+)', block, re.I)
+        voltagesRe = re.findall(r'(.+):\n(?:\s+)?in(\d+)_input:\s+(\d+\.\d+)', block, re.I)  # TODO: more precise
         if voltagesRe:
             for name, num, val in voltagesRe:
             
@@ -117,12 +137,12 @@ def getVoltages(pOut_):
  
                 sender.append('mini.brd.vlt[%s] "%s"' % (num, removeQuotes(val)))   # static items for graph, could be duplicate
 
-            break   # as safe as possible
+            break   # expecting no more than one block of voltages
 
-    return sender, json
+    return (sender, json)
 
 
-def getBoardFans(pOut_):
+def getFanData(pOut_):
 
     sender = []
     json = []
@@ -131,17 +151,27 @@ def getBoardFans(pOut_):
         if 'Adapter: PCI adapter' in block:   # we dont need GPU fans
             continue
  
-        fans = re.findall(r'(.+):\n(?:\s+)?fan(\d+)_input:\s+(\d+)', block, re.I)
-        if fans:
-            for name, num, val in fans:
-                # only create LLD when speed is not zero, BUT always send values including zero (prevents false triggering)
-                sender.append('mini.brd.fan[%s,rpm] "%s"' % (num, val))
-                if val != '0':
-                    json.append({'{#BRDFANNAME}':name.strip(), '{#BRDFANNUM}':num})
- 
-            break
+        regexp = None
+        for r in FAN_REGEXPS:
+            matchRe = re.search(r, block, re.I | re.M)
+            if matchRe:
+                regexp = r
+                break
 
-    return sender, json
+        if not regexp:
+            continue  # nothing to match in current block
+
+        fans = re.findall(regexp, block, re.I)
+        for name, val in fans:
+            clearName = sanitizeStr(name)
+ 
+            # only create LLD when speed is not zero, BUT always send values including zero (prevents false triggering)
+            valInt = int(val)
+            sender.append('mini.fan[%s] "%s"' % (clearName, valInt))
+            if valInt != 0:
+                json.append({'{#FAN_NAME}':clearName})
+ 
+    return (sender, json)
 
 
 def getBoardTemps(pOut_):
@@ -159,18 +189,22 @@ def getBoardTemps(pOut_):
         else:
             blockIdent = None
  
-        temps = re.findall(r'((?:CPU|GPU|MB|M/B|AUX|Ambient|Other|SYS|Processor).+):\n(?:\s+)?temp(\d+)_input:\s+(\d+)', block, re.I)
+        temps = re.findall(BOARD_REGEXP, block, re.I | re.M)
         if temps:
-            for name, num, val in temps:
+            allTemps = []
+            for name, val in temps:
                 if isIgnoredMbSensor(blockIdent, name):
                     continue
 
-                sender.append('mini.brd.temp[%s] "%s"' % (num, val))
-                json.append({'{#BRDTEMPNAME}':name.strip(), '{#BRDTEMPNUM}':num})
+                clearName = sanitizeStr(name)
+                sender.append('mini.brd.temp[%s] "%s"' % (clearName, val))
+                json.append({'{#BOARD_TEMP}':clearName})
+                allTemps.append(int(val))
 
+            sender.append('mini.brd.temp[MAX] "%s"' % (max(allTemps)))
             break  # unrelated blocks
 
-    return sender, json
+    return (sender, json)
 
 
 def getGpuData(pOut_):
@@ -181,16 +215,26 @@ def getGpuData(pOut_):
     gpuBlocks = -1
     allTemps = []
     for block in pOut_:
-        tempRe = re.search(r'(nouveau.+|nvidia.+|radeon.+)\n.+\n.+\n(?:\s+)?temp\d+_input:\s+(\d+)', block, re.I)
-        if tempRe:
-            gpuid = tempRe.group(1)
-            val = tempRe.group(2)
+        regexp = None
+        for r in GPU_REGEXPS:
+            matchRe = re.search(r, block, re.I | re.M)
+            if matchRe:
+                regexp = r
+                break
+
+        if not regexp:
+            continue  # nothing to match in current block
+
+        gpuTempsRe = re.search(regexp, block, re.I | re.M)
+        if gpuTempsRe:
+            gpuid = gpuTempsRe.group(1)
+            val   = gpuTempsRe.group(2)
 
             gpuBlocks += 1
             allTemps.append(int(val))
 
             json.append({'{#GPU}':gpuBlocks})
-            sender.append('mini.gpu.info[gpu%s,ID] "%s"' % (gpuBlocks, removeQuotes(gpuid)))
+            sender.append('mini.gpu.info[gpu%s] "%s"' % (gpuBlocks, removeQuotes(gpuid)))
 
             json.append({'{#GPUTEMP}':gpuBlocks})
             sender.append('mini.gpu.temp[gpu%s] "%s"' % (gpuBlocks, val))
@@ -204,7 +248,7 @@ def getGpuData(pOut_):
     else:
         error = 'NOGPUS'
 
-    return sender, json, error
+    return (sender, json, error)
 
 
 def getCpuData(pOut_):
@@ -216,18 +260,19 @@ def getCpuData(pOut_):
     allTemps = []
     for block in pOut_:
         regexp = chooseCpuRegexp(block)
+        if not regexp:
+            continue  # nothing to match in current block
 
         coreTempsRe = re.findall(regexp, block, re.I | re.M)
-
-        if coreTempsRe and regexp:
+        if coreTempsRe:
             cpuBlocks += 1
 
             json.append({'{#CPU}':cpuBlocks})
-            sender.append('mini.cpu.info[cpu%s,ID] "%s"' % (cpuBlocks, removeQuotes(block.splitlines()[0])))
+            sender.append('mini.cpu.info[cpu%s] "%s"' % (cpuBlocks, removeQuotes(block.splitlines()[0])))
 
-            tempCrit = re.search(r'_crit:\s+(\d+)\.\d+', block, re.I)
-            if tempCrit:
-                tjMax = tempCrit.group(1)
+            tempMax = re.search(r'_max:\s+(\d+)\.\d+', block, re.I)  # TjMax
+            if tempMax:
+                tjMax = tempMax.group(1)
             else:
                 tjMax = FALLBACK_TJMAX
 
@@ -256,7 +301,19 @@ def getCpuData(pOut_):
     else:
         error = 'NOCPUS'
 
-    return sender, json, error
+    return (sender, json, error)
+
+
+def chooseCpuRegexp(block_):
+
+    result = None
+    for regexp in CPU_REGEXPS:
+        matchRe = re.search(regexp, block_, re.I | re.M)
+        if matchRe:
+            result = regexp
+            break
+
+    return result
 
 
 def isIgnoredMbSensor(ident_, sensor_):
@@ -272,44 +329,34 @@ def isIgnoredMbSensor(ident_, sensor_):
     return result
 
 
-def chooseCpuRegexp(block_):
-
-    result = ''
-    for regexp in CORES_REGEXPS:
-        matchRe = re.search(regexp, block_, re.I | re.M)
-        if matchRe:
-            result = regexp
-
-    return result
-
-
 def main(pOut_, pRunStatus_, host_):
 
-    bareSenderData = []
     jsonData = []
+    bareSenderData = []
     statusErrors = []
 
     if pOut_:
         pOut_ = pOut_.strip()
-        pOut_ = pOut_.split('\n\n')
+        allBlocks = pOut_.split('\n\n')
+        allBlocks.sort()
 
         if GATHER_VOLTAGES:
-            getVoltages_Out = getVoltages(pOut_)
+            getVoltages_Out = getVoltages(allBlocks)
             bareSenderData.extend(getVoltages_Out[0])
             jsonData.extend(getVoltages_Out[1])
 
-        if GATHER_BOARD_FANS:
-            getBoardFans_Out = getBoardFans(pOut_)
-            bareSenderData.extend(getBoardFans_Out[0])
-            jsonData.extend(getBoardFans_Out[1])
+        if GATHER_FANS:
+            getFanData_Out = getFanData(allBlocks)
+            bareSenderData.extend(getFanData_Out[0])
+            jsonData.extend(getFanData_Out[1])
 
         if GATHER_BOARD_TEMPS:
-            getBoardTemps_Out = getBoardTemps(pOut_)
+            getBoardTemps_Out = getBoardTemps(allBlocks)
             bareSenderData.extend(getBoardTemps_Out[0])
             jsonData.extend(getBoardTemps_Out[1])
 
         if GATHER_GPU_DATA:
-            getGpuData_Out = getGpuData(pOut_)
+            getGpuData_Out = getGpuData(allBlocks)
             gpuErrors = getGpuData_Out[2]
             bareSenderData.extend(getGpuData_Out[0])
             jsonData.extend(getGpuData_Out[1])
@@ -317,7 +364,7 @@ def main(pOut_, pRunStatus_, host_):
                 statusErrors.append(gpuErrors)  # NOGPUS, NOGPUTEMPS
 
         if GATHER_CPU_DATA:
-            getCpuData_Out = getCpuData(pOut_)
+            getCpuData_Out = getCpuData(allBlocks)
             cpuErrors = getCpuData_Out[2]
             bareSenderData.extend(getCpuData_Out[0])
             jsonData.extend(getCpuData_Out[1])
@@ -330,24 +377,22 @@ def main(pOut_, pRunStatus_, host_):
     else:
         bareSenderData.append('mini.cpu.info[ConfigStatus] "%s"' % pRunStatus_)  # UNKNOWN_ERROR, NO_SENSORS, OS_NOCMD, OS_ERROR, UNKNOWN_EXC_ERROR, CONFIGURED
 
-    # Add host key to sender data
+    # Add host ident to sender data
     senderData = []
     for i in bareSenderData:
         senderData.append(f'"{host_}" {i}')
 
-    return (senderData, jsonData)
+    return (jsonData, senderData)
 
 
 if __name__ == '__main__':
 
     fail_ifNot_Py3()
 
-    p_Output = getOutput(BIN_PATH)
-    pRunStatus = p_Output[0]
-    pOut       = p_Output[1]
+    (pRunStatus, pOut) = getOutput(BIN_PATH)
 
     host = sys.argv[2]
-    (senderData, jsonData) = main(pOut, pRunStatus, host)
+    (jsonData, senderData) = main(pOut, pRunStatus, host)
 
     link = r'https://github.com/nobody43/zabbix-mini-IPMI/issues'
     sendStatusKey = 'mini.cpu.info[SendStatus]'

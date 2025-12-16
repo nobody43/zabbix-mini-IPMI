@@ -1,0 +1,55 @@
+coretemp-isa-0000
+Adapter: ISA adapter
+Package id 0:
+  temp1_input: 42.000
+  temp1_max: 85.000
+  temp1_crit: 105.000
+  temp1_crit_alarm: 0.000
+Core 0:
+  temp2_input: 38.000
+  temp2_max: 85.000
+  temp2_crit: 105.000
+  temp2_crit_alarm: 0.000
+Core 1:
+  temp3_input: 39.000
+  temp3_max: 85.000
+  temp3_crit: 105.000
+  temp3_crit_alarm: 0.000
+Core 2:
+  temp4_input: 42.000
+  temp4_max: 85.000
+  temp4_crit: 105.000
+  temp4_crit_alarm: 0.000
+Core 3:
+  temp5_input: 29.000
+  temp5_max: 85.000
+  temp5_crit: 105.000
+  temp5_crit_alarm: 0.000
+
+acpitz-acpi-0
+Adapter: ACPI interface
+temp1:
+  temp1_input: 27.800
+  temp1_crit: 106.000
+temp2:
+  temp2_input: 29.800
+  temp2_crit: 106.000
+
+nouveau-pci-0100
+Adapter: PCI adapter
+GPU core:
+  in0_input: 1.000
+  in0_min: 0.950
+  in0_max: 1.050
+fan1:
+  fan1_input: 1623.000
+temp1:
+  temp1_input: 47.000
+  temp1_max: 95.000
+  temp1_max_hyst: 3.000
+  temp1_crit: 105.000
+  temp1_crit_hyst: 5.000
+  temp1_emergency: 125.000
+  temp1_emergency_hyst: 10.000
+
+

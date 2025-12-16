@@ -1,0 +1,97 @@
+jc42-i2c-1-1a
+Adapter: SMBus PIIX4 adapter port 0 at 0b00
+temp1:
+  temp1_input: 31.500
+  temp1_max: 0.000
+  temp1_max_hyst: 0.000
+  temp1_min: 0.000
+  temp1_crit: 0.000
+  temp1_crit_hyst: 0.000
+  temp1_max_alarm: 1.000
+  temp1_min_alarm: 0.000
+  temp1_crit_alarm: 1.000
+
+amdgpu-pci-3c00
+Adapter: PCI adapter
+vddgfx:
+  in0_input: 0.887
+vddnb:
+  in1_input: 0.962
+edge:
+  temp1_input: 25.000
+PPT:
+  power1_input: 4.000
+sclk:
+  freq1_input: 400000000.000
+
+amdgpu-pci-9999
+Adapter: PCI adapter
+vddgfx:
+  in0_input: 0.887
+vddnb:
+  in1_input: 0.962
+edge:
+  temp1_input: 56.000
+PPT:
+  power1_input: 4.000
+sclk:
+  freq1_input: 400000000.000
+
+jc42-i2c-1-18
+Adapter: SMBus PIIX4 adapter port 0 at 0b00
+temp1:
+  temp1_input: 32.000
+  temp1_max: 0.000
+  temp1_max_hyst: 0.000
+  temp1_min: 0.000
+  temp1_crit: 0.000
+  temp1_crit_hyst: 0.000
+  temp1_max_alarm: 1.000
+  temp1_min_alarm: 0.000
+  temp1_crit_alarm: 1.000
+
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tctl:
+  temp1_input: 34.125
+
+jc42-i2c-1-1b
+Adapter: SMBus PIIX4 adapter port 0 at 0b00
+temp1:
+  temp1_input: 31.250
+  temp1_max: 0.000
+  temp1_max_hyst: 0.000
+  temp1_min: 0.000
+  temp1_crit: 0.000
+  temp1_crit_hyst: 0.000
+  temp1_max_alarm: 1.000
+  temp1_min_alarm: 0.000
+  temp1_crit_alarm: 1.000
+
+jc42-i2c-1-19
+Adapter: SMBus PIIX4 adapter port 0 at 0b00
+temp1:
+  temp1_input: 30.250
+  temp1_max: 0.000
+  temp1_max_hyst: 0.000
+  temp1_min: 0.000
+  temp1_crit: 0.000
+  temp1_crit_hyst: 0.000
+  temp1_max_alarm: 1.000
+  temp1_min_alarm: 0.000
+  temp1_crit_alarm: 1.000
+
+asusec-isa-000a
+Adapter: ISA adapter
+CPU_Opt:
+  fan1_input: 592.000
+Chipset:
+  temp1_input: 49.000
+CPU:
+  temp2_input: 29.000
+Motherboard:
+  temp3_input: 31.000
+T_Sensor:
+  temp4_input: -40.000
+
+

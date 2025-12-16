@@ -1,0 +1,12 @@
+[
+    "\"Example host\" mini.cpu.info[cpu0] \"k10temp-pci-00c3\"",
+    "\"Example host\" mini.cpu.info[cpu0,TjMax] \"70\"",
+    "\"Example host\" mini.cpu.temp[cpu0,core1] \"48\"",
+    "\"Example host\" mini.cpu.temp[cpu0,MAX] \"48\"",
+    "\"Example host\" mini.cpu.info[cpu1] \"k10temp-pci-00cb\"",
+    "\"Example host\" mini.cpu.info[cpu1,TjMax] \"70\"",
+    "\"Example host\" mini.cpu.temp[cpu1,core1] \"47\"",
+    "\"Example host\" mini.cpu.temp[cpu1,MAX] \"47\"",
+    "\"Example host\" mini.cpu.temp[MAX] \"48\"",
+    "\"Example host\" mini.cpu.info[ConfigStatus] \"NOGPUS\""
+]

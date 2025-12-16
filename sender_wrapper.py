@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0-only
+# SPDX-License-Identifier: GPL-3.0-only
 
 import sys
 import subprocess
@@ -110,7 +112,7 @@ def findDockerArgs():
     found = []
 
     if not os.path.isfile('/.dockerenv'):
-        return found
+        return []
 
     envVars = dict(os.environ)
     for k, v in envToParam.items():
